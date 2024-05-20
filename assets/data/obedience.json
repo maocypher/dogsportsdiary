@@ -1,0 +1,6 @@
+{
+  "Beginner": ["Group", "PositionUnderMatch", "DistanceControl", "Heelwork", "Retrieve", "Square", "Recall", "Cones"],
+  "O1": ["Group", "PositionUnderMatch", "DistanceControl", "Heelwork", "Retrieve", "Hurdle", "Square", "Recall", "Cones"],
+  "O2": ["Group", "PositionUnderMatch", "DistanceControl", "Heelwork", "Retrieve", "Hurdle", "Scent", "Square", "Recall", "Cones"],
+  "O3": ["Group", "PositionUnderMatch", "DistanceControl", "Heelwork", "Retrieve", "Hurdle", "Scent", "Square", "Recall", "Cones"]
+}
