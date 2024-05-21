@@ -1,0 +1,1 @@
+enum Ranking { simple, stars }

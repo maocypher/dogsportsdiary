@@ -1,40 +1,42 @@
+import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 
-class DogRepository extends ChangeNotifier {
-  static Database? _database;
+class DogRepository {
+  final Box<Dog> _dogBox;
 
-  Future<void> addDog(Dog dog) async {
-    await _database?.insert(
-      'dogs',
-      dog.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    notifyListeners();
+  DogRepository() : _dogBox = Hive.box<Dog>('dogBox');
+
+  Future<void> saveDog(Dog dog) async {
+    await _dogBox.put(dog.name, dog);
   }
 
-  Future<void> updateDog(Dog dog) async {
-    await _database?.update(
-      'dogs',
-      dog.toJson(),
-      where: 'id = ?',
-      whereArgs: [dog.id],
-    );
-    notifyListeners();
+  Future<Dog?> getDog(String name) async {
+    return _dogBox.get(name);
   }
 
-  Future<void> deleteDog(String id) async {
-    await _database?.delete(
-      'dogs',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-    notifyListeners();
+  Future<List<Dog>> getAllDogs() async {
+    return _dogBox.values.toList();
   }
 
-  Future<List<Dog>> fetchDogs() async {
-    final List<Map<String, dynamic>> maps = await _database?.query('dogs') ?? [];
-    return List.generate(maps.length, (i) => Dog.fromJson(maps[i]));
+  Future<void> deleteDog(int id) async {
+    await _dogBox.delete(id);
+  }
+
+  Future<bool> hasAnyDog() async{
+    return _dogBox.isNotEmpty;
+  }
+
+  Future<void> closeBox() async {
+    await _dogBox.close();
+  }
+
+  static inject() {
+    // injecting the viewmodel
+    ServiceProvider.locator.registerFactory<DogRepository>(() => DogRepository());
+  }
+
+  static DogRepository get dogRepository {
+    return ServiceProvider.locator<DogRepository>();
   }
 }

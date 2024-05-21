@@ -1,29 +1,35 @@
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
+import 'package:dog_sports_diary/domain/entities/ranking.dart';
+import 'package:dog_sports_diary/domain/entities/theme.dart';
 
 class Settings implements Entity{
   final int id;
-  final String name;
-  final DateTime dateOfBirth;
+  final Ranking ranking;
+  final Theme theme;
+  final int? currentDogId;
 
   Settings({
     required this.id,
-    required this.name,
-    required this.dateOfBirth,
+    required this.ranking,
+    required this.theme,
+    this.currentDogId
   });
 
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
       id: json['id'],
-      name: json['name'],
-      dateOfBirth: json['dateOfBirth'],
+      ranking: json['ranking'],
+      theme: json['theme'],
+      currentDogId: json['currentDogId']
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
-      'dateOfBirth': dateOfBirth,
+      'ranking': ranking,
+      'theme': theme,
+      'currentDogId': currentDogId
     };
   }
 }
