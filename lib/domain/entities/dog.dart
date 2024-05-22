@@ -1,6 +1,7 @@
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
 
 class Dog implements Entity{
+  @override
   final int id;
   final String name;
   final DateTime dateOfBirth;

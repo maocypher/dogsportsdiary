@@ -3,28 +3,28 @@ import 'package:dog_sports_diary/domain/entities/settings.dart';
 import 'package:hive/hive.dart';
 
 class SettingsRepository {
-  final Box<Settings> _SettingsBox;
+  final Box<Settings> settingsBox;
 
-  SettingsRepository() : _SettingsBox = Hive.box<Settings>('settingsBox');
+  SettingsRepository() : settingsBox = Hive.box<Settings>('settingsBox');
 
   Future<void> saveSettings(Settings settings) async {
-    await _SettingsBox.put(settings.id, settings);
+    await settingsBox.put(settings.id, settings);
   }
 
   Future<Settings?> getSettings(int id) async {
-    return _SettingsBox.get(id);
+    return settingsBox.get(id);
   }
 
   Future<List<Settings>> getAllSettingss() async {
-    return _SettingsBox.values.toList();
+    return settingsBox.values.toList();
   }
 
   Future<void> deleteSettings(int id) async {
-    await _SettingsBox.delete(id);
+    await settingsBox.delete(id);
   }
 
   Future<void> closeBox() async {
-    await _SettingsBox.close();
+    await settingsBox.close();
   }
 
   static inject() {

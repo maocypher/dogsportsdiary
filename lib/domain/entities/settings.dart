@@ -3,6 +3,7 @@ import 'package:dog_sports_diary/domain/entities/ranking.dart';
 import 'package:dog_sports_diary/domain/entities/theme.dart';
 
 class Settings implements Entity{
+  @override
   final int id;
   final Ranking ranking;
   final Theme theme;
