@@ -1,8 +1,8 @@
-import 'package:dog_sports_diary/features/home/home_state.dart';
+import 'package:dog_sports_diary/features/settings/settings_state.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key}); //required this.title
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key}); //required this.title
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -13,8 +13,8 @@ class HomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title = 'Hundesport Tagebuch';
+  final String title = 'Settings';
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<SettingsPage> createState() => SettingsPageState();
 }

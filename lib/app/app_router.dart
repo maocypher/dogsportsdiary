@@ -1,4 +1,7 @@
 import 'package:dog_sports_diary/features/home/home_page.dart';
+import 'package:dog_sports_diary/features/settings/settings_page.dart';
+import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_page.dart';
+import 'package:dog_sports_diary/features/show_dog/show_dog_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -7,22 +10,22 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       name: 'home',
-      builder: (context, state) => const DogSportsHomePage(),
-    ),
-    /*GoRoute(
-      path: '/learn',
-      name: 'learn',
-      builder: (context, state) => const LearnPage(),
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
-      path: '/relearn',
-      name: 'relearn',
-      builder: (context, state) => const RelearnPage(),
+      path: '/dogs',
+      name: 'dogs',
+      builder: (context, state) => const ShowDogPage(),
     ),
     GoRoute(
-      path: '/dog_name',
-      name: 'dog_name',
-      builder: (context, state) => const DogNamePage(),
-    ),*/
+      path: '/diary',
+      name: 'diary',
+      builder: (context, state) => const ShowDiaryEntryPage(),
+    ),
+    GoRoute(
+      path: '/settings',
+      name: 'settings',
+      builder: (context, state) => const SettingsPage(),
+    ),
   ],
 );

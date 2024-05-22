@@ -1,8 +1,8 @@
-import 'package:dog_sports_diary/features/home/home_page.dart';
+import 'package:dog_sports_diary/features/settings/settings_page.dart';
 import 'package:dog_sports_diary/presentation/widgets/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-class HomePageState extends State<HomePage> {
+class SettingsPageState extends State<SettingsPage> {
   int _counter = 0;
   int selectedPageIndex = 0;
 
@@ -52,7 +52,7 @@ class HomePageState extends State<HomePage> {
           ),
         ),
       ][selectedPageIndex],
-      bottomNavigationBar: const CustomNavigationBar(selectedPageIndex: 0),
+      bottomNavigationBar: const CustomNavigationBar(selectedPageIndex: 3),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
