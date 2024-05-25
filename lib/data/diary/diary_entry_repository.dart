@@ -3,28 +3,25 @@ import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:hive/hive.dart';
 
 class DiaryEntryRepository {
-  final Box<DiaryEntry> _diaryEntryBox;
-
-  DiaryEntryRepository() : _diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
 
   Future<void> saveEntry(DiaryEntry diaryEntry) async {
-    await _diaryEntryBox.put(diaryEntry.date, diaryEntry);
+    final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
+    await diaryEntryBox.put(diaryEntry.date, diaryEntry);
   }
 
   Future<DiaryEntry?> getEntry(DateTime date) async {
-    return _diaryEntryBox.get(date);
+    final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
+    return diaryEntryBox.get(date);
   }
 
   Future<List<DiaryEntry>> getAllEntires() async {
-    return _diaryEntryBox.values.toList();
+    final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
+    return diaryEntryBox.values.toList();
   }
 
   Future<void> deleteEntry(int id) async {
-    await _diaryEntryBox.delete(id);
-  }
-
-  Future<void> closeBox() async {
-    await _diaryEntryBox.close();
+    final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
+    await diaryEntryBox.delete(id);
   }
 
   static inject() {
