@@ -1,5 +1,7 @@
+import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/features/home/home_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
+import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/show_dog/show_dog_tab.dart';
 import 'package:dog_sports_diary/presentation/widgets/scaffold_nested_navigation.dart';
@@ -69,8 +71,11 @@ final GoRouter router = GoRouter(
             // top route inside branch
             GoRoute(
               path: '/settings',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: SettingsTab(label: 'Settings'),
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: SettingsTab(
+                    settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
+                    label: 'Settings'
+                ),
               ),
             ),
           ],

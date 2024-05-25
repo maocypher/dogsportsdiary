@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class ShowDiaryEntryTab extends StatelessWidget {
   const ShowDiaryEntryTab({
     required this.label,
-    Key? key
-  })
-      : super(key: key);
+    super.key
+  });
 
   /// The label
   final String label;

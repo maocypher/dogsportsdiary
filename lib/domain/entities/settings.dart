@@ -16,11 +16,25 @@ class Settings implements Entity{
     this.currentDogId
   });
 
+  Settings copyWith({
+    int? id,
+    Ranking? ranking,
+    Theme? theme,
+    int? currentDogId
+  }) {
+    return Settings(
+      id: id ?? this.id,
+      ranking: ranking ?? this.ranking,
+      theme: theme ?? this.theme,
+      currentDogId: currentDogId ?? this.currentDogId
+    );
+  }
+
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
       id: json['id'],
-      ranking: json['ranking'],
-      theme: json['theme'],
+      ranking: RankingJsonExtension.fromJson(json['ranking']),
+      theme: ThemeJsonExtension.fromJson(json['theme']),
       currentDogId: json['currentDogId']
     );
   }
@@ -28,8 +42,8 @@ class Settings implements Entity{
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'ranking': ranking,
-      'theme': theme,
+      'ranking': ranking.toJson(),
+      'theme': theme.toJson(),
       'currentDogId': currentDogId
     };
   }

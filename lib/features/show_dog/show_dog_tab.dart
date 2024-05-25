@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class ShowDogTab extends StatelessWidget {
   const ShowDogTab({
     required this.label,
-    Key? key
-  })
-      : super(key: key);
+    super.key
+  });
 
   /// The label
   final String label;

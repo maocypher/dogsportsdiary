@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class HomeTab extends StatelessWidget {
   const HomeTab({
         required this.label,
-        Key? key
-      })
-      : super(key: key);
+        super.key
+      });
 
   /// The label
   final String label;
@@ -17,7 +16,7 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dog sports diary'),
+        title: const Text('Dog sports diary'),
       ),
       body: Center(
         child: Column(
