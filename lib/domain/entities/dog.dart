@@ -18,6 +18,24 @@ class Dog implements Entity{
     this.imageAsBase64
   });
 
+  Dog copyWith({
+    int? id,
+    String? name,
+    DateTime? dateOfBirth,
+    List<String>? sports,
+    double? weight,
+    String? imageAsBase64
+  }) {
+    return Dog(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      sports: sports ?? this.sports,
+      weight: weight ?? this.weight,
+      imageAsBase64: imageAsBase64 ?? this.imageAsBase64
+    );
+  }
+
   factory Dog.fromJson(Map<String, dynamic> json) {
     return Dog(
       id: json['id'],

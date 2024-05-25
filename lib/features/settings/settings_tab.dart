@@ -68,8 +68,8 @@ class SettingsTab extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<SettingsViewModel>(context, listen: false).saveSettings();
-                //settingsViewModel.saveSettings();
+                Provider.of<SettingsViewModel>(context, listen: false)
+                    .saveSettings();
               },
               child: const Icon(Icons.save),
             ),

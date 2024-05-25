@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class DiaryEntryAdapter extends TypeAdapter<DiaryEntry> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   DiaryEntry read(BinaryReader reader) {

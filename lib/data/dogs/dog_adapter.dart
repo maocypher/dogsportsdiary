@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class DogAdapter extends TypeAdapter<Dog> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Dog read(BinaryReader reader) {

@@ -1,9 +1,12 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/features/dog/dog_tab.dart';
+import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dog_sports_diary/features/home/home_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
-import 'package:dog_sports_diary/features/show_dog/show_dog_tab.dart';
+import 'package:dog_sports_diary/features/show_dogs/show_dogs_tab.dart';
+import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:dog_sports_diary/presentation/widgets/scaffold_nested_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,10 +49,24 @@ final GoRouter router = GoRouter(
           routes: [
             // top route inside branch
             GoRoute(
-              path: '/dogs',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ShowDogTab(label: 'Dogs',),
+              path: '/dog',
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: ShowDogsTab(
+                  showDogViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
+                  label: 'Dogs',
+                ),
               ),
+              routes: [
+                GoRoute(
+                  path: 'new-dog',
+                  pageBuilder: (context, state) => NoTransitionPage(
+                    child: DogTab(
+                      dogViewModel: ServiceProvider.locator<DogViewModel>(),
+                      label: 'Dog',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -84,28 +101,3 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
-
-//ShellRoute(
-//       routes: [
-//         GoRoute(
-//           path: '/',
-//           name: 'home',
-//           builder: (context, state) => const HomeTab(),
-//         ),
-//         GoRoute(
-//           path: '/dogs',
-//           name: 'dogs',
-//           builder: (context, state) => const ShowDogTab(),
-//         ),
-//         GoRoute(
-//           path: '/diary',
-//           name: 'diary',
-//           builder: (context, state) => const ShowDiaryEntryTab(),
-//         ),
-//         GoRoute(
-//           path: '/settings',
-//           name: 'settings',
-//           builder: (context, state) => const SettingsTab(),
-//         ),
-//       ],
-//     ),
