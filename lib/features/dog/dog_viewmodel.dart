@@ -7,6 +7,8 @@ import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
   final DogRepository _repository;
@@ -35,10 +37,45 @@ class DogViewModel extends ChangeNotifier {
     final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      _imageFile = File(pickedFile.path);
+      final File? croppedImage = await cropImage(pickedFile);
+      if (croppedImage != null) {
+        _imageFile = croppedImage;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<File?> cropImage(XFile imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      cropStyle: CropStyle.circle,
+      compressQuality: 100,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Select avatar',
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false),
+        // IOSUiSettings(
+        //   title: 'Cropper',
+        // ),
+        // WebUiSettings(
+        //   context: context,
+        // ),
+      ],
+    );
+
+    if (croppedFile != null) {
+      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      final String croppedPath = '${appDocDir.path}/${imageFile.name}_cropped.jpg';
+
+      var file = File(croppedFile.path);
+      var targetFile = await file.copy(croppedPath);
+
+      return targetFile;
     }
 
-    notifyListeners();
+    return null;
   }
 
   updateWeight(String weightString) {

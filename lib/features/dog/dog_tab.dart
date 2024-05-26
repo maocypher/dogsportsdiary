@@ -52,15 +52,20 @@ class DogTab extends StatelessWidget {
                         radius: 80,
                         backgroundColor: Colors.grey,
                         child: viewModel.imageFile != null
-                            ? Image.file(
-                          viewModel.imageFile!,
-                          fit: BoxFit.cover,
+                            ? AspectRatio(
+                          aspectRatio: 1,
+                          child: ClipOval(
+                            child: Image.file(
+                              viewModel.imageFile!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         )
                             : const Icon(Icons.person),
                       ),
                       Positioned(
-                        bottom: 32,
-                        right: 32,
+                        bottom: 64,
+                        right: 64,
                         child: ElevatedButton(
                           onPressed: viewModel.pickImage,
                           style: ElevatedButton.styleFrom(
