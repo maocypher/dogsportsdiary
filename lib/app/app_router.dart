@@ -11,93 +11,101 @@ import 'package:dog_sports_diary/presentation/widgets/scaffold_nested_navigation
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHomeTab');
-final _shellNavigatorDogKey = GlobalKey<NavigatorState>(debugLabel: 'shellDogTab');
-final _shellNavigatorDiaryKey = GlobalKey<NavigatorState>(debugLabel: 'shellDiaryTab');
-final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettingsTab');
+class AppRouter {
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHomeTab');
+  static final _shellNavigatorDogKey = GlobalKey<NavigatorState>(debugLabel: 'shellDogTab');
+  static final _shellNavigatorDiaryKey = GlobalKey<NavigatorState>(debugLabel: 'shellDiaryTab');
+  static final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettingsTab');
 
-final GoRouter router = GoRouter(
-  navigatorKey: _rootNavigatorKey,
-  initialLocation: '/',
-  routes: [
-    // Stateful nested navigation based on:
-    // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        // the UI shell
-        return ScaffoldWithNestedNavigation(
-            navigationShell: navigationShell);
-      },
-      branches: [
-        // first branch (A)
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorHomeKey,
-          routes: [
-            // top route inside branch
-            GoRoute(
-              path: '/',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: HomeTab(label: 'Home'),
-              ),
-            ),
-          ],
-        ),
-        // second branch (B)
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorDogKey,
-          routes: [
-            // top route inside branch
-            GoRoute(
-              path: '/dog',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: ShowDogsTab(
-                  showDogViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
-                  label: 'Dogs',
+  static GlobalKey<NavigatorState> get rootNavigatorKey => _rootNavigatorKey;
+  static GlobalKey<NavigatorState> get shellNavigatorHomeKey => _shellNavigatorHomeKey;
+  static GlobalKey<NavigatorState> get shellNavigatorDogKey => _shellNavigatorDogKey;
+  static GlobalKey<NavigatorState> get shellNavigatorDiaryKey => _shellNavigatorDiaryKey;
+  static GlobalKey<NavigatorState> get shellNavigatorSettingsKey => _shellNavigatorSettingsKey;
+
+  static final GoRouter router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/',
+    routes: [
+      // Stateful nested navigation based on:
+      // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          // the UI shell
+          return ScaffoldWithNestedNavigation(
+              navigationShell: navigationShell);
+        },
+        branches: [
+          // first branch (A)
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorHomeKey,
+            routes: [
+              // top route inside branch
+              GoRoute(
+                path: '/',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: HomeTab(label: 'Home'),
                 ),
               ),
-              routes: [
-                GoRoute(
-                  path: 'new-dog',
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    child: DogTab(
-                      dogViewModel: ServiceProvider.locator<DogViewModel>(),
-                      label: 'Dog',
-                    ),
+            ],
+          ),
+          // second branch (B)
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorDogKey,
+            routes: [
+              // top route inside branch
+              GoRoute(
+                path: '/dog',
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: ShowDogsTab(
+                    showDogViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
+                    label: 'Dogs',
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorDiaryKey,
-          routes: [
-            // top route inside branch
-            GoRoute(
-              path: '/diary',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ShowDiaryEntryTab(label: 'Diary'),
+                routes: [
+                  GoRoute(
+                    path: 'new-dog',
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      child: DogTab(
+                        dogViewModel: ServiceProvider.locator<DogViewModel>(),
+                        label: 'Dog',
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          navigatorKey: _shellNavigatorSettingsKey,
-          routes: [
-            // top route inside branch
-            GoRoute(
-              path: '/settings',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: SettingsTab(
-                    settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
-                    label: 'Settings'
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorDiaryKey,
+            routes: [
+              // top route inside branch
+              GoRoute(
+                path: '/diary',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: ShowDiaryEntryTab(label: 'Diary'),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorSettingsKey,
+            routes: [
+              // top route inside branch
+              GoRoute(
+                path: '/settings',
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: SettingsTab(
+                      settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
+                      label: 'Settings'
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}

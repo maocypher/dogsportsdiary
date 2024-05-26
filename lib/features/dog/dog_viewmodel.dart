@@ -6,7 +6,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -19,7 +19,9 @@ class DogViewModel extends ChangeNotifier {
   File? _imageFile;
   File? get imageFile => _imageFile;
 
-  String? get dateOfBirth => DateFormat('yyyy-MM-dd').format(_dog.dateOfBirth);
+  String? get dateOfBirth => intl.DateFormat('yyyy-MM-dd').format(_dog.dateOfBirth);
+
+  List<Sports> get sportList => Sports.values.toList();
 
   DogViewModel(this._repository);
 
@@ -40,6 +42,7 @@ class DogViewModel extends ChangeNotifier {
       final File? croppedImage = await cropImage(pickedFile);
       if (croppedImage != null) {
         _imageFile = croppedImage;
+        _dog.imagePath = _imageFile!.path;
         notifyListeners();
       }
     }
@@ -84,11 +87,6 @@ class DogViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateImageAsBase64(String imageAsBase64) {
-    _dog = _dog.copyWith(imageAsBase64: imageAsBase64);
-    notifyListeners();
-  }
-
   updateName(String name) {
     _dog = _dog.copyWith(name: name);
     notifyListeners();
@@ -106,6 +104,11 @@ class DogViewModel extends ChangeNotifier {
 
   removeSports(Sports sport) {
     _dog.sports.remove(sport);
+    notifyListeners();
+  }
+
+  updateSports(List<Sports> sports) {
+    _dog = _dog.copyWith(sports: sports);
     notifyListeners();
   }
 

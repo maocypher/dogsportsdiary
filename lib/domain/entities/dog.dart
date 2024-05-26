@@ -8,7 +8,7 @@ class Dog implements Entity{
   final DateTime dateOfBirth;
   final List<Sports> sports;
   double? weight;
-  String? imageAsBase64;
+  String? imagePath;
 
   Dog({
     required this.id,
@@ -16,7 +16,7 @@ class Dog implements Entity{
     required this.dateOfBirth,
     required this.sports,
     this.weight,
-    this.imageAsBase64
+    this.imagePath
   });
 
   Dog copyWith({
@@ -25,7 +25,7 @@ class Dog implements Entity{
     DateTime? dateOfBirth,
     List<Sports>? sports,
     double? weight,
-    String? imageAsBase64
+    String? imagePath
   }) {
     return Dog(
       id: id ?? this.id,
@@ -33,7 +33,7 @@ class Dog implements Entity{
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       sports: sports ?? this.sports,
       weight: weight ?? this.weight,
-      imageAsBase64: imageAsBase64 ?? this.imageAsBase64
+      imagePath: imagePath ?? this.imagePath
     );
   }
 
@@ -41,9 +41,10 @@ class Dog implements Entity{
     return Dog(
       id: json['id'],
       name: json['name'],
-      dateOfBirth: json['dateOfBirth'],
+      dateOfBirth: DateTime.parse(json['dateOfBirth']),
       sports: json['sports'].map<Sports>((json) => SportsJsonExtension.fromJson(json)).toList(),
       weight: json['weight'],
+      imagePath: json['imagePath']
     );
   }
 
@@ -51,9 +52,10 @@ class Dog implements Entity{
     return {
       'id': id,
       'name': name,
-      'dateOfBirth': dateOfBirth,
+      'dateOfBirth': dateOfBirth.toString(),
       'sports': sports.map((sport) => sport.toJson()).toList(),
-      'weight': weight
+      'weight': weight,
+      'imagePath': imagePath
     };
   }
 }
