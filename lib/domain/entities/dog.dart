@@ -1,11 +1,12 @@
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
+import 'package:dog_sports_diary/domain/entities/sports.dart';
 
 class Dog implements Entity{
   @override
   final int id;
   final String name;
   final DateTime dateOfBirth;
-  final List<String> sports;
+  final List<Sports> sports;
   double? weight;
   String? imageAsBase64;
 
@@ -22,7 +23,7 @@ class Dog implements Entity{
     int? id,
     String? name,
     DateTime? dateOfBirth,
-    List<String>? sports,
+    List<Sports>? sports,
     double? weight,
     String? imageAsBase64
   }) {
@@ -41,7 +42,7 @@ class Dog implements Entity{
       id: json['id'],
       name: json['name'],
       dateOfBirth: json['dateOfBirth'],
-      sports: json['sports'],
+      sports: json['sports'].map<Sports>((json) => SportsJsonExtension.fromJson(json)).toList(),
       weight: json['weight'],
     );
   }
@@ -51,7 +52,7 @@ class Dog implements Entity{
       'id': id,
       'name': name,
       'dateOfBirth': dateOfBirth,
-      'sports': sports,
+      'sports': sports.map((sport) => sport.toJson()).toList(),
       'weight': weight
     };
   }

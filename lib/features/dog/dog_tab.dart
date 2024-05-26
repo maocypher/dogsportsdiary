@@ -1,5 +1,7 @@
+import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +20,13 @@ class DogTab extends StatelessWidget {
     super.key
   });
 
+  //required this.id,
+  //     required this.name,
+  //     required this.dateOfBirth,
+  //     required this.sports,
+  //     this.weight,
+  //     this.imageAsBase64
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DogViewModel>(
@@ -27,7 +36,7 @@ class DogTab extends StatelessWidget {
             appBar: AppBar(
               title: Text(label),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   context.pop();
                 },
@@ -39,6 +48,29 @@ class DogTab extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundColor: Colors.grey,
+                        child: viewModel.imageFile != null
+                            ? Image.file(
+                          viewModel.imageFile!,
+                          fit: BoxFit.cover,
+                        )
+                            : const Icon(Icons.person),
+                      ),
+                      Positioned(
+                        bottom: 32,
+                        right: 32,
+                        child: ElevatedButton(
+                          onPressed: viewModel.pickImage,
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size.zero,
+                          ),
+                          child: const Icon(Icons.add_a_photo),
+                        ),
+                      ),
                       TextFormField(
                         decoration: const InputDecoration(labelText: 'Name'),
                         onChanged: (value) {
@@ -47,6 +79,9 @@ class DogTab extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
+                        controller: TextEditingController(
+                          text: viewModel.dateOfBirth,
+                        ),
                         decoration: const InputDecoration(
                             labelText: 'Date of Birth',
                             icon: Icon(Icons.calendar_today),
@@ -58,8 +93,38 @@ class DogTab extends StatelessWidget {
                               initialDate: DateTime.now(),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100));
-                          viewModel.updateDateOfBirth(date!);
+
+                          if(date != null) {
+                            viewModel.updateDateOfBirth(date);
+                          }
                         },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(labelText: 'Weight'),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                        ],
+                        onChanged: (value) {
+                          viewModel.updateWeight(value);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: ListView(
+                          children: Sports.values.map((sport) {
+                            return CheckboxListTile(
+                              title: Text(sport.toString().split('.').last),
+                              value: viewModel.dog.sports.contains(sport),
+                              onChanged: (value) {
+                                  if (value!) {
+                                    viewModel.addSports(sport);
+                                  } else {
+                                    viewModel.removeSports(sport);
+                                  }
+                              },
+                            );
+                          }).toList(),
+                        ),
                       ),
                       const SizedBox(height: 16),
                     ],
