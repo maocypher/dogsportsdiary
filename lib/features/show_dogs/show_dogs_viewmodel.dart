@@ -25,7 +25,7 @@ class ShowDogsViewModel extends ChangeNotifier {
   static inject() {
     // injecting the viewmodel
     final repository = ServiceProvider.locator<DogRepository>();
-    ServiceProvider.locator.registerFactory<ShowDogsViewModel>(() => ShowDogsViewModel(repository));
+    ServiceProvider.locator.registerLazySingleton<ShowDogsViewModel>(() => ShowDogsViewModel(repository));
   }
 
   static ShowDogsViewModel get showDogsViewModel {

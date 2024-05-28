@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dog_sports_diary/features/home/home_tab.dart';
@@ -44,7 +45,9 @@ class AppRouter {
               // top route inside branch
               GoRoute(
                 path: '/',
+                name: 'home',
                 pageBuilder: (context, state) => const NoTransitionPage(
+                  name: "home",
                   child: HomeTab(label: 'Home'),
                 ),
               ),
@@ -53,11 +56,14 @@ class AppRouter {
           // second branch (B)
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDogKey,
+            observers: [DogNavigationObserver(showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>())],
             routes: [
               // top route inside branch
               GoRoute(
                 path: '/dog',
+                name: 'dogs',
                 pageBuilder: (context, state) => NoTransitionPage(
+                  name: "dogs",
                   child: ShowDogsTab(
                     showDogViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
                     label: 'Dogs',
@@ -66,7 +72,9 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     path: 'new-dog',
+                    name: 'new-dog',
                     pageBuilder: (context, state) => NoTransitionPage(
+                      name: "new-dog",
                       child: DogTab(
                         dogViewModel: ServiceProvider.locator<DogViewModel>(),
                         label: 'Dog',
@@ -83,7 +91,9 @@ class AppRouter {
               // top route inside branch
               GoRoute(
                 path: '/diary',
+                name: 'diary',
                 pageBuilder: (context, state) => const NoTransitionPage(
+                  name: "diary",
                   child: ShowDiaryEntryTab(label: 'Diary'),
                 ),
               ),
@@ -95,7 +105,9 @@ class AppRouter {
               // top route inside branch
               GoRoute(
                 path: '/settings',
+                name: 'settings',
                 pageBuilder: (context, state) => NoTransitionPage(
+                  name: "settings",
                   child: SettingsTab(
                       settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
                       label: 'Settings'

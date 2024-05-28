@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/app/app_router.dart';
+import 'package:dog_sports_diary/core/navigation/app_router.dart';
 import 'package:flutter/material.dart';
 
 class DogSportsApp extends StatelessWidget {

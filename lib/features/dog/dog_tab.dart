@@ -54,18 +54,14 @@ class DogTab extends StatelessWidget {
                                 )
                               : const Icon(Icons.person),
                         ),
-                        Positioned(
-                          bottom: 64,
-                          right: 64,
-                          child: ElevatedButton(
-                            onPressed: viewModel.pickImage,
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                            ),
-                            child: const Icon(Icons.add_a_photo),
+                        ElevatedButton(
+                          onPressed: viewModel.pickImage,
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size.zero,
                           ),
+                          child: const Icon(Icons.add_a_photo),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
