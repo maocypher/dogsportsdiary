@@ -43,12 +43,18 @@ class ShowDogsTab extends StatelessWidget {
                     final dog = viewModel.dogs[index];
                     return SizedBox(
                       height: 80,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: dog.imagePath == null ? null : FileImage(File(dog.imagePath!)),
-                          backgroundColor: dog.imagePath == null ? Colors.grey : null,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Handle the tab event here
+                          context.push('/dog/${dog.name}');
+                        },
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: dog.imagePath == null ? null : FileImage(File(dog.imagePath!)),
+                            backgroundColor: dog.imagePath == null ? Colors.grey : null,
+                          ),
+                          title: Text(dog.name),
                         ),
-                        title: Text(dog.name),
                       ),
                     );
                   },

@@ -81,6 +81,17 @@ class AppRouter {
                       ),
                     ),
                   ),
+                  GoRoute(
+                    path: ':name',
+                    name: 'edit-dog',
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      name: "edit-dog",
+                      child: DogTab(
+                        dogViewModel: ServiceProvider.locator<DogViewModel>(param1: state.pathParameters['name']),
+                        label: 'Dog',
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

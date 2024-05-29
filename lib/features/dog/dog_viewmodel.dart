@@ -11,22 +11,32 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
-  final DogRepository _repository;
+  final DogRepository repository;
 
-  Dog _dog = Dog(name: '', id: 0, dateOfBirth: DateTime.now(), sports: []);
-  Dog get dog => _dog;
+  Dog? _dog;
+  Dog? get dog => _dog;
 
   File? _imageFile;
   File? get imageFile => _imageFile;
 
-  String? get dateOfBirth => intl.DateFormat('yyyy-MM-dd').format(_dog.dateOfBirth);
+  String? get dateOfBirth => intl.DateFormat('yyyy-MM-dd').format(_dog?.dateOfBirth ?? DateTime.now());
 
   List<Sports> get sportList => Sports.values.toList();
 
-  DogViewModel(this._repository);
+  DogViewModel({
+    required this.repository,
+    String? name
+  }){
+    if(name != null) {
+      loadDog(name);
+    }
+    else{
+      _dog = Dog(name: '', id: 0, dateOfBirth: DateTime.now(), sports: []);
+    }
+  }
 
   Future<void> loadDog(String name) async {
-    var dbDog = await _repository.getDog(name);
+    var dbDog = await repository.getDog(name);
 
     if(dbDog != null) {
       _dog = dbDog;
@@ -42,7 +52,7 @@ class DogViewModel extends ChangeNotifier {
       final File? croppedImage = await cropImage(pickedFile);
       if (croppedImage != null) {
         _imageFile = croppedImage;
-        _dog.imagePath = _imageFile!.path;
+        _dog?.imagePath = _imageFile!.path;
         notifyListeners();
       }
     }
@@ -83,43 +93,47 @@ class DogViewModel extends ChangeNotifier {
 
   updateWeight(String weightString) {
     double weight = double.tryParse(weightString) ?? 0.0;
-    _dog = _dog.copyWith(weight: weight);
+    _dog = _dog?.copyWith(weight: weight);
     notifyListeners();
   }
 
   updateName(String name) {
-    _dog = _dog.copyWith(name: name);
+    _dog = _dog?.copyWith(name: name);
     notifyListeners();
   }
 
   updateDateOfBirth(DateTime dateOfBirth) {
-    _dog = _dog.copyWith(dateOfBirth: dateOfBirth);
+    _dog = _dog?.copyWith(dateOfBirth: dateOfBirth);
     notifyListeners();
   }
 
   addSports(Sports sport) {
-    _dog.sports.add(sport);
+    _dog?.sports.add(sport);
     notifyListeners();
   }
 
   removeSports(Sports sport) {
-    _dog.sports.remove(sport);
+    _dog?.sports.remove(sport);
     notifyListeners();
   }
 
   updateSports(List<Sports> sports) {
-    _dog = _dog.copyWith(sports: sports);
+    _dog = _dog?.copyWith(sports: sports);
     notifyListeners();
   }
 
   saveDog() async {
-    await _repository.saveDog(_dog);
+    if(_dog != null) {
+      await repository.saveDog(_dog!);
+    }
   }
 
   static inject() {
     // injecting the viewmodel
     final repository = ServiceProvider.locator<DogRepository>();
-    ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel(repository));
+    //ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel(repository: repository));
+    ServiceProvider.locator.registerFactoryParam<DogViewModel, String?, void>(
+            (x, _) => DogViewModel(repository: repository, name: x));
   }
 
   static DogViewModel get dogViewModel {

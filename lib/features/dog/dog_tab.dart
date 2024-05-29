@@ -1,4 +1,5 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,12 @@ class DogTab extends StatelessWidget {
   /// The path to the detail page
   //final String detailsPath;
 
-  const DogTab({required this.dogViewModel, required this.label, super.key});
+  const DogTab({
+    required this.dogViewModel,
+    required this.label,
+    Dog? dog,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +70,9 @@ class DogTab extends StatelessWidget {
                           child: const Icon(Icons.add_a_photo),
                         ),
                         TextFormField(
+                          controller: TextEditingController(
+                            text: viewModel.dog?.name,
+                          ),
                           decoration: const InputDecoration(
                             labelText: 'Name',
                             icon: Icon(Icons.pets),
@@ -95,6 +104,9 @@ class DogTab extends StatelessWidget {
                           },
                         ),
                         TextFormField(
+                          controller: TextEditingController(
+                            text: viewModel.dog?.weight.toString(),
+                          ),
                           decoration: const InputDecoration(
                             labelText: 'Weight',
                             suffixText: 'kg',
@@ -110,6 +122,7 @@ class DogTab extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         CustomDropdown<Sports>.multiSelect(
+                          initialItems: viewModel.dog?.sports ?? [],
                           items: viewModel.sportList,
                           onListChanged: (value) {
                             viewModel.updateSports(value);
