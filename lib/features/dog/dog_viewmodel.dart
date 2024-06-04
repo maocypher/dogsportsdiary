@@ -40,6 +40,7 @@ class DogViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _dog = dbDog;
+      _imageFile = File(_dog!.imagePath!);
       notifyListeners();
     }
   }
