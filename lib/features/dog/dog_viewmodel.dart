@@ -95,12 +95,10 @@ class DogViewModel extends ChangeNotifier {
   updateWeight(String weightString) {
     double weight = double.tryParse(weightString) ?? 0.0;
     _dog = _dog?.copyWith(weight: weight);
-    notifyListeners();
   }
 
   updateName(String name) {
     _dog = _dog?.copyWith(name: name);
-    notifyListeners();
   }
 
   updateDateOfBirth(DateTime dateOfBirth) {
@@ -121,6 +119,12 @@ class DogViewModel extends ChangeNotifier {
   updateSports(List<Sports> sports) {
     _dog = _dog?.copyWith(sports: sports);
     notifyListeners();
+  }
+
+  deleteDog() async {
+    if(_dog != null) {
+      await repository.deleteDog(_dog!.name);
+    }
   }
 
   saveDog() async {

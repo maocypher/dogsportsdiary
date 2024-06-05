@@ -37,6 +37,15 @@ class DogTab extends StatelessWidget {
                   context.pop();
                 },
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    dogViewModel.deleteDog();
+                    context.pop();
+                  },
+                ),
+              ],
             ),
             body: SingleChildScrollView(
               child: Consumer<DogViewModel>(
@@ -105,17 +114,14 @@ class DogTab extends StatelessWidget {
                         ),
                         TextFormField(
                           controller: TextEditingController(
-                            text: viewModel.dog?.weight.toString(),
+                            text: viewModel.dog?.weight.toString() ?? '',
                           ),
                           decoration: const InputDecoration(
                             labelText: 'Weight',
                             suffixText: 'kg',
                             icon: Icon(Icons.scale),
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9.,]')),
-                          ],
+                          keyboardType: TextInputType.number,
                           onChanged: (value) {
                             viewModel.updateWeight(value);
                           },

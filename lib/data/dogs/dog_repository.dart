@@ -18,9 +18,9 @@ class DogRepository {
     return dogBox.values.toList();
   }
 
-  Future<void> deleteDog(int id) async {
+  Future<void> deleteDog(String name) async {
     final dogBox = Hive.box<Dog>('dogBox');
-    await dogBox.delete(id);
+    await dogBox.delete(name);
   }
 
   Future<bool> hasAnyDog() async{
