@@ -1,5 +1,7 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
+import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
+import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
@@ -47,6 +49,30 @@ class AppRouter {
                   name: "diary",
                   child: ShowDiaryEntryTab(label: 'Diary'),
                 ),
+                routes: [
+                  GoRoute(
+                    path: 'new-entry',
+                    name: 'new-entry',
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      name: "new-entry",
+                      child: DiaryEntryTab(
+                        diaryEntryViewModel: ServiceProvider.locator<DiaryEntryViewModel>(),
+                        label: 'Diary Entry',
+                      ),
+                    ),
+                  ),
+                  GoRoute(
+                    path: ':entryKey',
+                    name: 'edit-entry',
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      name: "edit-entry",
+                      child: DiaryEntryTab(
+                        diaryEntryViewModel: ServiceProvider.locator<DiaryEntryViewModel>(param1: state.pathParameters['entryKey']),
+                        label: 'Diary Entry',
+                      ),
+                    ),
+                  ),
+                ]
               ),
             ],
           ),
