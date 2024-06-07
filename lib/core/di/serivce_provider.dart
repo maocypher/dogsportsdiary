@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/dog_sports_service.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/data/settings/settings_repository.dart';
@@ -12,6 +13,9 @@ interface class ServiceProvider {
   static final locator = GetIt.I;
 
   static injectAll() {
+    //Dog Sports
+    DogSportsService.inject();
+
     //Dogs
     DogRepository.inject();
     ShowDogsViewModel.inject();

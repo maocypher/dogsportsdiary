@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -58,6 +59,18 @@ class DiaryEntryTab extends StatelessWidget {
                             return DropdownMenuItem<String>(
                               value: dog.name,
                               child: Text(dog.name),
+                            );
+                          }).toList(),
+                        ),
+                        DropdownButtonFormField<Sports>(
+                          value: viewModel.selectedSport,
+                          onChanged: (sport) {
+                            viewModel.loadSport(sport);
+                          },
+                          items: viewModel.selectedDog?.sports.map((sport) {
+                            return DropdownMenuItem<Sports>(
+                              value: sport,
+                              child: Text(sport.name),
                             );
                           }).toList(),
                         ),

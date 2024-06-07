@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/utils/dog_sports_service.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -10,17 +11,27 @@ import 'package:intl/intl.dart' as intl;
 class DiaryEntryViewModel extends ChangeNotifier {
   final DogRepository dogRepository;
   final DiaryEntryRepository diaryEntryRepository;
+  final DogSportsService dogSportsService;
 
   DiaryEntry? _entry;
+  String? get date => intl.DateFormat('yyyy-MM-dd').format(_entry?.date ?? DateTime.now());
+
   Dog? _selectedDog;
+  Dog? get selectedDog => _selectedDog;
+
   List<Dog>? _dogList;
   List<Dog>? get dogList => _dogList;
-  List<Sports> get sportList => _selectedDog?.sports ?? Sports.values.toList();
-  String? get date => intl.DateFormat('yyyy-MM-dd').format(_entry?.date ?? DateTime.now());
+
+  Sports? _selectedSport;
+  Sports? get selectedSport => _selectedSport;
+
+  Map<String, dynamic>? sportsTemplate;
+  Map<String, dynamic>? get template => sportsTemplate;
 
   DiaryEntryViewModel({
     required this.dogRepository,
     required this.diaryEntryRepository,
+    required this.dogSportsService,
     String? entryKey
   }){
     if(entryKey != null) {
@@ -58,8 +69,23 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
+      loadSport(_selectedDog!.sports.first);
+
       notifyListeners();
     }
+  }
+
+  loadSport(Sports? sport) {
+    if(sport != null) {
+      _selectedSport = sport;
+      loadSportTemplate(_selectedSport!);
+
+      notifyListeners();
+    }
+  }
+
+  loadSportTemplate(Sports sport) async {
+    sportsTemplate = await dogSportsService.loadJsonFileForSports(sport);
   }
 
   updateDate(DateTime date) {
@@ -83,9 +109,15 @@ class DiaryEntryViewModel extends ChangeNotifier {
     // injecting the viewmodel
     final dogRepository = ServiceProvider.locator<DogRepository>();
     final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
+    final dogSportsService = ServiceProvider.locator<DogSportsService>();
 
     ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
-            (x, _) => DiaryEntryViewModel(dogRepository: dogRepository, diaryEntryRepository: diaryEntryRepository, entryKey: x));
+            (x, _) => DiaryEntryViewModel(
+                dogRepository: dogRepository,
+                diaryEntryRepository: diaryEntryRepository,
+                dogSportsService: dogSportsService,
+                entryKey: x
+            ));
   }
 
   static DiaryEntryViewModel get dogViewModel {
