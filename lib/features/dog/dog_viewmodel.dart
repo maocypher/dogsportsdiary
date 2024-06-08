@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
@@ -22,6 +23,7 @@ class DogViewModel extends ChangeNotifier {
 
   String? get dateOfBirth => intl.DateFormat('yyyy-MM-dd').format(_dog?.dateOfBirth ?? DateTime.now());
 
+  Map<DogSports, List<DogSportsClasses>> get sportClasses => Sports.sportsClasses;
   List<DogSports> get sportList => Sports.sportsClasses.keys.toList();
 
   List<DogSports> _selectedSports = [];
@@ -30,6 +32,8 @@ class DogViewModel extends ChangeNotifier {
     _selectedSports = value;
     notifyListeners();
   }
+  StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
+  Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
   DogViewModel({
     required this.repository,

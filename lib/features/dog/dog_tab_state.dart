@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -133,6 +134,27 @@ class DogTabState extends State<DogTab> {
                           hintText: 'Select sports',
                         ),
                         const SizedBox(height: 16),
+                        StreamBuilder<List<DogSports>>(
+                          stream: viewModel.selectedDogSportsStream,
+                          builder: (context, snapshot) {
+                            return Column(
+                              children: viewModel.selectedSports.map((dogSport) {
+                                return DropdownButtonFormField<DogSportsClasses>(
+                                  value: viewModel.sportClasses[dogSport]?.first,
+                                  items: viewModel.sportClasses[dogSport]?.map((sportsClass) {
+                                    return DropdownMenuItem<DogSportsClasses>(
+                                      value: sportsClass,
+                                      child: Text(sportsClass.name),
+                                    );
+                                  }).toList(),
+                                  onChanged: (sportsClass) {
+                                    viewModel.addSports(dogSport, sportsClass!);
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          },
+                        )
                       ],
                     ),
                   );
