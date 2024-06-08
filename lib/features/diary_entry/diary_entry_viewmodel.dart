@@ -22,8 +22,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
   List<Dog>? _dogList;
   List<Dog>? get dogList => _dogList;
 
-  Sports? _selectedSport;
-  Sports? get selectedSport => _selectedSport;
+  DogSports? _selectedSport;
+  DogSports? get selectedSport => _selectedSport;
 
   Map<String, dynamic>? sportsTemplate;
   Map<String, dynamic>? get template => sportsTemplate;
@@ -69,13 +69,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
-      loadSport(_selectedDog!.sports.first);
+      loadSport(_selectedDog!.sports.keys.first);
 
       notifyListeners();
     }
   }
 
-  loadSport(Sports? sport) {
+  loadSport(DogSports? sport) {
     if(sport != null) {
       _selectedSport = sport;
       loadSportTemplate(_selectedSport!);
@@ -84,7 +84,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
-  loadSportTemplate(Sports sport) async {
+  loadSportTemplate(DogSports sport) async {
     sportsTemplate = await dogSportsService.loadJsonFileForSports(sport);
   }
 

@@ -4,7 +4,7 @@ import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:flutter/services.dart';
 
 class DogSportsService {
-  Future<Map<String, dynamic>?> loadJsonFileForSports(Sports selectedSport) async {
+  Future<Map<String, dynamic>?> loadJsonFileForSports(DogSports selectedSport) async {
     String fileName = selectedSport.name;
     String jsonString = await rootBundle.loadString('assets/data/$fileName.json');
     return json.decode(jsonString);

@@ -4,6 +4,7 @@ import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' as intl;
@@ -21,7 +22,14 @@ class DogViewModel extends ChangeNotifier {
 
   String? get dateOfBirth => intl.DateFormat('yyyy-MM-dd').format(_dog?.dateOfBirth ?? DateTime.now());
 
-  List<Sports> get sportList => Sports.values.toList();
+  List<DogSports> get sportList => Sports.sportsClasses.keys.toList();
+
+  List<DogSports> _selectedSports = [];
+  List<DogSports> get selectedSports => _selectedSports;
+  set selectedSports(List<DogSports> value) {
+    _selectedSports = value;
+    notifyListeners();
+  }
 
   DogViewModel({
     required this.repository,
@@ -31,7 +39,7 @@ class DogViewModel extends ChangeNotifier {
       loadDog(name);
     }
     else{
-      _dog = Dog(name: '', id: 0, dateOfBirth: DateTime.now(), sports: []);
+      _dog = Dog(name: '', id: 0, dateOfBirth: DateTime.now(), sports: {});
     }
   }
 
@@ -106,17 +114,17 @@ class DogViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  addSports(Sports sport) {
-    _dog?.sports.add(sport);
+  addSports(DogSports sport, DogSportsClasses sportClass) {
+    _dog?.sports[sport] = sportClass;
     notifyListeners();
   }
 
-  removeSports(Sports sport) {
+  removeSports(DogSports sport) {
     _dog?.sports.remove(sport);
     notifyListeners();
   }
 
-  updateSports(List<Sports> sports) {
+  updateSports(Map<DogSports, DogSportsClasses> sports) {
     _dog = _dog?.copyWith(sports: sports);
     notifyListeners();
   }

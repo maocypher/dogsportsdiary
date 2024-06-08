@@ -62,13 +62,13 @@ class DiaryEntryTab extends StatelessWidget {
                             );
                           }).toList(),
                         ),
-                        DropdownButtonFormField<Sports>(
+                        DropdownButtonFormField<DogSports>(
                           value: viewModel.selectedSport,
                           onChanged: (sport) {
                             viewModel.loadSport(sport);
                           },
-                          items: viewModel.selectedDog?.sports.map((sport) {
-                            return DropdownMenuItem<Sports>(
+                          items: viewModel.selectedDog?.sports.keys.map((sport) {
+                            return DropdownMenuItem<DogSports>(
                               value: sport,
                               child: Text(sport.name),
                             );

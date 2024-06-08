@@ -127,11 +127,11 @@ class DogTab extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                        CustomDropdown<Sports>.multiSelect(
-                          initialItems: viewModel.dog?.sports ?? [],
+                        CustomDropdown<DogSports>.multiSelect(
+                          initialItems: viewModel.selectedSports,
                           items: viewModel.sportList,
                           onListChanged: (value) {
-                            viewModel.updateSports(value);
+                            viewModel.selectedSports = value;
                           },
                           hintText: 'Select sports',
                         ),
