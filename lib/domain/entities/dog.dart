@@ -43,7 +43,7 @@ class Dog implements Entity{
       id: json['id'],
       name: json['name'],
       dateOfBirth: DateTime.parse(json['dateOfBirth']),
-      sports: DogSportsJsonExtension.fromJsonToMap(json['sports']),
+      sports: DogSportsMapJsonExtension.fromJson(json['sports']),
       weight: json['weight'],
       imagePath: json['imagePath']
     );
@@ -54,7 +54,7 @@ class Dog implements Entity{
       'id': id,
       'name': name,
       'dateOfBirth': dateOfBirth.toString(),
-      'sports': sports.map((key, value) => MapEntry(key.toJson(), value.toJson())),
+      'sports': sports.toJson(),
       'weight': weight,
       'imagePath': imagePath
     };

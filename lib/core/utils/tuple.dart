@@ -8,4 +8,12 @@ class Tuple<T, U> {
   String toString() {
     return '$key - $value';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Tuple) {
+      return key == other.key && value == other.value;
+    }
+    return false;
+  }
 }

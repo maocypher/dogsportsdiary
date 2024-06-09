@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/dog_sports_service.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
@@ -5,6 +7,7 @@ import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
+import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +33,12 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Tuple<DogSports, DogSportsClasses>? _selectedSport;
   Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
-  Map<String, dynamic>? sportsTemplate;
-  Map<String, dynamic>? get template => sportsTemplate;
+  Map<Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
+  List<Exercises> _selectedExercises = [];
+  List<Exercises> get selectedExercises => _selectedExercises;
+
+  StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
+  Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
 
   DiaryEntryViewModel({
     required this.dogRepository,
@@ -76,7 +83,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
-      _selectedDogSports = DogSportsJsonExtension.toListOfTuple(_selectedDog!.sports);
+      _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
       if(_selectedDogSports.isNotEmpty) {
         loadSport(_selectedDogSports.first);
@@ -88,13 +95,9 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   loadSport(Tuple<DogSports, DogSportsClasses> sport) {
     _selectedSport = sport;
-    //loadSportTemplate(_selectedSport!);
+    _selectedExercises = sportExercises.entries.where((e) => e.key == sport).first.value;
 
     notifyListeners();
-  }
-
-  loadSportTemplate(DogSports sport) async {
-    //sportsTemplate = await dogSportsService.loadJsonFileForSports(sport);
   }
 
   updateDate(DateTime date) {

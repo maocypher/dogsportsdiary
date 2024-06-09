@@ -94,6 +94,15 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             }
                           },
                         ),
+                        Column(
+                          children: viewModel.selectedExercises.map((exercise) {
+                            //final ranking = viewModel.getRankingForExercise(exercise);
+                            return ListTile(
+                              title: Text(exercise.name),
+                              //subtitle: Text('Ranking: $ranking'),
+                            );
+                          }).toList(),
+                        )
                       ],
                     ),
                   );

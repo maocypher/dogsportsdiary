@@ -52,7 +52,9 @@ class DogViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _dog = dbDog;
-      _imageFile = File(_dog!.imagePath!);
+      if(_dog!.imagePath != null) {
+        _imageFile = File(_dog!.imagePath!);
+      }
       _selectedSports = _dog!.sports.keys.toList();
       notifyListeners();
     }
