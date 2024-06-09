@@ -31,8 +31,21 @@ extension DogSportsJsonExtension on DogSports {
         throw FormatException('Invalid ranking value: $this');
     }
   }
-  
-  static DogSports fromJson(String json) {
+
+  static Map<DogSports, DogSportsClasses> fromJsonToMap(Map<String, dynamic> json) {
+    Map<DogSports, DogSportsClasses> sports = {};
+
+    json.forEach((key, value) {
+      var sport = DogSportsJsonExtension.fromJsonToSport(key);
+      var classes = DogSportsClassesJsonExtension.fromJson(value);
+      
+      sports[sport] = classes;
+    });
+
+    return sports;
+  }
+
+  static DogSports fromJsonToSport(String json) {
     switch (json) {
       case 'agility':
         return DogSports.agility;

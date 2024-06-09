@@ -43,7 +43,7 @@ class Dog implements Entity{
       id: json['id'],
       name: json['name'],
       dateOfBirth: DateTime.parse(json['dateOfBirth']),
-      sports: Map<DogSports, DogSportsClasses>.from(json['sports']),
+      sports: DogSportsJsonExtension.fromJsonToMap(json['sports']),
       weight: json['weight'],
       imagePath: json['imagePath']
     );
