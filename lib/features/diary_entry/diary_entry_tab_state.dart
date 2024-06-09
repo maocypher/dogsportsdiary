@@ -1,4 +1,6 @@
+import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -58,15 +60,15 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             );
                           }).toList(),
                         ),
-                        DropdownButtonFormField<DogSports>(
+                        DropdownButtonFormField<Tuple<DogSports, DogSportsClasses>>(
                           value: viewModel.selectedSport,
                           onChanged: (sport) {
-                            viewModel.loadSport(sport);
+                            viewModel.loadSport(sport!);
                           },
-                          items: viewModel.selectedDog?.sports.keys.map((sport) {
-                            return DropdownMenuItem<DogSports>(
+                          items: viewModel.selectedDogSports.map((sport) {
+                            return DropdownMenuItem<Tuple<DogSports, DogSportsClasses>>(
                               value: sport,
-                              child: Text(sport.name),
+                              child: Text(sport.toString()),
                             );
                           }).toList(),
                         ),

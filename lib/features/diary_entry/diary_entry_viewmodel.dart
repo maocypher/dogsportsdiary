@@ -1,10 +1,12 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/dog_sports_service.dart';
+import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -16,14 +18,17 @@ class DiaryEntryViewModel extends ChangeNotifier {
   DiaryEntry? _entry;
   String? get date => intl.DateFormat('yyyy-MM-dd').format(_entry?.date ?? DateTime.now());
 
-  Dog? _selectedDog;
-  Dog? get selectedDog => _selectedDog;
-
   List<Dog>? _dogList;
   List<Dog>? get dogList => _dogList;
 
-  DogSports? _selectedSport;
-  DogSports? get selectedSport => _selectedSport;
+  Dog? _selectedDog;
+  Dog? get selectedDog => _selectedDog;
+
+  List<Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
+  List<Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
+
+  Tuple<DogSports, DogSportsClasses>? _selectedSport;
+  Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
   Map<String, dynamic>? sportsTemplate;
   Map<String, dynamic>? get template => sportsTemplate;
@@ -71,19 +76,21 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
-      loadSport(_selectedDog!.sports.keys.first);
+      _selectedDogSports = DogSportsJsonExtension.toListOfTuple(_selectedDog!.sports);
+
+      if(_selectedDogSports.isNotEmpty) {
+        loadSport(_selectedDogSports.first);
+      }
 
       notifyListeners();
     }
   }
 
-  loadSport(DogSports? sport) {
-    if(sport != null) {
-      _selectedSport = sport;
-      loadSportTemplate(_selectedSport!);
+  loadSport(Tuple<DogSports, DogSportsClasses> sport) {
+    _selectedSport = sport;
+    //loadSportTemplate(_selectedSport!);
 
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   loadSportTemplate(DogSports sport) async {

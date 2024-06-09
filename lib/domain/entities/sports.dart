@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 
 enum DogSports {
@@ -58,5 +59,15 @@ extension DogSportsJsonExtension on DogSports {
       default:
         throw FormatException('Invalid ranking value: $json');
     }
+  }
+
+  static List<Tuple<DogSports, DogSportsClasses>> toListOfTuple(Map<DogSports, DogSportsClasses> sports){
+    return sports.entries.map((sport) {
+      return Tuple(sport.key, sport.value);
+    }).toList();
+  }
+
+  static Tuple<DogSports, DogSportsClasses> toTuple(MapEntry<DogSports, DogSportsClasses> sport) {
+    return Tuple(sport.key, sport.value);
   }
 }
