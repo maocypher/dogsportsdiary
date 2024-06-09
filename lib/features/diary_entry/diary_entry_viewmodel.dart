@@ -45,9 +45,6 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
 
     loadDogs();
-    if(_dogList != null && _dogList!.isNotEmpty) {
-      loadDog(_dogList!.first.name);
-    }
   }
 
   Future<void> loadEntry(String entryKey) async {
@@ -61,6 +58,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   Future<void> loadDogs() async {
     _dogList = await dogRepository.getAllDogs();
+
+    if(_dogList != null && _dogList!.isNotEmpty) {
+      await loadDog(_dogList!.first.name);
+    }
+
     notifyListeners();
   }
 
@@ -85,7 +87,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   loadSportTemplate(DogSports sport) async {
-    sportsTemplate = await dogSportsService.loadJsonFileForSports(sport);
+    //sportsTemplate = await dogSportsService.loadJsonFileForSports(sport);
   }
 
   updateDate(DateTime date) {
