@@ -129,7 +129,7 @@ class DogTabState extends State<DogTab> {
                           initialItems: viewModel.selectedSports,
                           items: viewModel.sportList,
                           onListChanged: (value) {
-                            viewModel.selectedSports = value;
+                            viewModel.selectSports(value);
                           },
                           hintText: 'Select sports',
                         ),

@@ -53,6 +53,7 @@ class DogViewModel extends ChangeNotifier {
     if(dbDog != null) {
       _dog = dbDog;
       _imageFile = File(_dog!.imagePath!);
+      _selectedSports = _dog!.sports.keys.toList();
       notifyListeners();
     }
   }
@@ -120,6 +121,16 @@ class DogViewModel extends ChangeNotifier {
 
   addSports(DogSports sport, DogSportsClasses sportClass) {
     _dog?.sports[sport] = sportClass;
+    notifyListeners();
+  }
+
+  selectSports(List<DogSports> sports) {
+    selectedSports = sports;
+
+    selectedSports.forEach((sport){
+      _dog?.sports[sport] = sportClasses[sport]!.first;
+    });
+
     notifyListeners();
   }
 
