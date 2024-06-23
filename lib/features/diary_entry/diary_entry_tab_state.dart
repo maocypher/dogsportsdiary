@@ -1,9 +1,11 @@
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -60,6 +62,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             );
                           }).toList(),
                         ),
+                        const SizedBox(height: Constants.uiSpacer),
+
                         DropdownButtonFormField<Tuple<DogSports, DogSportsClasses>>(
                           value: viewModel.selectedSport,
                           onChanged: (sport) {
@@ -72,7 +76,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             );
                           }).toList(),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
+
                         TextFormField(
                           controller: TextEditingController(
                             text: viewModel.date,
@@ -94,12 +99,23 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             }
                           },
                         ),
+                        const SizedBox(height: Constants.uiSpacer),
+
                         Column(
-                          children: viewModel.selectedExercises.map((exercise) {
-                            //final ranking = viewModel.getRankingForExercise(exercise);
+                          children: viewModel.selectedExercises.map((exerciseTuple) {
                             return ListTile(
-                              title: Text(exercise.name),
-                              //subtitle: Text('Ranking: $ranking'),
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(exerciseTuple.key.name),
+                                  ),
+                                  StarRating(
+                                    rating: exerciseTuple.value,
+                                    allowHalfRating: false,
+                                    onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.key, newRating)),
+                                  ),
+                                ],
+                              ),
                             );
                           }).toList(),
                         )
