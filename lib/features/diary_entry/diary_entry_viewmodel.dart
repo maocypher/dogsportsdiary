@@ -20,6 +20,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
   final DogSportsService dogSportsService;
 
   DiaryEntry? _entry;
+  DiaryEntry? get entry => _entry;
+
   String? get date => intl.DateFormat('yyyy-MM-dd').format(_entry?.date ?? DateTime.now());
 
   List<Dog>? _dogList;
@@ -84,6 +86,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
+      _entry = _entry?.copyWith(dogName: _selectedDog!.name);
+
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
       if(_selectedDogSports.isNotEmpty) {
@@ -96,8 +100,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   loadSport(Tuple<DogSports, DogSportsClasses> sport) {
     _selectedSport = sport;
+
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
     _selectedExercises = exercise.map((e) => Tuple(e, Constants.initRating)).toList();
+
+    _entry = _entry?.copyWith(sport: _selectedSport, exerciseRating: _selectedExercises);
 
     notifyListeners();
   }
@@ -112,8 +119,53 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(index != -1) {
       _selectedExercises[index] = Tuple(exercise, rating);
+      _entry = _entry?.copyWith(exerciseRating: _selectedExercises);
     }
 
+    notifyListeners();
+  }
+
+  updateTemperature(String temperature) {
+    var temp = double.tryParse(temperature);
+    _entry = _entry?.copyWith(temperature: temp);
+    notifyListeners();
+  }
+
+  updateTrainingDurationInMin(String trainingDurationInMin) {
+    var duration = int.tryParse(trainingDurationInMin);
+    _entry = _entry?.copyWith(trainingDurationInMin: duration);
+    notifyListeners();
+  }
+
+  updateWarmUpDurationInMin(String warmUpDurationInMin) {
+    var duration = int.tryParse(warmUpDurationInMin);
+    _entry = _entry?.copyWith(warmUpDurationInMin: duration);
+    notifyListeners();
+  }
+
+  updateCoolDownDurationInMin(String coolDownDurationInMin) {
+    var duration = int.tryParse(coolDownDurationInMin);
+    _entry = _entry?.copyWith(coolDownDurationInMin: duration);
+    notifyListeners();
+  }
+
+  updateTrainingGoal(String trainingGoal) {
+    _entry = _entry?.copyWith(trainingGoal: trainingGoal);
+    notifyListeners();
+  }
+
+  updateHighlight(String highlight) {
+    _entry = _entry?.copyWith(highlight: highlight);
+    notifyListeners();
+  }
+
+  updateDistractions(String distractions) {
+    _entry = _entry?.copyWith(distractions: distractions);
+    notifyListeners();
+  }
+
+  updateNotes(String notes) {
+    _entry = _entry?.copyWith(notes: notes);
     notifyListeners();
   }
 

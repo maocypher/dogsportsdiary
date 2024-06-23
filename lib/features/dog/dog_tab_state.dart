@@ -1,4 +1,5 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
@@ -74,7 +75,7 @@ class DogTabState extends State<DogTab> {
                           ),
                           child: const Icon(Icons.add_a_photo),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
                           controller: TextEditingController(
                             text: viewModel.dog?.name,
@@ -87,7 +88,7 @@ class DogTabState extends State<DogTab> {
                             viewModel.updateName(value);
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
                           controller: TextEditingController(
                             text: viewModel.dateOfBirth,
@@ -109,7 +110,7 @@ class DogTabState extends State<DogTab> {
                             }
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
                           controller: TextEditingController(
                             text: viewModel.dog?.weight.toString() ?? '',
@@ -124,7 +125,7 @@ class DogTabState extends State<DogTab> {
                             viewModel.updateWeight(value);
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
                         CustomDropdown<DogSports>.multiSelect(
                           initialItems: viewModel.selectedSports,
                           items: viewModel.sportList,
@@ -133,7 +134,7 @@ class DogTabState extends State<DogTab> {
                           },
                           hintText: 'Select sports',
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: Constants.uiSpacer),
                         StreamBuilder<List<DogSports>>(
                           stream: viewModel.selectedDogSportsStream,
                           builder: (context, snapshot) {

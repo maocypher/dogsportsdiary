@@ -15,8 +15,7 @@ class DiaryEntry implements Entity{
   String? highlight;
   String? distractions;
   String? notes;
-  String? entries;
-  int? temperature;
+  double? temperature;
   int? trainingDurationInMin;
   int? warmUpDurationInMin;
   int? coolDownDurationInMin;
@@ -31,7 +30,6 @@ class DiaryEntry implements Entity{
     this.highlight,
     this.distractions,
     this.notes,
-    this.entries,
     this.temperature,
     this.trainingDurationInMin,
     this.warmUpDurationInMin,
@@ -48,8 +46,7 @@ class DiaryEntry implements Entity{
     String? highlight,
     String? distractions,
     String? notes,
-    String? entries,
-    int? temperature,
+    double? temperature,
     int? trainingDurationInMin,
     int? warmUpDurationInMin,
     int? coolDownDurationInMin,
@@ -64,7 +61,6 @@ class DiaryEntry implements Entity{
         highlight: highlight ?? this.highlight,
         distractions: distractions ?? this.distractions,
         notes: notes ?? this.notes,
-        entries: entries ?? this.entries,
         temperature: temperature ?? this.temperature,
         trainingDurationInMin: trainingDurationInMin ?? this.trainingDurationInMin,
         warmUpDurationInMin: warmUpDurationInMin ?? this.warmUpDurationInMin,
@@ -83,7 +79,6 @@ class DiaryEntry implements Entity{
       highlight: json['highlight'],
       distractions: json['distractions'],
       notes: json['notes'],
-      entries: json['entries'],
       temperature: json['temperature'],
       trainingDurationInMin: json['trainingDurationInMin'],
       warmUpDurationInMin: json['warmUpDurationInMin'],
@@ -102,7 +97,6 @@ class DiaryEntry implements Entity{
       'highlight': highlight,
       'distractions': distractions,
       'notes': notes,
-      'entries': entries,
       'temperature': temperature,
       'trainingDurationInMin': trainingDurationInMin,
       'warmUpDurationInMin': warmUpDurationInMin,

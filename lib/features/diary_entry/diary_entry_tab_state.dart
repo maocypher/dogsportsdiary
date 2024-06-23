@@ -50,6 +50,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
+                        //----- DiaryEntry.dogName -----
                         DropdownButtonFormField<String>(
                           value: viewModel.dogList?.first.name,
                           onChanged: (dogName) {
@@ -64,6 +65,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
 
+                        //----- DiaryEntry.sport -----
                         DropdownButtonFormField<Tuple<DogSports, DogSportsClasses>>(
                           value: viewModel.selectedSport,
                           onChanged: (sport) {
@@ -78,47 +80,183 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
 
-                        TextFormField(
-                          controller: TextEditingController(
-                            text: viewModel.date,
+                        //----- General information -----
+                        ExpansionTile(
+                          title: Text(
+                            "General information",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Date',
-                            icon: Icon(Icons.calendar_today),
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            var date = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100));
+                          children: <Widget>[
+                            ListTile(
+                              title: TextFormField(
+                                controller: TextEditingController(
+                                  text: viewModel.date,
+                                ),
+                                decoration: const InputDecoration(
+                                  labelText: 'Date',
+                                  icon: Icon(Icons.calendar_today),
+                                ),
+                                readOnly: true,
+                                onTap: () async {
+                                  var date = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(2100));
 
-                            if (date != null) {
-                              viewModel.updateDate(date);
-                            }
-                          },
-                        ),
-                        const SizedBox(height: Constants.uiSpacer),
-
-                        Column(
-                          children: viewModel.selectedExercises.map((exerciseTuple) {
-                            return ListTile(
-                              title: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(exerciseTuple.key.name),
-                                  ),
-                                  StarRating(
-                                    rating: exerciseTuple.value,
-                                    allowHalfRating: false,
-                                    onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.key, newRating)),
-                                  ),
-                                ],
+                                  if (date != null) {
+                                    viewModel.updateDate(date);
+                                  }
+                                },
                               ),
-                            );
-                          }).toList(),
-                        )
+                            ),
+                            ListTile(
+                              title: TextFormField(
+                                controller: TextEditingController(
+                                  text: viewModel.entry?.temperature.toString() ?? '',
+                                ),
+                                decoration: const InputDecoration(
+                                  labelText: 'Temperature',
+                                  suffixText: '°C',
+                                ),
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  viewModel.updateTemperature(value);
+                                },
+                              ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.trainingDurationInMin.toString() ?? '',
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Training Duration',
+                                    suffixText: 'min',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    viewModel.updateTrainingDurationInMin(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.warmUpDurationInMin.toString() ?? '',
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Warm-Up Duration',
+                                    suffixText: 'min',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    viewModel.updateWarmUpDurationInMin(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.coolDownDurationInMin.toString() ?? '',
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Cool-Down Duration',
+                                    suffixText: 'min',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    viewModel.updateCoolDownDurationInMin(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.trainingGoal,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Training goal',
+                                  ),
+                                  onChanged: (value) {
+                                    viewModel.updateTrainingGoal(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.highlight,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Highlight',
+                                  ),
+                                  onChanged: (value) {
+                                    viewModel.updateHighlight(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.distractions,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Distractions',
+                                  ),
+                                  onChanged: (value) {
+                                    viewModel.updateDistractions(value);
+                                  },
+                                ),
+                            ),
+                            ListTile(
+                                title: TextFormField(
+                                  controller: TextEditingController(
+                                    text: viewModel.entry?.notes,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Notes',
+                                  ),
+                                  onChanged: (value) {
+                                    viewModel.updateNotes(value);
+                                  },
+                                ),
+                            ),
+                          ],
+                        ),
+
+                        ExpansionTile(
+                          title: Text(
+                            "Rating",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          children: <Widget>[
+                            ListTile(
+                              title: Column(
+                                children: viewModel.selectedExercises.map((exerciseTuple) {
+                                  return ListTile(
+                                    title: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(exerciseTuple.key.name),
+                                        ),
+                                        StarRating(
+                                          rating: exerciseTuple.value,
+                                          allowHalfRating: false,
+                                          onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.key, newRating)),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              )
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   );
