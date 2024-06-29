@@ -85,7 +85,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                         //----- General information -----
                         ExpansionTile(
-                          title: Text(
+                          title: const Text(
                             "General information",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold

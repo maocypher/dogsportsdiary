@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 
 enum Exercises{
@@ -149,23 +147,21 @@ extension ExercisesJsonExtension on Exercises {
 }
 
 extension ExercisesRankingJsonExtension on Tuple<Exercises, double>{
-  String toJson() {
-    return '{"exercise": ${key.toJson()}, "rating": $value}';
+  Map<String, dynamic> toJson() {
+    return {"exercise": key.toJson(), "rating": value};
   }
 
-  static Tuple<Exercises, double> fromJson(String json) {
-    final jsonMap = jsonDecode(json) as Map<String, dynamic>;
-    return Tuple(ExercisesJsonExtension.fromJson(jsonMap['exercise'] as String), jsonMap['rating'] as double);
+  static Tuple<Exercises, double> fromJson(Map<String, dynamic> json) {
+    return Tuple(ExercisesJsonExtension.fromJson(json['exercise'] as String), json['rating'] as double);
   }
 }
 
 extension ExercisesRankingListJsonExtension on List<Tuple<Exercises, double>>{
-  String toJson() {
-    return jsonEncode(map((e) => e.toJson()).toList());
+  List<Map<String, dynamic>> toJson() {
+    return map((e) => e.toJson()).toList();
   }
 
-  static List<Tuple<Exercises, double>> fromJson(String json) {
-    final jsonList = jsonDecode(json) as List<dynamic>;
-    return jsonList.map((e) => ExercisesRankingJsonExtension.fromJson(e as String)).toList();
+  static List<Tuple<Exercises, double>> fromJson(List<dynamic> json) {
+    return json.map((e) => ExercisesRankingJsonExtension.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

@@ -54,7 +54,6 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
     else{
       _entry = DiaryEntry(
-          id: 0,
           date: DateTime.now(),
       );
     }
@@ -86,7 +85,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(dbDog != null) {
       _selectedDog = dbDog;
-      _entry = _entry?.copyWith(dogName: _selectedDog!.name);
+      _entry = _entry?.copyWith(dogId: _selectedDog!.id!);
 
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
@@ -128,56 +127,48 @@ class DiaryEntryViewModel extends ChangeNotifier {
   updateTemperature(String temperature) {
     var temp = double.tryParse(temperature);
     _entry = _entry?.copyWith(temperature: temp);
-    notifyListeners();
   }
 
   updateTrainingDurationInMin(String trainingDurationInMin) {
     var duration = int.tryParse(trainingDurationInMin);
     _entry = _entry?.copyWith(trainingDurationInMin: duration);
-    notifyListeners();
   }
 
   updateWarmUpDurationInMin(String warmUpDurationInMin) {
     var duration = int.tryParse(warmUpDurationInMin);
     _entry = _entry?.copyWith(warmUpDurationInMin: duration);
-    notifyListeners();
   }
 
   updateCoolDownDurationInMin(String coolDownDurationInMin) {
     var duration = int.tryParse(coolDownDurationInMin);
     _entry = _entry?.copyWith(coolDownDurationInMin: duration);
-    notifyListeners();
   }
 
   updateTrainingGoal(String trainingGoal) {
     _entry = _entry?.copyWith(trainingGoal: trainingGoal);
-    notifyListeners();
   }
 
   updateHighlight(String highlight) {
     _entry = _entry?.copyWith(highlight: highlight);
-    notifyListeners();
   }
 
   updateDistractions(String distractions) {
     _entry = _entry?.copyWith(distractions: distractions);
-    notifyListeners();
   }
 
   updateNotes(String notes) {
     _entry = _entry?.copyWith(notes: notes);
-    notifyListeners();
   }
 
   deleteEntry() async {
     if(_entry != null) {
-      //await diaryEntryRepository.deleteEntry(_entry!.);
+      await diaryEntryRepository.deleteEntry(_entry!.id!);
     }
   }
 
   saveEntry() async {
     if(_entry != null) {
-      //await diaryEntryRepository.saveEntry(_entry!);
+      await diaryEntryRepository.saveEntry(_entry!);
     }
   }
 

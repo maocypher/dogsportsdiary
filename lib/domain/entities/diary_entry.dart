@@ -8,7 +8,7 @@ class DiaryEntry implements Entity{
   @override
   int? id;
   final DateTime date;
-  String? dogName;
+  int? dogId;
   Tuple<DogSports, DogSportsClasses>? sport;
   List<Tuple<Exercises, double>>? exerciseRating;
   String? trainingGoal;
@@ -23,7 +23,7 @@ class DiaryEntry implements Entity{
   DiaryEntry({
     this.id,
     required this.date,
-    this.dogName,
+    this.dogId,
     this.sport,
     this.exerciseRating,
     this.trainingGoal,
@@ -39,7 +39,7 @@ class DiaryEntry implements Entity{
   DiaryEntry copyWith({
     int? id,
     DateTime? date,
-    String? dogName,
+    int? dogId,
     Tuple<DogSports, DogSportsClasses>? sport,
     List<Tuple<Exercises, double>>? exerciseRating,
     String? trainingGoal,
@@ -54,7 +54,7 @@ class DiaryEntry implements Entity{
     return DiaryEntry(
         id: id ?? this.id,
         date: date ?? this.date,
-        dogName: dogName ?? this.dogName,
+        dogId: dogId ?? this.dogId,
         sport: sport ?? this.sport,
         exerciseRating: exerciseRating ?? this.exerciseRating,
         trainingGoal: trainingGoal ?? this.trainingGoal,
@@ -71,8 +71,8 @@ class DiaryEntry implements Entity{
   factory DiaryEntry.fromJson(Map<String, dynamic> json) {
     return DiaryEntry(
       id: json['id'],
-      date: json['date'],
-      dogName: json['dogName'],
+      date: DateTime.parse(json['date']),
+      dogId: json['dogName'],
       sport: DogSportsTupleJsonExtension.fromJson(json['sport']),
       exerciseRating: ExercisesRankingListJsonExtension.fromJson(json['exerciseRating']),
       trainingGoal: json['trainingGoal'],
@@ -89,8 +89,8 @@ class DiaryEntry implements Entity{
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'date': date,
-      'dogName': dogName,
+      'date': date.toString(),
+      'dogId': dogId,
       'sport': sport?.toJson(),
       'exerciseRating': exerciseRating?.toJson(),
       'trainingGoal': trainingGoal,
@@ -110,7 +110,7 @@ class DiaryEntry implements Entity{
   }
 
   @override
-  int get hashCode => dogName.hashCode ^ date.hashCode ^ sport.hashCode;
+  int get hashCode => dogId.hashCode ^ date.hashCode ^ sport.hashCode;
 
   @override
   bool operator ==(Object other){

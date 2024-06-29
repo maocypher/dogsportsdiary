@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
@@ -205,8 +203,8 @@ extension DogSportsMapJsonExtension on Map<DogSports, DogSportsClasses> {
 }
 
 extension DogSportsTupleJsonExtension on Tuple<DogSports, DogSportsClasses> {
-  String toJson() {
-    return jsonEncode({'sport': key.toJson(), 'classes': value.toJson()});
+  Map<String, dynamic> toJson() {
+    return {'sport': key.toJson(), 'classes': value.toJson()};
   }
 
   static Tuple<DogSports, DogSportsClasses> fromJson(Map<String, dynamic> json) {
