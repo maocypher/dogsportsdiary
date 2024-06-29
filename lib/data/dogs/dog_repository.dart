@@ -5,12 +5,14 @@ import 'package:hive/hive.dart';
 class DogRepository {
   Future<void> saveDog(Dog dog) async {
     final dogBox = Hive.box<Dog>('dogBox');
-    await dogBox.put(dog.name, dog);
+    dog.setId();
+
+    await dogBox.put(dog.id, dog);
   }
 
-  Future<Dog?> getDog(String name) async {
+  Future<Dog?> getDog(int id) async {
     final dogBox = Hive.box<Dog>('dogBox');
-    return dogBox.get(name);
+    return dogBox.get(id);
   }
 
   Future<List<Dog>> getAllDogs() async {
@@ -18,9 +20,9 @@ class DogRepository {
     return dogBox.values.toList();
   }
 
-  Future<void> deleteDog(String name) async {
+  Future<void> deleteDog(int id) async {
     final dogBox = Hive.box<Dog>('dogBox');
-    await dogBox.delete(name);
+    await dogBox.delete(id);
   }
 
   Future<bool> hasAnyDog() async{

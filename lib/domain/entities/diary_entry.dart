@@ -6,7 +6,7 @@ import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 
 class DiaryEntry implements Entity{
   @override
-  final int id;
+  int? id;
   final DateTime date;
   String? dogName;
   Tuple<DogSports, DogSportsClasses>? sport;
@@ -21,7 +21,7 @@ class DiaryEntry implements Entity{
   int? coolDownDurationInMin;
 
   DiaryEntry({
-    required this.id,
+    this.id,
     required this.date,
     this.dogName,
     this.sport,
@@ -102,5 +102,19 @@ class DiaryEntry implements Entity{
       'warmUpDurationInMin': warmUpDurationInMin,
       'coolDownDurationInMin': coolDownDurationInMin,
     };
+  }
+
+  @override
+  void setId(){
+    id = hashCode;
+  }
+
+  @override
+  int get hashCode => dogName.hashCode ^ date.hashCode ^ sport.hashCode;
+
+  @override
+  bool operator ==(Object other){
+    return other is DiaryEntry
+        && other.id == id;
   }
 }

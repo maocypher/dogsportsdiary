@@ -46,7 +46,7 @@ class ShowDogsTab extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           // Handle the tab event here
-                          context.push('/dog/${dog.name}');
+                          context.push('/dog/${dog.id}');
                         },
                         child: ListTile(
                           leading: CircleAvatar(

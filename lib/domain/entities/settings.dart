@@ -4,13 +4,13 @@ import 'package:dog_sports_diary/domain/entities/theme.dart';
 
 class Settings implements Entity{
   @override
-  final int id;
+  int? id;
   final Ranking ranking;
   final Theme theme;
   final int? currentDogId;
 
   Settings({
-    required this.id,
+    this.id,
     required this.ranking,
     required this.theme,
     this.currentDogId
@@ -46,5 +46,19 @@ class Settings implements Entity{
       'theme': theme.toJson(),
       'currentDogId': currentDogId
     };
+  }
+
+  @override
+  void setId(){
+    id = hashCode;
+  }
+
+  @override
+  int get hashCode => 0;
+
+  @override
+  bool operator ==(Object other){
+    return other is Settings
+        && other.id == id;
   }
 }

@@ -37,18 +37,21 @@ class DogViewModel extends ChangeNotifier {
 
   DogViewModel({
     required this.repository,
-    String? name
+    String? idStr
   }){
-    if(name != null) {
-      loadDog(name);
+    if(idStr != null) {
+      int? id = int.tryParse(idStr);
+      if(id != null){
+        loadDog(id);
+      }
     }
     else{
-      _dog = Dog(name: '', id: 0, dateOfBirth: DateTime.now(), sports: {});
+      _dog = Dog(name: '', dateOfBirth: DateTime.now(), sports: {});
     }
   }
 
-  Future<void> loadDog(String name) async {
-    var dbDog = await repository.getDog(name);
+  Future<void> loadDog(int id) async {
+    var dbDog = await repository.getDog(id);
 
     if(dbDog != null) {
       _dog = dbDog;
@@ -148,7 +151,7 @@ class DogViewModel extends ChangeNotifier {
 
   deleteDog() async {
     if(_dog != null) {
-      await repository.deleteDog(_dog!.name);
+      await repository.deleteDog(_dog!.id!);
     }
   }
 
@@ -163,7 +166,7 @@ class DogViewModel extends ChangeNotifier {
     final repository = ServiceProvider.locator<DogRepository>();
     //ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel(repository: repository));
     ServiceProvider.locator.registerFactoryParam<DogViewModel, String?, void>(
-            (x, _) => DogViewModel(repository: repository, name: x));
+            (x, _) => DogViewModel(repository: repository, idStr: x));
   }
 
   static DogViewModel get dogViewModel {

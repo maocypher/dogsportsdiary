@@ -161,7 +161,7 @@ extension ExercisesRankingJsonExtension on Tuple<Exercises, double>{
 
 extension ExercisesRankingListJsonExtension on List<Tuple<Exercises, double>>{
   String toJson() {
-    return jsonEncode(this.map((e) => e.toJson()).toList());
+    return jsonEncode(map((e) => e.toJson()).toList());
   }
 
   static List<Tuple<Exercises, double>> fromJson(String json) {

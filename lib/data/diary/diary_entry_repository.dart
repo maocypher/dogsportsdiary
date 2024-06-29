@@ -6,12 +6,14 @@ class DiaryEntryRepository {
 
   Future<void> saveEntry(DiaryEntry diaryEntry) async {
     final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
-    await diaryEntryBox.put(diaryEntry.date.toString(), diaryEntry);
+    diaryEntry.setId();
+
+    await diaryEntryBox.put(diaryEntry.id, diaryEntry);
   }
 
-  Future<DiaryEntry?> getEntry(String entryKey) async {
+  Future<DiaryEntry?> getEntry(int id) async {
     final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
-    return diaryEntryBox.get(entryKey);
+    return diaryEntryBox.get(id);
   }
 
   Future<List<DiaryEntry>> getAllEntires() async {
@@ -19,9 +21,9 @@ class DiaryEntryRepository {
     return diaryEntryBox.values.toList();
   }
 
-  Future<void> deleteEntry(String entryKey) async {
+  Future<void> deleteEntry(int id) async {
     final diaryEntryBox = Hive.box<DiaryEntry>('diaryEntryBox');
-    await diaryEntryBox.delete(entryKey);
+    await diaryEntryBox.delete(id);
   }
 
   static inject() {

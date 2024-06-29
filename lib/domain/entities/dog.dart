@@ -4,7 +4,7 @@ import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 
 class Dog implements Entity{
   @override
-  final int id;
+  int? id;
   final String name;
   final DateTime dateOfBirth;
   final Map<DogSports, DogSportsClasses> sports;
@@ -12,7 +12,7 @@ class Dog implements Entity{
   String? imagePath;
 
   Dog({
-    required this.id,
+    this.id,
     required this.name,
     required this.dateOfBirth,
     required this.sports,
@@ -58,5 +58,19 @@ class Dog implements Entity{
       'weight': weight,
       'imagePath': imagePath
     };
+  }
+
+  @override
+  void setId(){
+    id = hashCode;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ dateOfBirth.hashCode;
+
+  @override
+  bool operator ==(Object other){
+    return other is Dog
+        && other.id == id;
   }
 }

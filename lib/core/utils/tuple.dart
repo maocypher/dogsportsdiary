@@ -10,6 +10,9 @@ class Tuple<T, U> {
   }
 
   @override
+  int get hashCode => key.hashCode ^ value.hashCode;
+
+  @override
   bool operator ==(Object other) {
     if (other is Tuple) {
       return key == other.key && value == other.value;

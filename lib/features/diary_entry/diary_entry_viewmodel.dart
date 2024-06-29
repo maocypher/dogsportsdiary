@@ -40,17 +40,17 @@ class DiaryEntryViewModel extends ChangeNotifier {
   List<Tuple<Exercises, double>> _selectedExercises = [];
   List<Tuple<Exercises, double>> get selectedExercises => _selectedExercises;
 
-  StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
+  final StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
   Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
 
   DiaryEntryViewModel({
     required this.dogRepository,
     required this.diaryEntryRepository,
     required this.dogSportsService,
-    String? entryKey
+    int? entryId
   }){
-    if(entryKey != null) {
-      loadEntry(entryKey);
+    if(entryId != null) {
+      loadEntry(entryId);
     }
     else{
       _entry = DiaryEntry(
@@ -62,8 +62,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
     loadDogs();
   }
 
-  Future<void> loadEntry(String entryKey) async {
-    var dbEntry = await diaryEntryRepository.getEntry(entryKey);
+  Future<void> loadEntry(int id) async {
+    var dbEntry = await diaryEntryRepository.getEntry(id);
 
     if(dbEntry != null) {
       _entry = dbEntry;
@@ -75,14 +75,14 @@ class DiaryEntryViewModel extends ChangeNotifier {
     _dogList = await dogRepository.getAllDogs();
 
     if(_dogList != null && _dogList!.isNotEmpty) {
-      await loadDog(_dogList!.first.name);
+      await loadDog(_dogList!.first.id!);
     }
 
     notifyListeners();
   }
 
-  Future<void> loadDog(String name) async {
-    var dbDog = await dogRepository.getDog(name);
+  Future<void> loadDog(int id) async {
+    var dbDog = await dogRepository.getDog(id);
 
     if(dbDog != null) {
       _selectedDog = dbDog;
@@ -171,13 +171,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   deleteEntry() async {
     if(_entry != null) {
-      //await diaryEntryRepository.deleteEntry();
+      //await diaryEntryRepository.deleteEntry(_entry!.);
     }
   }
 
   saveEntry() async {
     if(_entry != null) {
-      //await diaryEntryRepository.saveDog(_dog!);
+      //await diaryEntryRepository.saveEntry(_entry!);
     }
   }
 
@@ -187,12 +187,12 @@ class DiaryEntryViewModel extends ChangeNotifier {
     final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
     final dogSportsService = ServiceProvider.locator<DogSportsService>();
 
-    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
+    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, int?, void>(
             (x, _) => DiaryEntryViewModel(
                 dogRepository: dogRepository,
                 diaryEntryRepository: diaryEntryRepository,
                 dogSportsService: dogSportsService,
-                entryKey: x
+                entryId: x
             ));
   }
 

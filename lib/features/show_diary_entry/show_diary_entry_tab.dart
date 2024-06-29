@@ -23,11 +23,7 @@ class ShowDiaryEntryTab extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('Screen $label',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleLarge),
+            const Text('Press the + button to add a diary entry'),
             const Padding(padding: EdgeInsets.all(4)),
           ],
         ),

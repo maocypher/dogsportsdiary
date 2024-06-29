@@ -1,5 +1,6 @@
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
+import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
@@ -51,14 +52,16 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                     child: Column(
                       children: [
                         //----- DiaryEntry.dogName -----
-                        DropdownButtonFormField<String>(
-                          value: viewModel.dogList?.first.name,
-                          onChanged: (dogName) {
-                            viewModel.loadDog(dogName!);
+                        DropdownButtonFormField<Dog>(
+                          value: viewModel.dogList?.first,
+                          onChanged: (dog) {
+                            if(dog != null){
+                              viewModel.loadDog(dog.id!);
+                            }
                           },
                           items: viewModel.dogList?.map((dog) {
-                            return DropdownMenuItem<String>(
-                              value: dog.name,
+                            return DropdownMenuItem<Dog>(
+                              value: dog,
                               child: Text(dog.name),
                             );
                           }).toList(),
@@ -96,7 +99,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                 ),
                                 decoration: const InputDecoration(
                                   labelText: 'Date',
-                                  icon: Icon(Icons.calendar_today),
+                                  // icon: Icon(Icons.calendar_today),
                                 ),
                                 readOnly: true,
                                 onTap: () async {

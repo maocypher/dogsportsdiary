@@ -1,3 +1,4 @@
 abstract class Entity {
-  int get id;
+  int? get id;
+  void setId();
 }
