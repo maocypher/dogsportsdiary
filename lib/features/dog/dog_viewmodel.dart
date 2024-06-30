@@ -132,9 +132,9 @@ class DogViewModel extends ChangeNotifier {
   selectSports(List<DogSports> sports) {
     selectedSports = sports;
 
-    selectedSports.forEach((sport){
+    for (var sport in selectedSports) {
       _dog?.sports[sport] = sportClasses[sport]!.first;
-    });
+    }
 
     notifyListeners();
   }

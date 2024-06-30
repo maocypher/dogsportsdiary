@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/core/utils/dog_sports_service.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
@@ -17,7 +16,6 @@ import 'package:intl/intl.dart';
 class DiaryEntryViewModel extends ChangeNotifier {
   final DogRepository dogRepository;
   final DiaryEntryRepository diaryEntryRepository;
-  final DogSportsService dogSportsService;
 
   DiaryEntry? _diaryEntry;
   DiaryEntry? get entry => _diaryEntry;
@@ -46,7 +44,6 @@ class DiaryEntryViewModel extends ChangeNotifier {
   DiaryEntryViewModel({
     required this.dogRepository,
     required this.diaryEntryRepository,
-    required this.dogSportsService,
     String? idStr
   }){
     init(idStr);
@@ -196,13 +193,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
     // injecting the viewmodel
     final dogRepository = ServiceProvider.locator<DogRepository>();
     final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
-    final dogSportsService = ServiceProvider.locator<DogSportsService>();
 
     ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
             (x, _) => DiaryEntryViewModel(
                 dogRepository: dogRepository,
                 diaryEntryRepository: diaryEntryRepository,
-                dogSportsService: dogSportsService,
                 idStr: x
             ));
   }

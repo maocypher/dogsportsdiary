@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 
 enum Exercises{
@@ -7,22 +8,22 @@ enum Exercises{
   excitement,
   //heelwork
   heelwork,
-  heel_parking,
-  heel_angle,
-  heel_endurance,
-  heel_speed_slow,
-  heel_speed_normal,
-  heel_speed_running,
+  heelParking,
+  heelAngle,
+  heelEndurance,
+  heelSpeedSlow,
+  heelSpeedNormal,
+  heelSpeedFast,
   //obedience
   group,
-  position_from_movement,
-  distance_control,
+  positionFromMovement,
+  distanceControl,
   retrieve,
-  retrieve_keep_calm,
-  retrieve_fast_pick_up,
-  retrieve_speed,
-  retrieve_delivery,
-  retrieve_parking,
+  retrieveKeepCalm,
+  retrieveFastPickUp,
+  retrieveSpeed,
+  retrieveDelivery,
+  retrieveParking,
   square,
   recall,
   cones,
@@ -34,57 +35,86 @@ enum Exercises{
   //jumping
 }
 
+class ExercisesConstants{
+  static const String motivation = 'motivation';
+  static const String concentration = 'concentration';
+  static const String excitement = 'excitement';
+
+  static const String heelwork = 'heelwork';
+  static const String heelParking = 'heel_parking';
+  static const String heelAngle = 'heel_angle';
+  static const String heelEndurance = 'heel_endurance';
+  static const String heelSpeedSlow = 'heel_speed_slow';
+  static const String heelSpeedNormal = 'heel_speed_normal';
+  static const String heelSpeedFast = 'heel_speed_fast';
+
+  static const String group = 'group';
+  static const String positionFromMovement = 'position_from_movement';
+  static const String distanceControl = 'distance_control';
+  static const String retrieve = 'retrieve';
+  static const String retrieveKeepCalm = 'retrieve_keep_calm';
+  static const String retrieveFastPickUp = 'retrieve_fast_pick_up';
+  static const String retrieveSpeed = 'retrieve_speed';
+  static const String retrieveDelivery = 'retrieve_delivery';
+  static const String retrieveParking = 'retrieve_parking';
+  static const String square = 'square';
+  static const String recall = 'recall';
+  static const String cones = 'cones';
+  static const String hurdle = 'hurdle';
+  static const String scent = 'scent';
+}
+
 extension ExercisesJsonExtension on Exercises {
   String toJson() {
     switch (this) {
       case Exercises.motivation:
-        return 'motivation';
+        return ExercisesConstants.motivation;
       case Exercises.concentration:
-        return 'concentration';
+        return ExercisesConstants.concentration;
       case Exercises.excitement:
-        return 'excitement';
+        return ExercisesConstants.excitement;
       case Exercises.heelwork:
-        return 'heelwork';
-      case Exercises.heel_parking:
-        return 'heel_parking';
-      case Exercises.heel_angle:
-        return 'heel_angle';
-      case Exercises.heel_endurance:
-        return 'heel_endurance';
-      case Exercises.heel_speed_slow:
-        return 'heel_speed_slow';
-      case Exercises.heel_speed_normal:
-        return 'heel_speed_normal';
-      case Exercises.heel_speed_running:
-        return 'heel_speed_running';
+        return ExercisesConstants.heelwork;
+      case Exercises.heelParking:
+        return ExercisesConstants.heelParking;
+      case Exercises.heelAngle:
+        return ExercisesConstants.heelAngle;
+      case Exercises.heelEndurance:
+        return ExercisesConstants.heelEndurance;
+      case Exercises.heelSpeedSlow:
+        return ExercisesConstants.heelSpeedSlow;
+      case Exercises.heelSpeedNormal:
+        return ExercisesConstants.heelSpeedNormal;
+      case Exercises.heelSpeedFast:
+        return ExercisesConstants.heelSpeedFast;
       case Exercises.group:
-        return 'group';
-      case Exercises.position_from_movement:
-        return 'position_from_movement';
-      case Exercises.distance_control:
-        return 'distance_control';
+        return ExercisesConstants.group;
+      case Exercises.positionFromMovement:
+        return ExercisesConstants.positionFromMovement;
+      case Exercises.distanceControl:
+        return ExercisesConstants.distanceControl;
       case Exercises.retrieve:
-        return 'retrieve';
-      case Exercises.retrieve_keep_calm:
-        return 'retrieve_keep_calm';
-      case Exercises.retrieve_fast_pick_up:
-        return 'retrieve_fast_pick_up';
-      case Exercises.retrieve_speed:
-        return 'retrieve_speed';
-      case Exercises.retrieve_delivery:
-        return 'retrieve_delivery';
-      case Exercises.retrieve_parking:
-        return 'retrieve_parking';
+        return ExercisesConstants.retrieve;
+      case Exercises.retrieveKeepCalm:
+        return ExercisesConstants.retrieveKeepCalm;
+      case Exercises.retrieveFastPickUp:
+        return ExercisesConstants.retrieveFastPickUp;
+      case Exercises.retrieveSpeed:
+        return ExercisesConstants.retrieveSpeed;
+      case Exercises.retrieveDelivery:
+        return ExercisesConstants.retrieveDelivery;
+      case Exercises.retrieveParking:
+        return ExercisesConstants.retrieveParking;
       case Exercises.square:
-        return 'square';
+        return ExercisesConstants.square;
       case Exercises.recall:
-        return 'recall';
+        return ExercisesConstants.recall;
       case Exercises.cones:
-        return 'cones';
+        return ExercisesConstants.cones;
       case Exercises.hurdle:
-        return 'hurdle';
+        return ExercisesConstants.hurdle;
       case Exercises.scent:
-        return 'scent';
+        return ExercisesConstants.scent;
       default:
         throw FormatException('Invalid exercise value: $this');
     }
@@ -92,53 +122,53 @@ extension ExercisesJsonExtension on Exercises {
 
   static Exercises fromJson(String json) {
     switch (json) {
-      case 'motivation':
+      case ExercisesConstants.motivation:
         return Exercises.motivation;
-      case 'concentration':
+      case ExercisesConstants.concentration:
         return Exercises.concentration;
-      case 'excitement':
+      case ExercisesConstants.excitement:
         return Exercises.excitement;
-      case 'heelwork':
+      case ExercisesConstants.heelwork:
         return Exercises.heelwork;
-      case 'heel_parking':
-        return Exercises.heel_parking;
-      case 'heel_angle':
-        return Exercises.heel_angle;
-      case 'heel_endurance':
-        return Exercises.heel_endurance;
-      case 'heel_speed_slow':
-        return Exercises.heel_speed_slow;
-      case 'heel_speed_normal':
-        return Exercises.heel_speed_normal;
-      case 'heel_speed_running':
-        return Exercises.heel_speed_running;
-      case 'group':
+      case ExercisesConstants.heelParking:
+        return Exercises.heelParking;
+      case ExercisesConstants.heelAngle:
+        return Exercises.heelAngle;
+      case ExercisesConstants.heelEndurance:
+        return Exercises.heelEndurance;
+      case ExercisesConstants.heelSpeedSlow:
+        return Exercises.heelSpeedSlow;
+      case ExercisesConstants.heelSpeedNormal:
+        return Exercises.heelSpeedNormal;
+      case ExercisesConstants.heelSpeedFast:
+        return Exercises.heelSpeedFast;
+      case ExercisesConstants.group:
         return Exercises.group;
-      case 'position_from_movement':
-        return Exercises.position_from_movement;
-      case 'distance_control':
-        return Exercises.distance_control;
-      case 'retrieve':
+      case ExercisesConstants.positionFromMovement:
+        return Exercises.positionFromMovement;
+      case ExercisesConstants.distanceControl:
+        return Exercises.distanceControl;
+      case ExercisesConstants.retrieve:
         return Exercises.retrieve;
-      case 'retrieve_keep_calm':
-        return Exercises.retrieve_keep_calm;
-      case 'retrieve_fast_pick_up':
-        return Exercises.retrieve_fast_pick_up;
-      case 'retrieve_speed':
-        return Exercises.retrieve_speed;
-      case 'retrieve_delivery':
-        return Exercises.retrieve_delivery;
-      case 'retrieve_parking':
-        return Exercises.retrieve_parking;
-      case 'square':
+      case ExercisesConstants.retrieveKeepCalm:
+        return Exercises.retrieveKeepCalm;
+      case ExercisesConstants.retrieveFastPickUp:
+        return Exercises.retrieveFastPickUp;
+      case ExercisesConstants.retrieveSpeed:
+        return Exercises.retrieveSpeed;
+      case ExercisesConstants.retrieveDelivery:
+        return Exercises.retrieveDelivery;
+      case ExercisesConstants.retrieveParking:
+        return Exercises.retrieveParking;
+      case ExercisesConstants.square:
         return Exercises.square;
-      case 'recall':
+      case ExercisesConstants.recall:
         return Exercises.recall;
-      case 'cones':
+      case ExercisesConstants.cones:
         return Exercises.cones;
-      case 'hurdle':
+      case ExercisesConstants.hurdle:
         return Exercises.hurdle;
-      case 'scent':
+      case ExercisesConstants.scent:
         return Exercises.scent;
       default:
         throw FormatException('Invalid exercise value: $json');
@@ -148,11 +178,11 @@ extension ExercisesJsonExtension on Exercises {
 
 extension ExercisesRankingJsonExtension on Tuple<Exercises, double>{
   Map<String, dynamic> toJson() {
-    return {"exercise": key.toJson(), "rating": value};
+    return {Constants.exercise: key.toJson(), Constants.rating: value};
   }
 
   static Tuple<Exercises, double> fromJson(Map<String, dynamic> json) {
-    return Tuple(ExercisesJsonExtension.fromJson(json['exercise'] as String), json['rating'] as double);
+    return Tuple(ExercisesJsonExtension.fromJson(json[Constants.exercise] as String), json[Constants.rating] as double);
   }
 }
 

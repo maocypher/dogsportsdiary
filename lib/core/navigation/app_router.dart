@@ -1,6 +1,7 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/navigation/diary_entry_navigation_observer.dart';
 import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
@@ -14,6 +15,7 @@ import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:dog_sports_diary/presentation/widgets/scaffold_nested_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -28,7 +30,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/diary',
+    initialLocation: Constants.routeDiary,
     routes: [
       // Stateful nested navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
@@ -46,15 +48,18 @@ class AppRouter {
             routes: [
               // top route inside branch
               GoRoute(
-                path: '/diary',
-                name: 'diary',
+                path: Constants.routeDiary,
+                name: Constants.diary,
                 pageBuilder: (context, state) => NoTransitionPage(
-                  name: "diary",
-                  child: ShowDiaryEntryTab(showDiaryEntryViewmodel: ServiceProvider.locator<ShowDiaryEntryViewmodel>()),
+                  name: Constants.diary,
+                  child: ShowDiaryEntryTab(
+                      showDiaryEntryViewmodel: ServiceProvider.locator<ShowDiaryEntryViewmodel>(),
+                      label: AppLocalizations.of(context)!.diary,
+                  ),
                 ),
                 routes: [
                   GoRoute(
-                    path: 'new-entry',
+                    path: Constants.routeDiaryNewEntry,
                     name: 'new-entry',
                     pageBuilder: (context, state) => NoTransitionPage(
                       name: "new-entry",
@@ -86,18 +91,18 @@ class AppRouter {
             routes: [
               // top route inside branch
               GoRoute(
-                path: '/dog',
-                name: 'dogs',
+                path: Constants.routeDog,
+                name: Constants.dogs,
                 pageBuilder: (context, state) => NoTransitionPage(
-                  name: "dogs",
+                  name: Constants.dogs,
                   child: ShowDogsTab(
                     showDogViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
-                    label: 'Dogs',
+                    label: AppLocalizations.of(context)!.dogs,
                   ),
                 ),
                 routes: [
                   GoRoute(
-                    path: 'new-dog',
+                    path: Constants.routeDogNew,
                     name: 'new-dog',
                     pageBuilder: (context, state) => NoTransitionPage(
                       name: "new-dog",
@@ -127,13 +132,13 @@ class AppRouter {
             routes: [
               // top route inside branch
               GoRoute(
-                path: '/settings',
-                name: 'settings',
+                path: Constants.routeSettings,
+                name: Constants.settings,
                 pageBuilder: (context, state) => NoTransitionPage(
-                  name: "settings",
+                  name: Constants.settings,
                   child: SettingsTab(
                       settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
-                      label: 'Settings'
+                      label: AppLocalizations.of(context)!.settings
                   ),
                 ),
               ),

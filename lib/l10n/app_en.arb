@@ -1,0 +1,10 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "appTitle": "Dog sports diary",
+  "diary": "Diary",
+  "dogs": "Dogs",
+  "settings": "Settings"
+}

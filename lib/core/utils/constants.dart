@@ -4,5 +4,19 @@ class Constants {
 
   static const int defaultId = -1;
 
-  static const String pageTitleDiary = "Diary";
+  static const String diary = "diary";
+  static const String dogs = "dogs";
+  static const String settings = "settings";
+  static const String sport = "sport";
+  static const String classes = "classes";
+  static const String exercise = "exercise";
+  static const String rating = "rating";
+
+  //Routes
+  static const String routeHome = '/';
+  static const String routeDiary = '/diary';
+  static const String routeDiaryNewEntry = 'new-entry';
+  static const String routeDog = '/dog';
+  static const String routeDogNew = 'new-dog';
+  static const String routeSettings = '/settings';
 }

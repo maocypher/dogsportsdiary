@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +9,11 @@ import 'package:provider/provider.dart';
 class ShowDiaryEntryTab extends StatelessWidget {
   final ShowDiaryEntryViewmodel showDiaryEntryViewmodel;
 
+  final String label;
+
   const ShowDiaryEntryTab({
     required this.showDiaryEntryViewmodel,
+    required this.label,
     super.key
   });
 
@@ -25,7 +27,7 @@ class ShowDiaryEntryTab extends StatelessWidget {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text(Constants.pageTitleDiary),
+              title: Text(label),
             ),
             body: Consumer<ShowDiaryEntryViewmodel>(
               builder: (context, viewModel, child) {
