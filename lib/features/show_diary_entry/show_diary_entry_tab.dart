@@ -54,8 +54,14 @@ class ShowDiaryEntryTab extends StatelessWidget {
                             return ExpansionTile(
                               title: Text(entry.key.toString()),
                               children: viewModel.diaryEntries.where((e) => e.dogId == dog.id && entry.key == e.sport!.key).map((diaryEntry) {
-                                return ListTile(
-                                  title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
+                                return GestureDetector(
+                                  onTap: () {
+                                    // Handle the tab event here
+                                    context.push('/diary/${diaryEntry.id}');
+                                  },
+                                  child: ListTile(
+                                    title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
+                                  )
                                 );
                               }).toList(),
                             );
@@ -65,25 +71,6 @@ class ShowDiaryEntryTab extends StatelessWidget {
                     );
                   },
                 );
-
-                /*return ListView.builder(
-                  itemCount: viewModel.diaryEntries.length,
-                  itemBuilder: (context, index) {
-                    final diaryEntry = viewModel.diaryEntries[index];
-                    return SizedBox(
-                      height: 80,
-                      child: GestureDetector(
-                        onTap: () {
-                          // Handle the tab event here
-                          context.push('/diary/${diaryEntry.id}');
-                        },
-                        child: ListTile(
-                          title: ,
-                        ),
-                      ),
-                    );
-                  },
-                );*/
               },
             ),
             floatingActionButton: FloatingActionButton(
