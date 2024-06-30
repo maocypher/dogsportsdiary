@@ -47,10 +47,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
     required this.dogRepository,
     required this.diaryEntryRepository,
     required this.dogSportsService,
-    int? entryId
+    String? idStr
   }){
-    if(entryId != null) {
-      loadEntry(entryId);
+    if(idStr != null) {
+      int? id = int.tryParse(idStr);
+      if(id != null){
+        loadEntry(id);
+      }
     }
     else{
       _entry = DiaryEntry(
@@ -178,12 +181,12 @@ class DiaryEntryViewModel extends ChangeNotifier {
     final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
     final dogSportsService = ServiceProvider.locator<DogSportsService>();
 
-    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, int?, void>(
+    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
             (x, _) => DiaryEntryViewModel(
                 dogRepository: dogRepository,
                 diaryEntryRepository: diaryEntryRepository,
                 dogSportsService: dogSportsService,
-                entryId: x
+                idStr: x
             ));
   }
 

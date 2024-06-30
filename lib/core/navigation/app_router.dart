@@ -7,6 +7,7 @@ import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
+import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_tab.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:dog_sports_diary/presentation/widgets/scaffold_nested_navigation.dart';
@@ -45,9 +46,9 @@ class AppRouter {
               GoRoute(
                 path: '/diary',
                 name: 'diary',
-                pageBuilder: (context, state) => const NoTransitionPage(
+                pageBuilder: (context, state) => NoTransitionPage(
                   name: "diary",
-                  child: ShowDiaryEntryTab(label: 'Diary'),
+                  child: ShowDiaryEntryTab(showDiaryEntryViewmodel: ServiceProvider.locator<ShowDiaryEntryViewmodel>()),
                 ),
                 routes: [
                   GoRoute(

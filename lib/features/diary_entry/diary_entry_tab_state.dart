@@ -231,7 +231,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                         ),
 
                         ExpansionTile(
-                          title: Text(
+                          title: const Text(
                             "Rating",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold

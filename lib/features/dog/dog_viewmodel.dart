@@ -32,7 +32,7 @@ class DogViewModel extends ChangeNotifier {
     _selectedSports = value;
     notifyListeners();
   }
-  StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
+  final StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
   Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
   DogViewModel({
