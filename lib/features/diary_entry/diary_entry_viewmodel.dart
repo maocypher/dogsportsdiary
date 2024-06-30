@@ -19,10 +19,10 @@ class DiaryEntryViewModel extends ChangeNotifier {
   final DiaryEntryRepository diaryEntryRepository;
   final DogSportsService dogSportsService;
 
-  DiaryEntry? _entry;
-  DiaryEntry? get entry => _entry;
+  DiaryEntry? _diaryEntry;
+  DiaryEntry? get entry => _diaryEntry;
 
-  String? get date => intl.DateFormat('yyyy-MM-dd').format(_entry?.date ?? DateTime.now());
+  String? get date => intl.DateFormat('yyyy-MM-dd').format(_diaryEntry?.date ?? DateTime.now());
 
   List<Dog>? _dogList;
   List<Dog>? get dogList => _dogList;
@@ -49,26 +49,35 @@ class DiaryEntryViewModel extends ChangeNotifier {
     required this.dogSportsService,
     String? idStr
   }){
+    init(idStr);
+  }
+
+  Future<void> init(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
       if(id != null){
-        loadEntry(id);
+        await loadEntry(id);
       }
     }
     else{
-      _entry = DiaryEntry(
-          date: DateTime.now(),
+      _diaryEntry = DiaryEntry(
+        date: DateTime.now(),
       );
     }
 
-    loadDogs();
+    await loadDogs();
   }
 
   Future<void> loadEntry(int id) async {
     var dbEntry = await diaryEntryRepository.getEntry(id);
 
     if(dbEntry != null) {
-      _entry = dbEntry;
+      _diaryEntry = dbEntry;
+
+      if(dbEntry.dogId != null) {
+        await loadDog(dbEntry.dogId!, dbEntry);
+      }
+
       notifyListeners();
     }
   }
@@ -76,24 +85,32 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Future<void> loadDogs() async {
     _dogList = await dogRepository.getAllDogs();
 
-    if(_dogList != null && _dogList!.isNotEmpty) {
-      await loadDog(_dogList!.first.id!);
+    if(_dogList != null
+        && _dogList!.isNotEmpty
+        && _selectedDog == null) {
+      await loadDog(_dogList!.first.id!, null);
     }
 
     notifyListeners();
   }
 
-  Future<void> loadDog(int id) async {
+  Future<void> loadDog(int id, DiaryEntry? diaryEntry) async {
     var dbDog = await dogRepository.getDog(id);
 
     if(dbDog != null) {
       _selectedDog = dbDog;
-      _entry = _entry?.copyWith(dogId: _selectedDog!.id!);
-
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
-      if(_selectedDogSports.isNotEmpty) {
-        loadSport(_selectedDogSports.first);
+      if(diaryEntry == null) {
+        _diaryEntry = _diaryEntry?.copyWith(dogId: _selectedDog!.id!);
+
+        if(_selectedDogSports.isNotEmpty) {
+          loadSport(_selectedDogSports.first);
+        }
+      }
+      else{
+        _selectedSport = diaryEntry.sport;
+        _selectedExercises = diaryEntry.exerciseRating!;
       }
 
       notifyListeners();
@@ -106,13 +123,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
     _selectedExercises = exercise.map((e) => Tuple(e, Constants.initRating)).toList();
 
-    _entry = _entry?.copyWith(sport: _selectedSport, exerciseRating: _selectedExercises);
+    _diaryEntry = _diaryEntry?.copyWith(sport: _selectedSport, exerciseRating: _selectedExercises);
 
     notifyListeners();
   }
 
   updateDate(DateTime date) {
-    _entry = _entry?.copyWith(date: date);
+    _diaryEntry = _diaryEntry?.copyWith(date: date);
     notifyListeners();
   }
 
@@ -121,7 +138,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
     if(index != -1) {
       _selectedExercises[index] = Tuple(exercise, rating);
-      _entry = _entry?.copyWith(exerciseRating: _selectedExercises);
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
     }
 
     notifyListeners();
@@ -129,49 +146,49 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   updateTemperature(String temperature) {
     var temp = double.tryParse(temperature);
-    _entry = _entry?.copyWith(temperature: temp);
+    _diaryEntry = _diaryEntry?.copyWith(temperature: temp);
   }
 
   updateTrainingDurationInMin(String trainingDurationInMin) {
     var duration = int.tryParse(trainingDurationInMin);
-    _entry = _entry?.copyWith(trainingDurationInMin: duration);
+    _diaryEntry = _diaryEntry?.copyWith(trainingDurationInMin: duration);
   }
 
   updateWarmUpDurationInMin(String warmUpDurationInMin) {
     var duration = int.tryParse(warmUpDurationInMin);
-    _entry = _entry?.copyWith(warmUpDurationInMin: duration);
+    _diaryEntry = _diaryEntry?.copyWith(warmUpDurationInMin: duration);
   }
 
   updateCoolDownDurationInMin(String coolDownDurationInMin) {
     var duration = int.tryParse(coolDownDurationInMin);
-    _entry = _entry?.copyWith(coolDownDurationInMin: duration);
+    _diaryEntry = _diaryEntry?.copyWith(coolDownDurationInMin: duration);
   }
 
   updateTrainingGoal(String trainingGoal) {
-    _entry = _entry?.copyWith(trainingGoal: trainingGoal);
+    _diaryEntry = _diaryEntry?.copyWith(trainingGoal: trainingGoal);
   }
 
   updateHighlight(String highlight) {
-    _entry = _entry?.copyWith(highlight: highlight);
+    _diaryEntry = _diaryEntry?.copyWith(highlight: highlight);
   }
 
   updateDistractions(String distractions) {
-    _entry = _entry?.copyWith(distractions: distractions);
+    _diaryEntry = _diaryEntry?.copyWith(distractions: distractions);
   }
 
   updateNotes(String notes) {
-    _entry = _entry?.copyWith(notes: notes);
+    _diaryEntry = _diaryEntry?.copyWith(notes: notes);
   }
 
   deleteEntry() async {
-    if(_entry != null) {
-      await diaryEntryRepository.deleteEntry(_entry!.id!);
+    if(_diaryEntry != null) {
+      await diaryEntryRepository.deleteEntry(_diaryEntry!.id!);
     }
   }
 
   saveEntry() async {
-    if(_entry != null) {
-      await diaryEntryRepository.saveEntry(_entry!);
+    if(_diaryEntry != null) {
+      await diaryEntryRepository.saveEntry(_diaryEntry!);
     }
   }
 

@@ -56,7 +56,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           value: viewModel.dogList?.first,
                           onChanged: (dog) {
                             if(dog != null){
-                              viewModel.loadDog(dog.id!);
+                              viewModel.loadDog(dog.id!, null);
                             }
                           },
                           items: viewModel.dogList?.map((dog) {

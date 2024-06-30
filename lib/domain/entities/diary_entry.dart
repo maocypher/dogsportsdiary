@@ -72,7 +72,7 @@ class DiaryEntry implements Entity{
     return DiaryEntry(
       id: json['id'],
       date: DateTime.parse(json['date']),
-      dogId: json['dogName'],
+      dogId: json['dogId'],
       sport: DogSportsTupleJsonExtension.fromJson(json['sport']),
       exerciseRating: ExercisesRankingListJsonExtension.fromJson(json['exerciseRating']),
       trainingGoal: json['trainingGoal'],
