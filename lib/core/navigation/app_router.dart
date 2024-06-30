@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/navigation/diary_entry_navigation_observer.dart';
 import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
@@ -41,6 +42,7 @@ class AppRouter {
           // first branch (A)
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDiaryKey,
+            observers: [DiaryEntryNavigationObserver(showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>())],
             routes: [
               // top route inside branch
               GoRoute(
