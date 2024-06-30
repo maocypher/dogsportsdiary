@@ -8,6 +8,7 @@ import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DogTabState extends State<DogTab> {
 
@@ -80,9 +81,9 @@ class DogTabState extends State<DogTab> {
                           controller: TextEditingController(
                             text: viewModel.dog?.name,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Name',
-                            icon: Icon(Icons.pets),
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.name,
+                            icon: const Icon(Icons.pets),
                           ),
                           onChanged: (value) {
                             viewModel.updateName(value);
@@ -93,9 +94,9 @@ class DogTabState extends State<DogTab> {
                           controller: TextEditingController(
                             text: viewModel.dateOfBirth,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Date of Birth',
-                            icon: Icon(Icons.calendar_today),
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.dateOfBirth,
+                            icon: const Icon(Icons.calendar_today),
                           ),
                           readOnly: true,
                           onTap: () async {
@@ -115,10 +116,10 @@ class DogTabState extends State<DogTab> {
                           controller: TextEditingController(
                             text: viewModel.dog?.weight.toString() ?? '',
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Weight',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.weight,
                             suffixText: 'kg',
-                            icon: Icon(Icons.scale),
+                            icon: const Icon(Icons.scale),
                           ),
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
@@ -132,7 +133,7 @@ class DogTabState extends State<DogTab> {
                           onListChanged: (value) {
                             viewModel.selectSports(value);
                           },
-                          hintText: 'Select sports',
+                          hintText: AppLocalizations.of(context)!.sportsMultiSelectionHint,
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         StreamBuilder<List<DogSports>>(
@@ -145,7 +146,7 @@ class DogTabState extends State<DogTab> {
                                   items: viewModel.sportClasses[dogSport]?.map((sportsClass) {
                                     return DropdownMenuItem<DogSportsClasses>(
                                       value: sportsClass,
-                                      child: Text(sportsClass.name),
+                                      child: Text(AppLocalizations.of(context)!.dogSportsClasses(sportsClass.toString())),
                                     );
                                   }).toList(),
                                   onChanged: (sportsClass) {

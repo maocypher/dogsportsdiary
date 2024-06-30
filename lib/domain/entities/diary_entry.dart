@@ -70,37 +70,37 @@ class DiaryEntry implements Entity{
 
   factory DiaryEntry.fromJson(Map<String, dynamic> json) {
     return DiaryEntry(
-      id: json['id'],
-      date: DateTime.parse(json['date']),
-      dogId: json['dogId'],
-      sport: DogSportsTupleJsonExtension.fromJson(json['sport']),
-      exerciseRating: ExercisesRankingListJsonExtension.fromJson(json['exerciseRating']),
-      trainingGoal: json['trainingGoal'],
-      highlight: json['highlight'],
-      distractions: json['distractions'],
-      notes: json['notes'],
-      temperature: json['temperature'],
-      trainingDurationInMin: json['trainingDurationInMin'],
-      warmUpDurationInMin: json['warmUpDurationInMin'],
-      coolDownDurationInMin: json['coolDownDurationInMin'],
+      id: json[DiaryEntryConstants.id],
+      date: DateTime.parse(json[DiaryEntryConstants.date]),
+      dogId: json[DiaryEntryConstants.dogId],
+      sport: DogSportsTupleJsonExtension.fromJson(json[DiaryEntryConstants.sport]),
+      exerciseRating: ExercisesRankingListJsonExtension.fromJson(json[DiaryEntryConstants.exerciseRating]),
+      trainingGoal: json[DiaryEntryConstants.trainingGoal],
+      highlight: json[DiaryEntryConstants.highlight],
+      distractions: json[DiaryEntryConstants.distractions],
+      notes: json[DiaryEntryConstants.notes],
+      temperature: json[DiaryEntryConstants.temperature],
+      trainingDurationInMin: json[DiaryEntryConstants.trainingDurationInMin],
+      warmUpDurationInMin: json[DiaryEntryConstants.warmUpDurationInMin],
+      coolDownDurationInMin: json[DiaryEntryConstants.coolDownDurationInMin],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'date': date.toString(),
-      'dogId': dogId,
-      'sport': sport?.toJson(),
-      'exerciseRating': exerciseRating?.toJson(),
-      'trainingGoal': trainingGoal,
-      'highlight': highlight,
-      'distractions': distractions,
-      'notes': notes,
-      'temperature': temperature,
-      'trainingDurationInMin': trainingDurationInMin,
-      'warmUpDurationInMin': warmUpDurationInMin,
-      'coolDownDurationInMin': coolDownDurationInMin,
+      DiaryEntryConstants.id: id,
+      DiaryEntryConstants.date: date.toString(),
+      DiaryEntryConstants.dogId: dogId,
+      DiaryEntryConstants.sport: sport!.toJson(),
+      DiaryEntryConstants.exerciseRating: exerciseRating!.toJson(),
+      DiaryEntryConstants.trainingGoal: trainingGoal,
+      DiaryEntryConstants.highlight: highlight,
+      DiaryEntryConstants.distractions: distractions,
+      DiaryEntryConstants.notes: notes,
+      DiaryEntryConstants.temperature: temperature,
+      DiaryEntryConstants.trainingDurationInMin: trainingDurationInMin,
+      DiaryEntryConstants.warmUpDurationInMin: warmUpDurationInMin,
+      DiaryEntryConstants.coolDownDurationInMin: coolDownDurationInMin
     };
   }
 
@@ -117,4 +117,20 @@ class DiaryEntry implements Entity{
     return other is DiaryEntry
         && other.id == id;
   }
+}
+
+class DiaryEntryConstants {
+  static const String id = 'id';
+  static const String date = 'date';
+  static const String dogId = 'dogId';
+  static const String sport = 'sport';
+  static const String exerciseRating = 'exerciseRating';
+  static const String trainingGoal = 'trainingGoal';
+  static const String highlight = 'highlight';
+  static const String distractions = 'distractions';
+  static const String notes = 'notes';
+  static const String temperature = 'temperature';
+  static const String trainingDurationInMin = 'trainingDurationInMin';
+  static const String warmUpDurationInMin = 'warmUpDurationInMin';
+  static const String coolDownDurationInMin = 'coolDownDurationInMin';
 }

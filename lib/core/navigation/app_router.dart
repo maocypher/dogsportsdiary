@@ -44,7 +44,10 @@ class AppRouter {
           // first branch (A)
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDiaryKey,
-            observers: [DiaryEntryNavigationObserver(showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>())],
+            observers: [
+              DiaryEntryNavigationObserver(showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>()),
+              DogNavigationObserver(showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>())
+            ],
             routes: [
               // top route inside branch
               GoRoute(
@@ -59,24 +62,24 @@ class AppRouter {
                 ),
                 routes: [
                   GoRoute(
-                    path: Constants.routeDiaryNewEntry,
-                    name: 'new-entry',
+                    path: Constants.routeDiaryNew,
+                    name: Constants.routeDiaryNew,
                     pageBuilder: (context, state) => NoTransitionPage(
-                      name: "new-entry",
+                      name: Constants.routeDiaryNew,
                       child: DiaryEntryTab(
                         diaryEntryViewModel: ServiceProvider.locator<DiaryEntryViewModel>(),
-                        label: 'Diary Entry',
+                        label: AppLocalizations.of(context)!.diaryEntry,
                       ),
                     ),
                   ),
                   GoRoute(
                     path: ':entryKey',
-                    name: 'edit-entry',
+                    name: Constants.routeDiaryEdit,
                     pageBuilder: (context, state) => NoTransitionPage(
-                      name: "edit-entry",
+                      name: Constants.routeDiaryEdit,
                       child: DiaryEntryTab(
                         diaryEntryViewModel: ServiceProvider.locator<DiaryEntryViewModel>(param1: state.pathParameters['entryKey']),
-                        label: 'Diary Entry',
+                        label: AppLocalizations.of(context)!.diaryEntry,
                       ),
                     ),
                   ),
@@ -103,23 +106,23 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     path: Constants.routeDogNew,
-                    name: 'new-dog',
+                    name: Constants.routeDogNew,
                     pageBuilder: (context, state) => NoTransitionPage(
-                      name: "new-dog",
+                      name: Constants.routeDogNew,
                       child: DogTab(
                         dogViewModel: ServiceProvider.locator<DogViewModel>(),
-                        label: 'Dog',
+                        label: AppLocalizations.of(context)!.dog,
                       ),
                     ),
                   ),
                   GoRoute(
                     path: ':name',
-                    name: 'edit-dog',
+                    name: Constants.routeDogEdit,
                     pageBuilder: (context, state) => NoTransitionPage(
-                      name: "edit-dog",
+                      name: Constants.routeDogEdit,
                       child: DogTab(
                         dogViewModel: ServiceProvider.locator<DogViewModel>(param1: state.pathParameters['name']),
-                        label: 'Dog',
+                        label: AppLocalizations.of(context)!.dog,
                       ),
                     ),
                   ),

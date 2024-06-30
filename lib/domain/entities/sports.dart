@@ -11,26 +11,19 @@ enum DogSports {
 
   @override
   String toString() {
-    switch (this) {
-      case DogSports.agility:
-        return DogSportConstants.agility;
-      case DogSports.obedience:
-        return DogSportConstants.obedience;
-      case DogSports.rallyObedience:
-        return DogSportConstants.rallyObedience;
-      case DogSports.ths:
-        return DogSportConstants.ths;
-      default:
-        return Constants.other;
-    }
+    return DogSportConstants.dogSportToJson[this]!;
   }
 }
 
 class DogSportConstants {
-  static const String agility = 'agility';
-  static const String obedience = 'obedience';
-  static const String rallyObedience = 'rallyo';
-  static const String ths = 'ths';
+  static const Map<DogSports, String> dogSportToJson = {
+    DogSports.agility: 'agility',
+    DogSports.obedience: 'obedience',
+    DogSports.rallyObedience: 'rallyo',
+    DogSports.ths: 'ths',
+  };
+
+  static Map<String, DogSports> jsonToDogSport = Map.fromEntries(dogSportToJson.entries.map((e) => MapEntry(e.value, e.key)));
 }
 
 class Sports {
@@ -175,33 +168,11 @@ class Sports {
 
 extension DogSportsJsonExtension on DogSports {
   String toJson() {
-    switch (this) {
-      case DogSports.agility:
-        return DogSportConstants.agility;
-      case DogSports.obedience:
-        return DogSportConstants.obedience;
-      case DogSports.rallyObedience:
-        return DogSportConstants.rallyObedience;
-      case DogSports.ths:
-        return DogSportConstants.ths;
-      default:
-        throw FormatException('Invalid dogSport value: $this');
-    }
+    return DogSportConstants.dogSportToJson[this]!;
   }
 
   static DogSports fromJson(String json) {
-    switch (json) {
-      case DogSportConstants.agility:
-        return DogSports.agility;
-      case DogSportConstants.obedience:
-        return DogSports.obedience;
-      case DogSportConstants.rallyObedience:
-        return DogSports.rallyObedience;
-      case DogSportConstants.ths:
-        return DogSports.ths;
-      default:
-        throw FormatException('Invalid dogSport value: $json');
-    }
+    return DogSportConstants.jsonToDogSport[json]!;
   }
 }
 

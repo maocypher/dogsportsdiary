@@ -59,6 +59,10 @@ class DiaryEntryViewModel extends ChangeNotifier {
     else{
       _diaryEntry = DiaryEntry(
         date: DateTime.now(),
+        temperature: Constants.initTemperature,
+        trainingDurationInMin: Constants.initMinutes,
+        warmUpDurationInMin: Constants.initMinutes,
+        coolDownDurationInMin: Constants.initMinutes
       );
     }
 

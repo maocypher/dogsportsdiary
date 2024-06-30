@@ -75,11 +75,11 @@ class ShowDiaryEntryTab extends StatelessWidget {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                context.push('${Constants.routeDiary}/${Constants.routeDiaryNewEntry}');
-              },
-              child: const Icon(Icons.add),
-            ),
+                  onPressed: () {
+                    context.push('${Constants.routeDiary}/${Constants.routeDiaryNew}');
+                  },
+                  child: const Icon(Icons.add),
+                ),
           );
         });
   }

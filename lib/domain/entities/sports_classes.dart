@@ -26,7 +26,12 @@ enum DogSportsClasses {
   thsDK1,
   thsDK2,
   thsDK3,
-  canicross
+  canicross;
+
+  @override
+  String toString() {
+    return SportClassConstants.sportClassToJson[this]!;
+  }
 }
 
 class SportClassConstants {

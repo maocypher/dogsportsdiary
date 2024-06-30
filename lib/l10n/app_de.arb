@@ -2,14 +2,51 @@
   "helloWorld": "Hello, World!",
   "appTitle": "Hundesport Tagebuch",
   "diary": "Tagebuch",
+  "diaryEntry": "Eintrag",
+  "dog": "Hund",
   "dogs": "Hunde",
+  "name": "Name",
+  "dateOfBirth": "Geburtstag",
+  "weight": "Gewicht",
   "settings": "Einstellungen",
+  "dogPageAddDogs": "Drücke + und füge einen Hund hinzu",
   "diaryPageNoDogs": "Du hast noch keine Hunde hinzugefügt",
+  "sportsMultiSelectionHint": "Wähle Sportarten",
+  "general": "Allgemein",
+  "date": "Datum",
+  "minutes": "min",
+  "temperature": "Temperatur",
+  "trainingDuration": "Trainingsdauer",
+  "warumUpDuration": "Aufwärmdauer",
+  "coolDownDuration": "Abwärmdauer",
+  "trainingGoal": "Trainingsziel",
+  "highlight": "Highlight",
+  "distractions": "Schwierigkeiten",
+  "notes": "Notizen",
+  "rating": "Bewertung",
   "dogSports": "{sport, select, agility{Agility} obedience{Obedience} rallyObedience{Rally-O} ths{THS} other{Unbekannt}}",
   "@dogSports": {
-    "description": "A gendered message",
+    "description": "Translation for dog sport",
     "placeholders": {
       "sport": {
+        "type": "String"
+      }
+    }
+  },
+  "dogSportsClasses": "{classes, select, A0{Agility A0} A1{Agility A1} A2{Agility A2} A3{Agility A3} AS{Agility AS} JP0{Jumping JP0} JP1{Jumping JP1} JP2{Jumping JP2} JP3{Jumping JP3} JPS{Jumping JPS} OB{Obedience Beginner} O1{Obedience 1} O2{Obedience 2} O3{Obedience 3} OS{Obedience Senior} ROB{Rally-O Beginner} RO1{Rally-O 1} RO2{Rally-O 2} RO3{Rally-O 3} ROS{Rally-O Senior} VK1{THS VK1} VK2{THS VK2} VK3{THS VK3} DK1{THS DK1} DK2{THS DK2} DK3{THS DK3} CC{Canicross} other{Unbekannt}}",
+  "@dogSportsClasses": {
+    "description": "Translation for dog sport class",
+    "placeholders": {
+      "classes": {
+        "type": "String"
+      }
+    }
+  },
+  "exercises": "{exercise, select, motivation{Motivation} concentration{Konzentration} excitement{Aufregung} heelwork{Fußarbeit} heelParking{Grundstellung} heelAngle{Winkel} heelEndurance{Ausdauertraining} heelSpeedSlow{Langsamschritt} heelSpeedNormal{Normalschritt} heelSpeedFast{Laufschritt} group{Gruppe} positionFromMovement{Position aus der Bewegung} distanceControl{Distanzkontrolle} retrieve{Apport} retrieveKeepCalm{Ruhiges Halten} retrieveFastPickUp{Schnelle Aufnahme} retrieveSpeed{Schneller Hin-/Rückweg} retrieveDelivery{Abgabe} retrieveParking{Einparken} square{Box} recall{Abrufen} cones{Pylone} hurdle{Hürde} scent{Geruchsunterscheidung} other{Unbekannt}}",
+  "@exercises": {
+    "description": "Translation for exercises",
+    "placeholders": {
+      "exercise": {
         "type": "String"
       }
     }

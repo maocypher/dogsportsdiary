@@ -41,22 +41,22 @@ class ExercisesConstants{
   static const String excitement = 'excitement';
 
   static const String heelwork = 'heelwork';
-  static const String heelParking = 'heel_parking';
-  static const String heelAngle = 'heel_angle';
-  static const String heelEndurance = 'heel_endurance';
-  static const String heelSpeedSlow = 'heel_speed_slow';
-  static const String heelSpeedNormal = 'heel_speed_normal';
-  static const String heelSpeedFast = 'heel_speed_running';
+  static const String heelParking = 'heelParking';
+  static const String heelAngle = 'heelAngle';
+  static const String heelEndurance = 'heelEndurance';
+  static const String heelSpeedSlow = 'heelSpeedSlow';
+  static const String heelSpeedNormal = 'heelSpeedNormal';
+  static const String heelSpeedFast = 'heelSpeedFast';
 
   static const String group = 'group';
-  static const String positionFromMovement = 'position_from_movement';
-  static const String distanceControl = 'distance_control';
+  static const String positionFromMovement = 'positionFromMovement';
+  static const String distanceControl = 'distanceControl';
   static const String retrieve = 'retrieve';
-  static const String retrieveKeepCalm = 'retrieve_keep_calm';
-  static const String retrieveFastPickUp = 'retrieve_fast_pick_up';
-  static const String retrieveSpeed = 'retrieve_speed';
-  static const String retrieveDelivery = 'retrieve_delivery';
-  static const String retrieveParking = 'retrieve_parking';
+  static const String retrieveKeepCalm = 'retrieveKeepCalm';
+  static const String retrieveFastPickUp = 'retrieveFastPickUp';
+  static const String retrieveSpeed = 'retrieveSpeed';
+  static const String retrieveDelivery = 'retrieveDelivery';
+  static const String retrieveParking = 'retrieveParking';
   static const String square = 'square';
   static const String recall = 'recall';
   static const String cones = 'cones';

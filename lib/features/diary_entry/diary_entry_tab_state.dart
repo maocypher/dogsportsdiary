@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiaryEntryTabState extends State<DiaryEntryTab> {
 
@@ -77,7 +78,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           items: viewModel.selectedDogSports.map((sport) {
                             return DropdownMenuItem<Tuple<DogSports, DogSportsClasses>>(
                               value: sport,
-                              child: Text(sport.toString()),
+                              child: Text(AppLocalizations.of(context)!.dogSportsClasses(sport.value.toString())),
                             );
                           }).toList(),
                         ),
@@ -85,9 +86,9 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                         //----- General information -----
                         ExpansionTile(
-                          title: const Text(
-                            "General information",
-                            style: TextStyle(
+                          title: Text(
+                            AppLocalizations.of(context)!.general,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold
                             ),
                           ),
@@ -97,8 +98,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                 controller: TextEditingController(
                                   text: viewModel.date,
                                 ),
-                                decoration: const InputDecoration(
-                                  labelText: 'Date',
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!.date,
                                   // icon: Icon(Icons.calendar_today),
                                 ),
                                 readOnly: true,
@@ -106,7 +107,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   var date = await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
+                                      firstDate: DateTime(2020),
                                       lastDate: DateTime(2100));
 
                                   if (date != null) {
@@ -118,10 +119,10 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                               title: TextFormField(
                                 controller: TextEditingController(
-                                  text: viewModel.entry?.temperature.toString() ?? '',
+                                  text: viewModel.entry?.temperature.toString() ?? '${Constants.initTemperature}',
                                 ),
-                                decoration: const InputDecoration(
-                                  labelText: 'Temperature',
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!.temperature,
                                   suffixText: '°C',
                                 ),
                                 keyboardType: TextInputType.number,
@@ -133,11 +134,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.trainingDurationInMin.toString() ?? '',
+                                    text: viewModel.entry?.trainingDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Training Duration',
-                                    suffixText: 'min',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.trainingDuration,
+                                    suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
@@ -148,11 +149,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.warmUpDurationInMin.toString() ?? '',
+                                    text: viewModel.entry?.warmUpDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Warm-Up Duration',
-                                    suffixText: 'min',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.warumUpDuration,
+                                    suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
@@ -163,11 +164,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.coolDownDurationInMin.toString() ?? '',
+                                    text: viewModel.entry?.coolDownDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Cool-Down Duration',
-                                    suffixText: 'min',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.coolDownDuration,
+                                    suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
@@ -180,8 +181,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   controller: TextEditingController(
                                     text: viewModel.entry?.trainingGoal,
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Training goal',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.trainingGoal,
                                   ),
                                   onChanged: (value) {
                                     viewModel.updateTrainingGoal(value);
@@ -193,8 +194,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   controller: TextEditingController(
                                     text: viewModel.entry?.highlight,
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Highlight',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.highlight,
                                   ),
                                   onChanged: (value) {
                                     viewModel.updateHighlight(value);
@@ -206,8 +207,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   controller: TextEditingController(
                                     text: viewModel.entry?.distractions,
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Distractions',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.distractions,
                                   ),
                                   onChanged: (value) {
                                     viewModel.updateDistractions(value);
@@ -219,8 +220,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   controller: TextEditingController(
                                     text: viewModel.entry?.notes,
                                   ),
-                                  decoration: const InputDecoration(
-                                    labelText: 'Notes',
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!.notes,
                                   ),
                                   onChanged: (value) {
                                     viewModel.updateNotes(value);
@@ -231,9 +232,9 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                         ),
 
                         ExpansionTile(
-                          title: const Text(
-                            "Rating",
-                            style: TextStyle(
+                          title: Text(
+                            AppLocalizations.of(context)!.rating,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold
                             ),
                           ),
@@ -245,7 +246,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                     title: Row(
                                       children: [
                                         Expanded(
-                                          child: Text(exerciseTuple.key.name),
+                                          child: Text(AppLocalizations.of(context)!.exercises(exerciseTuple.key.toString())),
                                         ),
                                         StarRating(
                                           rating: exerciseTuple.value,

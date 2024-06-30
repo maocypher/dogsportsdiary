@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
@@ -46,7 +47,12 @@ class DogViewModel extends ChangeNotifier {
       }
     }
     else{
-      _dog = Dog(name: '', dateOfBirth: DateTime.now(), sports: {});
+      _dog = Dog(
+          name: '',
+          dateOfBirth: DateTime.now(),
+          sports: {},
+          weight: Constants.initWeight
+      );
     }
   }
 

@@ -40,23 +40,23 @@ class Dog implements Entity{
 
   factory Dog.fromJson(Map<String, dynamic> json) {
     return Dog(
-      id: json['id'],
-      name: json['name'],
-      dateOfBirth: DateTime.parse(json['dateOfBirth']),
-      sports: DogSportsMapJsonExtension.fromJson(json['sports']),
-      weight: json['weight'],
-      imagePath: json['imagePath']
+      id: json[DogConstants.id],
+      name: json[DogConstants.name],
+      dateOfBirth: DateTime.parse(json[DogConstants.dateOfBirth]),
+      sports: DogSportsMapJsonExtension.fromJson(json[DogConstants.sports]),
+      weight: json[DogConstants.weight],
+      imagePath: json[DogConstants.imagePath]
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'name': name,
-      'dateOfBirth': dateOfBirth.toString(),
-      'sports': sports.toJson(),
-      'weight': weight,
-      'imagePath': imagePath
+      DogConstants.id: id,
+      DogConstants.name: name,
+      DogConstants.dateOfBirth: dateOfBirth.toString(),
+      DogConstants.sports: sports.toJson(),
+      DogConstants.weight: weight,
+      DogConstants.imagePath: imagePath
     };
   }
 
@@ -73,4 +73,13 @@ class Dog implements Entity{
     return other is Dog
         && other.id == id;
   }
+}
+
+class DogConstants{
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String dateOfBirth = 'dateOfBirth';
+  static const String sports = 'sports';
+  static const String weight = 'weight';
+  static const String imagePath = 'imagePath';
 }
