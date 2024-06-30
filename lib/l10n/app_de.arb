@@ -3,5 +3,15 @@
   "appTitle": "Hundesport Tagebuch",
   "diary": "Tagebuch",
   "dogs": "Hunde",
-  "settings": "Einstellungen"
+  "settings": "Einstellungen",
+  "diaryPageNoDogs": "Du hast noch keine Hunde hinzugefügt",
+  "dogSports": "{sport, select, agility{Agility} obedience{Obedience} rallyObedience{Rally-O} ths{THS} other{Unbekannt}}",
+  "@dogSports": {
+    "description": "A gendered message",
+    "placeholders": {
+      "sport": {
+        "type": "String"
+      }
+    }
+  }
 }

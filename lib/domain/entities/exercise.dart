@@ -46,7 +46,7 @@ class ExercisesConstants{
   static const String heelEndurance = 'heel_endurance';
   static const String heelSpeedSlow = 'heel_speed_slow';
   static const String heelSpeedNormal = 'heel_speed_normal';
-  static const String heelSpeedFast = 'heel_speed_fast';
+  static const String heelSpeedFast = 'heel_speed_running';
 
   static const String group = 'group';
   static const String positionFromMovement = 'position_from_movement';

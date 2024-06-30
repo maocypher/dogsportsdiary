@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowDiaryEntryTab extends StatelessWidget {
   final ShowDiaryEntryViewmodel showDiaryEntryViewmodel;
@@ -16,9 +18,6 @@ class ShowDiaryEntryTab extends StatelessWidget {
     required this.label,
     super.key
   });
-
-  /// The path to the detail page
-  //final String detailsPath;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +31,8 @@ class ShowDiaryEntryTab extends StatelessWidget {
             body: Consumer<ShowDiaryEntryViewmodel>(
               builder: (context, viewModel, child) {
                 if (viewModel.dogs.isEmpty) {
-                  return const Center(
-                    child: Text('You have no dogs added yet'),
+                  return Center(
+                    child: Text(AppLocalizations.of(context)!.diaryPageNoDogs),
                   );
                 }
 
@@ -54,12 +53,12 @@ class ShowDiaryEntryTab extends StatelessWidget {
                               .where((diaryEntry) => diaryEntry.dogId == dog.id && diaryEntry.sport!.key == sport.key)
                               .isNotEmpty).map((entry) {
                             return ExpansionTile(
-                              title: Text(entry.key.toString()),
+                              title: Text(AppLocalizations.of(context)!.dogSports(entry.key.toString())),
                               children: viewModel.diaryEntries.where((e) => e.dogId == dog.id && entry.key == e.sport!.key).map((diaryEntry) {
                                 return GestureDetector(
                                   onTap: () {
                                     // Handle the tab event here
-                                    context.push('/diary/${diaryEntry.id}');
+                                    context.push('${Constants.routeDiary}/${diaryEntry.id}');
                                   },
                                   child: ListTile(
                                     title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
@@ -77,7 +76,7 @@ class ShowDiaryEntryTab extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                context.push('/diary/new-entry');
+                context.push('${Constants.routeDiary}/${Constants.routeDiaryNewEntry}');
               },
               child: const Icon(Icons.add),
             ),

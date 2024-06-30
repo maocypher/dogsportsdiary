@@ -3,6 +3,7 @@ class Constants {
   static const double initRating = 0.0;
 
   static const int defaultId = -1;
+  static const String other = "other";
 
   static const String diary = "diary";
   static const String dogs = "dogs";

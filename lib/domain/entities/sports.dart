@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
@@ -6,7 +7,23 @@ enum DogSports {
   agility,
   obedience,
   rallyObedience,
-  ths
+  ths;
+
+  @override
+  String toString() {
+    switch (this) {
+      case DogSports.agility:
+        return DogSportConstants.agility;
+      case DogSports.obedience:
+        return DogSportConstants.obedience;
+      case DogSports.rallyObedience:
+        return DogSportConstants.rallyObedience;
+      case DogSports.ths:
+        return DogSportConstants.ths;
+      default:
+        return Constants.other;
+    }
+  }
 }
 
 class DogSportConstants {
@@ -210,11 +227,11 @@ extension DogSportsMapJsonExtension on Map<DogSports, DogSportsClasses> {
 
 extension DogSportsTupleJsonExtension on Tuple<DogSports, DogSportsClasses> {
   Map<String, dynamic> toJson() {
-    return {'sport': key.toJson(), 'classes': value.toJson()};
+    return {Constants.sport: key.toJson(), Constants.classes: value.toJson()};
   }
 
   static Tuple<DogSports, DogSportsClasses> fromJson(Map<String, dynamic> json) {
-    return Tuple(DogSportsJsonExtension.fromJson(json['sport']), DogSportsClassesJsonExtension.fromJson(json['classes']));
+    return Tuple(DogSportsJsonExtension.fromJson(json[Constants.sport]), DogSportsClassesJsonExtension.fromJson(json[Constants.classes]));
   }
 
   static List<Tuple<DogSports, DogSportsClasses>> toList(Map<DogSports, DogSportsClasses> sports){
