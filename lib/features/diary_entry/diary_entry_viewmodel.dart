@@ -12,7 +12,7 @@ import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 
 class DiaryEntryViewModel extends ChangeNotifier {
   final DogRepository dogRepository;
@@ -22,7 +22,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   DiaryEntry? _diaryEntry;
   DiaryEntry? get entry => _diaryEntry;
 
-  String? get date => intl.DateFormat('yyyy-MM-dd').format(_diaryEntry?.date ?? DateTime.now());
+  String? get date => DateFormat('yyyy-MM-dd').format(_diaryEntry?.date ?? DateTime.now());
 
   List<Dog>? _dogList;
   List<Dog>? get dogList => _dogList;

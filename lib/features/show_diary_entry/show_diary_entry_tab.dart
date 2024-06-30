@@ -2,6 +2,7 @@ import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ShowDiaryEntryTab extends StatelessWidget {
@@ -44,7 +45,7 @@ class ShowDiaryEntryTab extends StatelessWidget {
                           context.push('/diary/${diaryEntry.id}');
                         },
                         child: ListTile(
-                          title: Text("${diaryEntry.date} - ${diaryEntry.sport} - ${viewModel.dogs.first.name}"),
+                          title: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${diaryEntry.sport} - ${viewModel.dogs.firstWhere((e) => e.id == diaryEntry.dogId).name}"),
                         ),
                       ),
                     );
