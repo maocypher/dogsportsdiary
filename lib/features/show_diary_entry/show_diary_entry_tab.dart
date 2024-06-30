@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,37 @@ class ShowDiaryEntryTab extends StatelessWidget {
                 }
 
                 return ListView.builder(
+                  itemCount: viewModel.dogs.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: viewModel.dogs.map((dog) {
+                        return ExpansionTile(
+                          title: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: dog.imagePath == null ? null : FileImage(File(dog.imagePath!)),
+                              backgroundColor: dog.imagePath == null ? Colors.grey : null,
+                            ),
+                            title: Text(dog.name),
+                          ),
+                          children: dog.sports.entries.where((sport) => viewModel.diaryEntries
+                              .where((diaryEntry) => diaryEntry.dogId == dog.id && diaryEntry.sport!.key == sport.key)
+                              .isNotEmpty).map((entry) {
+                            return ExpansionTile(
+                              title: Text(entry.key.toString()),
+                              children: viewModel.diaryEntries.where((e) => e.dogId == dog.id && entry.key == e.sport!.key).map((diaryEntry) {
+                                return ListTile(
+                                  title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
+                                );
+                              }).toList(),
+                            );
+                          }).toList(),
+                        );
+                      }).toList(),
+                    );
+                  },
+                );
+
+                /*return ListView.builder(
                   itemCount: viewModel.diaryEntries.length,
                   itemBuilder: (context, index) {
                     final diaryEntry = viewModel.diaryEntries[index];
@@ -45,12 +78,12 @@ class ShowDiaryEntryTab extends StatelessWidget {
                           context.push('/diary/${diaryEntry.id}');
                         },
                         child: ListTile(
-                          title: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${diaryEntry.sport} - ${viewModel.dogs.firstWhere((e) => e.id == diaryEntry.dogId).name}"),
+                          title: ,
                         ),
                       ),
                     );
                   },
-                );
+                );*/
               },
             ),
             floatingActionButton: FloatingActionButton(
