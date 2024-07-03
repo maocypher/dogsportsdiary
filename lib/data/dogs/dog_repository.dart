@@ -1,3 +1,4 @@
+import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
@@ -20,7 +21,7 @@ class DogRepository {
 
   Future<List<Dog>> getAllDogs() async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
-    return dogBox.values.toList();
+    return dogBox.values.orderBy((x) => x.name.toLowerCase()).toList();
   }
 
   Future<void> deleteDog(int id) async {
