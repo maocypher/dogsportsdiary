@@ -130,7 +130,7 @@ class AppRouter {
               ),
             ],
           ),
-          StatefulShellBranch(
+          /*StatefulShellBranch(
             navigatorKey: _shellNavigatorSettingsKey,
             routes: [
               // top route inside branch
@@ -146,7 +146,7 @@ class AppRouter {
                 ),
               ),
             ],
-          ),
+          ),*/
         ],
       ),
     ],

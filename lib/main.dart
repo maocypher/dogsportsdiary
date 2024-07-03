@@ -1,5 +1,6 @@
 import 'package:dog_sports_diary/app/app.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/data/diary/diary_adapter.dart';
 import 'package:dog_sports_diary/data/dogs/dog_adapter.dart';
 import 'package:dog_sports_diary/data/settings/settings_adapter.dart';
@@ -23,11 +24,9 @@ Future<void> initializeHive() async {
   final hivePath = directory.path;
   Hive.init(hivePath);
 
-  Hive.registerAdapter(SettingsAdapter());
   Hive.registerAdapter(DiaryEntryAdapter());
   Hive.registerAdapter(DogAdapter());
 
-  await Hive.openBox<Dog>('dogBox');
-  await Hive.openBox<DiaryEntry>('diaryEntryBox');
-  await Hive.openBox<Settings>('settingsBox');
+  await Hive.openBox<Dog>(Constants.dogBox);
+  await Hive.openBox<DiaryEntry>(Constants.diaryBox);
 }

@@ -70,7 +70,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadEntry(int id) async {
-    var dbEntry = await diaryEntryRepository.getEntry(id);
+    var dbEntry = await diaryEntryRepository.getEntryAsync(id);
 
     if(dbEntry != null) {
       _diaryEntry = dbEntry;
@@ -183,13 +183,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   deleteEntry() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.deleteEntry(_diaryEntry!.id!);
+      await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
     }
   }
 
   saveEntry() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.saveEntry(_diaryEntry!);
+      await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
     }
   }
 

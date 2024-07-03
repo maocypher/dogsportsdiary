@@ -30,7 +30,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   }
 
   Future<void> loadDiaryEntries() async {
-    var dbEntires = await _diaryEntryRepository.getAllEntires();
+    var dbEntires = await _diaryEntryRepository.getAllEntiresAsync();
 
     if(dbEntires.isNotEmpty) {
       _diaryEntries = dbEntires;

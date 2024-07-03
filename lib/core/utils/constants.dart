@@ -25,4 +25,8 @@ class Constants {
   static const String routeDogNew = 'new-dog';
   static const String routeDogEdit = 'edit-dog';
   static const String routeSettings = '/settings';
+
+  //Database
+  static const String diaryBox = 'diaryEntryBox';
+  static const String dogBox = 'dogBox';
 }
