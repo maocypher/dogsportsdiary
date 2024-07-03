@@ -1,3 +1,4 @@
+import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -22,7 +23,7 @@ class DiaryEntryRepository {
 
   Future<List<DiaryEntry>> getAllEntiresAsync() async {
     final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    return diaryEntryBox.values.toList();
+    return diaryEntryBox.values.orderByDescending((x) => x.date).toList();
   }
 
   Future<void> deleteEntryAsync(int id) async {
