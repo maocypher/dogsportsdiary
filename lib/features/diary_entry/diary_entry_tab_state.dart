@@ -84,6 +84,28 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
 
+                        TextFormField(
+                          controller: TextEditingController(
+                            text: viewModel.date,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.date,
+                            // icon: Icon(Icons.calendar_today),
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            var date = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime(2100));
+
+                            if (date != null) {
+                              viewModel.updateDate(date);
+                            }
+                          },
+                        ),
+
                         //----- General information -----
                         ExpansionTile(
                           title: Text(
@@ -93,29 +115,6 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ),
                           ),
                           children: <Widget>[
-                            ListTile(
-                              title: TextFormField(
-                                controller: TextEditingController(
-                                  text: viewModel.date,
-                                ),
-                                decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!.date,
-                                  // icon: Icon(Icons.calendar_today),
-                                ),
-                                readOnly: true,
-                                onTap: () async {
-                                  var date = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2020),
-                                      lastDate: DateTime(2100));
-
-                                  if (date != null) {
-                                    viewModel.updateDate(date);
-                                  }
-                                },
-                              ),
-                            ),
                             ListTile(
                               title: TextFormField(
                                 controller: TextEditingController(
@@ -178,6 +177,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ),
                             ListTile(
                                 title: TextFormField(
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
                                     text: viewModel.entry?.trainingGoal,
                                   ),
@@ -191,6 +192,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ),
                             ListTile(
                                 title: TextFormField(
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
                                     text: viewModel.entry?.highlight,
                                   ),
@@ -204,6 +207,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ),
                             ListTile(
                                 title: TextFormField(
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
                                     text: viewModel.entry?.distractions,
                                   ),
@@ -217,6 +222,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ),
                             ListTile(
                                 title: TextFormField(
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
                                     text: viewModel.entry?.notes,
                                   ),
@@ -231,6 +238,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           ],
                         ),
 
+                        //----- Rating -----
                         ExpansionTile(
                           title: Text(
                             AppLocalizations.of(context)!.rating,
