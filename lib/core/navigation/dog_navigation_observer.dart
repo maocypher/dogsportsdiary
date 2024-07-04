@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -7,8 +8,9 @@ class DogNavigationObserver extends NavigatorObserver {
 
   final log = Logger('MyNavObserver');
   final ShowDogsViewModel showDogsViewModel;
+  final ShowDiaryEntryViewmodel showDiaryEntryViewModel;
 
-  DogNavigationObserver({required this.showDogsViewModel}) {
+  DogNavigationObserver({required this.showDogsViewModel, required this.showDiaryEntryViewModel}) {
     log.onRecord.listen((e) => debugPrint('$e'));
   }
 
@@ -22,6 +24,9 @@ class DogNavigationObserver extends NavigatorObserver {
 
     if(previousRoute?.settings.name == Constants.dogs) {
       showDogsViewModel.loadDogs();
+
+      showDiaryEntryViewModel.loadDogs();
+      showDiaryEntryViewModel.loadDiaryEntries();
     }
   }
 

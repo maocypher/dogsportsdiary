@@ -39,22 +39,20 @@ class ShowDiaryEntryTab extends StatelessWidget {
                 return ListView.builder(
                   itemCount: viewModel.dogs.length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: viewModel.dogs.map((dog) {
-                        return ExpansionTile(
-                          title: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: dog.imagePath == null ? null : FileImage(File(dog.imagePath!)),
-                              backgroundColor: dog.imagePath == null ? Colors.grey : null,
-                            ),
-                            title: Text(dog.name),
-                          ),
-                          children: dog.sports.entries.where((sport) => viewModel.diaryEntries
-                              .where((diaryEntry) => diaryEntry.dogId == dog.id && diaryEntry.sport!.key == sport.key)
+                    return ExpansionTile(
+                      title: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: viewModel.dogs[index].imagePath == null ? null : FileImage(File(viewModel.dogs[index].imagePath!)),
+                          backgroundColor: viewModel.dogs[index].imagePath == null ? Colors.grey : null,
+                        ),
+                        title: Text(viewModel.dogs[index].name),
+                      ),
+                      children: viewModel.dogs[index].sports.entries.where((sport) => viewModel.diaryEntries
+                              .where((diaryEntry) => diaryEntry.dogId == viewModel.dogs[index].id && diaryEntry.sport!.key == sport.key)
                               .isNotEmpty).map((entry) {
                             return ExpansionTile(
                               title: Text(AppLocalizations.of(context)!.dogSports(entry.key.toString())),
-                              children: viewModel.diaryEntries.where((e) => e.dogId == dog.id && entry.key == e.sport!.key).map((diaryEntry) {
+                              children: viewModel.diaryEntries.where((e) => e.dogId == viewModel.dogs[index].id && entry.key == e.sport!.key).map((diaryEntry) {
                                 return GestureDetector(
                                   onTap: () {
                                     // Handle the tab event here
@@ -67,8 +65,6 @@ class ShowDiaryEntryTab extends StatelessWidget {
                               }).toList(),
                             );
                           }).toList(),
-                        );
-                      }).toList(),
                     );
                   },
                 );

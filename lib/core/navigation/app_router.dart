@@ -44,7 +44,9 @@ class AppRouter {
             navigatorKey: _shellNavigatorDiaryKey,
             observers: [
               DiaryEntryNavigationObserver(showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>()),
-              DogNavigationObserver(showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>())
+              DogNavigationObserver(
+                  showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
+                  showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>())
             ],
             routes: [
               // top route inside branch
@@ -88,7 +90,9 @@ class AppRouter {
           // second branch (B)
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDogKey,
-            observers: [DogNavigationObserver(showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>())],
+            observers: [DogNavigationObserver(
+                showDogsViewModel: ServiceProvider.locator<ShowDogsViewModel>(),
+                showDiaryEntryViewModel: ServiceProvider.locator<ShowDiaryEntryViewmodel>())],
             routes: [
               // top route inside branch
               GoRoute(
