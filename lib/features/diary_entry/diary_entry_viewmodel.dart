@@ -52,7 +52,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Future<void> init(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
-      if(id != null){
+      if(id != null) {
         await loadEntry(id);
       }
     }
@@ -110,6 +110,10 @@ class DiaryEntryViewModel extends ChangeNotifier {
         }
       }
       else{
+        if(!_selectedDogSports.contains(diaryEntry.sport)){
+          _selectedDogSports.add(diaryEntry.sport!);
+        }
+
         _selectedSport = diaryEntry.sport;
         _selectedExercises = diaryEntry.exerciseRating!;
       }

@@ -54,7 +54,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                       children: [
                         //----- DiaryEntry.dogName -----
                         DropdownButtonFormField<Dog>(
-                          value: viewModel.dogList?.first,
+                          value: viewModel.selectedDog,
                           onChanged: (dog) {
                             if(dog != null){
                               viewModel.loadDog(dog.id!, null);
