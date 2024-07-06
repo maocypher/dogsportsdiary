@@ -27,7 +27,7 @@
   "distractions": "Distractions",
   "notes": "Notes",
   "rating": "Rating",
-  "dogSports": "{sport, select, agility{Agility} obedience{Obedience} rallyObedience{Rally-O} ths{THS} other{unknown}}",
+  "dogSports": "{sport, select, agility{Agility} jumping{Jumping} obedience{Obedience} rallyObedience{Rally-O} thsVk{THS VK} thsDk{THS DK} cc{Canicross} other{unknown}}",
     "@dogSports": {
       "description": "A gendered message",
       "placeholders": {

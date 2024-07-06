@@ -5,9 +5,12 @@ import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 
 enum DogSports {
   agility,
+  jumping,
   obedience,
   rallyObedience,
-  ths;
+  thsVk,
+  thsDk,
+  cc;
 
   @override
   String toString() {
@@ -18,9 +21,12 @@ enum DogSports {
 class DogSportConstants {
   static const Map<DogSports, String> dogSportToJson = {
     DogSports.agility: 'agility',
+    DogSports.jumping: 'jumping',
     DogSports.obedience: 'obedience',
     DogSports.rallyObedience: 'rallyo',
-    DogSports.ths: 'ths',
+    DogSports.thsVk: 'thsVk',
+    DogSports.thsDk: 'thsDk',
+    DogSports.cc: 'cc',
   };
 
   static Map<String, DogSports> jsonToDogSport = Map.fromEntries(dogSportToJson.entries.map((e) => MapEntry(e.value, e.key)));
@@ -33,7 +39,9 @@ class Sports {
       DogSportsClasses.agilityA1,
       DogSportsClasses.agilityA2,
       DogSportsClasses.agilityA3,
-      DogSportsClasses.agilityAS,
+      DogSportsClasses.agilityAS
+    ],
+    DogSports.jumping: [
       DogSportsClasses.jumpingJP0,
       DogSportsClasses.jumpingJP1,
       DogSportsClasses.jumpingJP2,
@@ -54,15 +62,19 @@ class Sports {
       DogSportsClasses.rallyObedienceRO3,
       DogSportsClasses.rallyObedienceROS
     ],
-    DogSports.ths: [
+    DogSports.thsVk: [
       DogSportsClasses.thsVK1,
       DogSportsClasses.thsVK2,
-      DogSportsClasses.thsVK3,
+      DogSportsClasses.thsVK3
+    ],
+    DogSports.thsDk: [
       DogSportsClasses.thsDK1,
       DogSportsClasses.thsDK2,
       DogSportsClasses.thsDK3,
+    ],
+    DogSports.cc: [
       DogSportsClasses.canicross
-    ]
+    ],
   };
 
   static Map<Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportsExercises => {
