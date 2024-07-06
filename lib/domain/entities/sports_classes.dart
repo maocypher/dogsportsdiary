@@ -41,12 +41,12 @@ class SportClassConstants {
     DogSportsClasses.agilityA2: 'A2',
     DogSportsClasses.agilityA3: 'A3',
     DogSportsClasses.agilityAS: 'AS',
-    DogSportsClasses.jumpingJP0: 'JP0',
+    /*DogSportsClasses.jumpingJP0: 'JP0',
     DogSportsClasses.jumpingJP1: 'JP1',
     DogSportsClasses.jumpingJP2: 'JP2',
     DogSportsClasses.jumpingJP3: 'JP3',
     DogSportsClasses.jumpingJPS: 'JPS',
-    DogSportsClasses.jumpingJPO: 'JPO',
+    DogSportsClasses.jumpingJPO: 'JPO',*/
     DogSportsClasses.obedienceOB: 'OB',
     DogSportsClasses.obedienceO1: 'O1',
     DogSportsClasses.obedienceO2: 'O2',
@@ -63,7 +63,7 @@ class SportClassConstants {
     DogSportsClasses.thsDK1: 'DK1',
     DogSportsClasses.thsDK2: 'DK2',
     DogSportsClasses.thsDK3: 'DK3',
-    DogSportsClasses.canicross: 'CC',
+    //DogSportsClasses.canicross: 'CC',
   };
 
   static Map<String, DogSportsClasses> jsonToSportClass = Map.fromEntries(sportClassToJson.entries.map((e) => MapEntry(e.value, e.key)));
