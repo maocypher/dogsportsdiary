@@ -1,5 +1,4 @@
 import 'package:dog_sports_diary/app/app.dart';
-import 'package:dog_sports_diary/app/app_lifecycle_observer.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/data/diary/diary_adapter.dart';
