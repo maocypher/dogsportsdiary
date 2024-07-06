@@ -1,5 +1,6 @@
 class Constants {
   static const double uiSpacer = 12.0;
+  static const double uiEndSpacer = 60.0;
   static const double initRating = 0.0;
   static const double initTemperature = 0.0;
   static const double initWeight = 0.0;

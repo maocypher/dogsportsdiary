@@ -141,8 +141,6 @@ class DiaryEntryViewModel extends ChangeNotifier {
       _selectedExercises[index] = Tuple(exercise, rating);
       _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
     }
-
-    notifyListeners();
   }
 
   updateTemperature(String temperature) {

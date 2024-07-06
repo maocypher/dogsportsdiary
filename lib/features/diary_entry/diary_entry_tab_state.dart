@@ -269,6 +269,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             )
                           ],
                         ),
+                        const SizedBox(height: Constants.uiEndSpacer),
                       ],
                     ),
                   );

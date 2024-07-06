@@ -156,7 +156,8 @@ class DogTabState extends State<DogTab> {
                               }).toList(),
                             );
                           },
-                        )
+                        ),
+                        const SizedBox(height: Constants.uiEndSpacer),
                       ],
                     ),
                   );
