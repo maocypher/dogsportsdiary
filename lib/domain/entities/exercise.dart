@@ -29,9 +29,31 @@ enum Exercises{
   cones,
   hurdle,
   scent,
+  stand,
   //rallyo
+  stop,
+  down,
+  sit,
+  stay,
+  turn,
+  turnLeft,
+  turnRight,
+  sitInFront,
+  slalom,
+  eight,
+  goRound,
+  back,
+  spiral,
+  sidewards,
+  twist,
   //ths
   //agility
+  awall,
+  hoop,
+  broadJump,
+  footbridge,
+  seesaw,
+  tunnel,
   //jumping
 }
 
