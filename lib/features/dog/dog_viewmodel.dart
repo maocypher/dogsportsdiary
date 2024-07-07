@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
@@ -117,7 +118,7 @@ class DogViewModel extends ChangeNotifier {
   }
 
   updateWeight(String weightString) {
-    double weight = double.tryParse(weightString) ?? 0.0;
+    double weight = double.tryParse(weightString.fixInterpunctuation()) ?? 0.0;
     _dog = _dog?.copyWith(weight: weight);
   }
 

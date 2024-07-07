@@ -6,6 +6,7 @@ import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -122,7 +123,11 @@ class DogTabState extends State<DogTab> {
                             suffixText: 'kg',
                             icon: const Icon(Icons.scale),
                           ),
-                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]'))],
+                          keyboardType: const TextInputType.numberWithOptions(
+                            signed: false,
+                            decimal: true,
+                          ),
                           onChanged: (value) {
                             viewModel.updateWeight(value);
                           },
