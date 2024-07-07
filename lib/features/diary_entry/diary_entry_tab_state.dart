@@ -98,7 +98,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2020),
-                                lastDate: DateTime(2100));
+                                lastDate: DateTime(2100),
+                                initialEntryMode: DatePickerEntryMode.calendarOnly);
 
                             if (date != null) {
                               viewModel.updateDate(date);
