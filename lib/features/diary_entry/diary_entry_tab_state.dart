@@ -6,6 +6,7 @@ import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -125,7 +126,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   labelText: AppLocalizations.of(context)!.temperature,
                                   suffixText: '°C',
                                 ),
-                                keyboardType: TextInputType.number,
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.-]'))],
+                                keyboardType: const TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
                                 onChanged: (value) {
                                   viewModel.updateTemperature(value);
                                 },
@@ -140,7 +145,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                     labelText: AppLocalizations.of(context)!.trainingDuration,
                                     suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
-                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+                                  keyboardType: const TextInputType.numberWithOptions(
+                                    signed: false,
+                                    decimal: false,
+                                  ),
                                   onChanged: (value) {
                                     viewModel.updateTrainingDurationInMin(value);
                                   },
@@ -155,7 +164,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                     labelText: AppLocalizations.of(context)!.warumUpDuration,
                                     suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
-                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+                                  keyboardType: const TextInputType.numberWithOptions(
+                                    signed: false,
+                                    decimal: false,
+                                  ),
                                   onChanged: (value) {
                                     viewModel.updateWarmUpDurationInMin(value);
                                   },
@@ -170,7 +183,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                     labelText: AppLocalizations.of(context)!.coolDownDuration,
                                     suffixText: AppLocalizations.of(context)!.minutes,
                                   ),
-                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+                                  keyboardType: const TextInputType.numberWithOptions(
+                                    signed: false,
+                                    decimal: false,
+                                  ),
                                   onChanged: (value) {
                                     viewModel.updateCoolDownDurationInMin(value);
                                   },

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
@@ -148,7 +149,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   updateTemperature(String temperature) {
-    var temp = double.tryParse(temperature);
+    var temp = double.tryParse(temperature.fixInterpunctuation());
     _diaryEntry = _diaryEntry?.copyWith(temperature: temp);
   }
 
