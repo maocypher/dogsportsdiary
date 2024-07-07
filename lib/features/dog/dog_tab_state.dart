@@ -104,7 +104,8 @@ class DogTabState extends State<DogTab> {
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1900),
-                                lastDate: DateTime(2100));
+                                lastDate: DateTime(2100),
+                                initialEntryMode: DatePickerEntryMode.calendarOnly);
 
                             if (date != null) {
                               viewModel.updateDateOfBirth(date);
