@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
@@ -117,7 +118,7 @@ class DogViewModel extends ChangeNotifier {
   }
 
   updateWeight(String weightString) {
-    double weight = double.tryParse(weightString) ?? 0.0;
+    double weight = double.tryParse(weightString.fixInterpunctuation()) ?? 0.0;
     _dog = _dog?.copyWith(weight: weight);
   }
 
@@ -138,6 +139,15 @@ class DogViewModel extends ChangeNotifier {
   selectSports(List<DogSports> sports) {
     selectedSports = sports;
 
+    var currentDogSports = _dog!.sports.keys.toList();
+    //remove sports that are not selected
+    for (var sport in currentDogSports) {
+      if(!selectedSports.contains(sport)) {
+        removeSports(sport);
+      }
+    }
+
+    //add new sports
     for (var sport in selectedSports) {
       _dog?.sports[sport] = sportClasses[sport]!.first;
     }
@@ -147,7 +157,6 @@ class DogViewModel extends ChangeNotifier {
 
   removeSports(DogSports sport) {
     _dog?.sports.remove(sport);
-    notifyListeners();
   }
 
   updateSports(Map<DogSports, DogSportsClasses> sports) {
