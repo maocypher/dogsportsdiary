@@ -22,11 +22,8 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
 
   Future<void> loadDogs() async {
     var dbDogs = await _dogRepository.getAllDogs();
-
-    if(dbDogs.isNotEmpty) {
-      _dogs = dbDogs;
-      notifyListeners();
-    }
+    _dogs = dbDogs;
+    notifyListeners();
   }
 
   Future<void> loadDiaryEntries() async {

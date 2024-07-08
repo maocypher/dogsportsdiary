@@ -22,7 +22,7 @@ class DogNavigationObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute){
     log.info('didPop: ${route.str}, previousRoute= ${previousRoute?.str}');
 
-    if(previousRoute?.settings.name == Constants.dogs) {
+    if(previousRoute?.settings.name == Constants.dogs || previousRoute?.settings.name == Constants.diary) {
       showDogsViewModel.loadDogs();
 
       showDiaryEntryViewModel.loadDogs();

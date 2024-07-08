@@ -15,11 +15,8 @@ class ShowDogsViewModel extends ChangeNotifier {
 
   Future<void> loadDogs() async {
     var dbDogs = await _repository.getAllDogs();
-
-    if(dbDogs.isNotEmpty) {
-      _dogs = dbDogs;
-      notifyListeners();
-    }
+    _dogs = dbDogs;
+    notifyListeners();
   }
 
   static inject() {
