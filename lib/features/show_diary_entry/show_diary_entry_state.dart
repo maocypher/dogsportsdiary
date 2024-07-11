@@ -40,6 +40,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
                   itemCount: viewModel.dogs.length,
                   itemBuilder: (context, index) {
                     return ExpansionTile(
+                      initiallyExpanded: true,
                       title: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: viewModel.dogs[index].imagePath == null ? null : FileImage(File(viewModel.dogs[index].imagePath!)),

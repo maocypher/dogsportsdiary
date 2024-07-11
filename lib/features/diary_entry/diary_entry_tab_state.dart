@@ -258,6 +258,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                         //----- Rating -----
                         ExpansionTile(
+                          initiallyExpanded: true,
                           title: Text(
                             AppLocalizations.of(context)!.rating,
                             style: const TextStyle(
