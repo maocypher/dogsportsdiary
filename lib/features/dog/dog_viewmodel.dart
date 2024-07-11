@@ -118,7 +118,7 @@ class DogViewModel extends ChangeNotifier {
   }
 
   updateWeight(String weightString) {
-    double weight = double.tryParse(weightString.fixInterpunctuation()) ?? 0.0;
+    double weight = double.tryParse(weightString.fixInterpunctuation()) ?? Constants.initWeight;
     _dog = _dog?.copyWith(weight: weight);
   }
 

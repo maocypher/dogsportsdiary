@@ -17,6 +17,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
   final DiaryEntryViewModel diaryEntryViewModel;
   final String label;
 
+  TextEditingController _temperatureController = TextEditingController();
+  TextEditingController _trainingDurationController = TextEditingController();
+  TextEditingController _warmUpDurationController = TextEditingController();
+  TextEditingController _coolDownDurationController = TextEditingController();
+
   DiaryEntryTabState({
     required this.diaryEntryViewModel,
     required this.label
@@ -119,7 +124,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           children: <Widget>[
                             ListTile(
                               title: TextFormField(
-                                controller: TextEditingController(
+                                controller: _temperatureController = TextEditingController(
                                   text: viewModel.entry?.temperature.toString() ?? '${Constants.initTemperature}',
                                 ),
                                 decoration: InputDecoration(
@@ -134,11 +139,16 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                 onChanged: (value) {
                                   viewModel.updateTemperature(value);
                                 },
+                                onTap: () {
+                                  if(_temperatureController.text == Constants.initTemperature.toString()){
+                                    _temperatureController.text = '';
+                                  }
+                                },
                               ),
                             ),
                             ListTile(
                                 title: TextFormField(
-                                  controller: TextEditingController(
+                                  controller: _trainingDurationController = TextEditingController(
                                     text: viewModel.entry?.trainingDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
@@ -153,11 +163,16 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   onChanged: (value) {
                                     viewModel.updateTrainingDurationInMin(value);
                                   },
+                                  onTap: () {
+                                    if(_trainingDurationController.text == Constants.initMinutes.toString()){
+                                      _trainingDurationController.text = '';
+                                    }
+                                  },
                                 ),
                             ),
                             ListTile(
                                 title: TextFormField(
-                                  controller: TextEditingController(
+                                  controller: _warmUpDurationController = TextEditingController(
                                     text: viewModel.entry?.warmUpDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
@@ -172,11 +187,16 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   onChanged: (value) {
                                     viewModel.updateWarmUpDurationInMin(value);
                                   },
+                                  onTap: () {
+                                    if(_warmUpDurationController.text == Constants.initMinutes.toString()){
+                                      _warmUpDurationController.text = '';
+                                    }
+                                  },
                                 ),
                             ),
                             ListTile(
                                 title: TextFormField(
-                                  controller: TextEditingController(
+                                  controller: _coolDownDurationController = TextEditingController(
                                     text: viewModel.entry?.coolDownDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
@@ -190,6 +210,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   ),
                                   onChanged: (value) {
                                     viewModel.updateCoolDownDurationInMin(value);
+                                  },
+                                  onTap: () {
+                                    if(_coolDownDurationController.text == Constants.initMinutes.toString()){
+                                      _coolDownDurationController.text = '';
+                                    }
                                   },
                                 ),
                             ),
@@ -258,6 +283,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                         //----- Rating -----
                         ExpansionTile(
+                          initiallyExpanded: true,
                           title: Text(
                             AppLocalizations.of(context)!.rating,
                             style: const TextStyle(
