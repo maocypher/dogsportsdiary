@@ -16,6 +16,8 @@ class DogTabState extends State<DogTab> {
   final DogViewModel dogViewModel;
   final String label;
 
+  TextEditingController _weightController = TextEditingController();
+
   DogTabState({
         required this.dogViewModel,
         required this.label,
@@ -53,29 +55,38 @@ class DogTabState extends State<DogTab> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundColor: Colors.grey,
-                          child: viewModel.imageFile != null
-                              ? AspectRatio(
-                            aspectRatio: 1,
-                            child: ClipOval(
-                              child: Image.file(
-                                viewModel.imageFile!,
-                                fit: BoxFit.cover,
+                        Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 80,
+                              backgroundColor: Colors.grey,
+                              child: viewModel.imageFile != null
+                                  ? AspectRatio(
+                                aspectRatio: 1,
+                                child: ClipOval(
+                                  child: Image.file(
+                                    viewModel.imageFile!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                                  : const Icon(Icons.person),
+                            ),
+                            Positioned(
+                              bottom: -6, // adjust as needed
+                              right: 0, // adjust as needed
+                              child: ElevatedButton(
+                                onPressed: viewModel.pickImage,
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(4.0),
+                                  minimumSize: Size.zero,
+                                  fixedSize: const Size(48, 48),
+                                ),
+                                child: const Icon(Icons.add_a_photo),
                               ),
                             ),
-                          )
-                              : const Icon(Icons.person),
-                        ),
-                        ElevatedButton(
-                          onPressed: viewModel.pickImage,
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size.zero,
-                          ),
-                          child: const Icon(Icons.add_a_photo),
+                          ],
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
@@ -104,8 +115,8 @@ class DogTabState extends State<DogTab> {
                             var date = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime.now(),
                                 initialEntryMode: DatePickerEntryMode.calendarOnly);
 
                             if (date != null) {
@@ -115,8 +126,8 @@ class DogTabState extends State<DogTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
-                          controller: TextEditingController(
-                            text: viewModel.dog?.weight.toString() ?? '',
+                          controller: _weightController = TextEditingController(
+                            text: viewModel.dog?.weight.toString(),
                           ),
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!.weight,
@@ -130,6 +141,12 @@ class DogTabState extends State<DogTab> {
                           ),
                           onChanged: (value) {
                             viewModel.updateWeight(value);
+                          },
+                          onTap: () {
+                            //reset text field to empty string without changing the dog.weight
+                            if(_weightController.text == Constants.initWeight.toString()) {
+                              _weightController.text = '';
+                            }
                           },
                         ),
                         const SizedBox(height: Constants.uiSpacer),
