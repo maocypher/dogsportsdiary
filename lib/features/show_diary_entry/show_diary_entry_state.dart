@@ -72,10 +72,13 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: showDiaryEntryViewmodel.dogs.isEmpty ? () {
-                context.push('${Constants.routeDog}/${Constants.routeDogNew}');
-              } : () {
-                context.push('${Constants.routeDiary}/${Constants.routeDiaryNew}');
+              onPressed: () async {
+                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogs();
+                if (!hasDogs) {
+                  context.push('${Constants.routeDog}/${Constants.routeDogNew}');
+                } else {
+                  context.push('${Constants.routeDiary}/${Constants.routeDiaryNew}');
+                }
               },
               child: const Icon(Icons.add),
             ),
