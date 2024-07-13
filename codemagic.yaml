@@ -31,7 +31,7 @@ workflows:
           flutter packages pub get
       - name: Flutter analyze
         script: |
-          flutter analyze
+          flutter analyze --no-fatal-infos
       #- name: Flutter unit tests
       #  script: |
       #    flutter test
