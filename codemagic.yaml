@@ -59,10 +59,9 @@ workflows:
           fi
           
           gh release create "${CM_TAG}" \
-            --title "<Your Application Name> ${CM_TAG}" \
+            --title "Dog Sports Diary ${CM_TAG}" \
             --notes-file changelog.md \
-            path/to/build-artifact.ipa \
-            path/to/build-artifact.apk
+            build/**/outputs/**/*.aab
 
     artifacts:
       - build/**/outputs/**/*.aab
