@@ -1,0 +1,70 @@
+workflows:
+  android-workflow:
+    name: DogSportsDiary Android Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+    triggering:
+      events: # List the events that trigger builds
+        - tag
+      branch_patterns: # Include or exclude watched branches
+        - pattern: 'master'
+          include: true
+          source: true
+
+    environment:
+      android_signing:
+        - keystore_reference
+      #groups:
+      #  - google_play
+      vars:
+        PACKAGE_NAME: "io.codemagic.fluttersample"
+        GOOGLE_PLAY_TRACK: alpha
+      flutter: stable
+
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Flutter analyze
+        script: |
+          flutter analyze
+      #- name: Flutter unit tests
+      #  script: |
+      #    flutter test
+      #  ignore_failure: false
+      - name: Build AAB with Flutter
+        script: |      
+          flutter build appbundle --release \
+            --build-name=1.0.$PROJECT_BUILD_NUMBER \
+            --build-number=$PROJECT_BUILD_NUMBER
+      #- name: Build AAB with Flutter
+      #  script: |
+      #    BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))
+      #    flutter build appbundle --release \
+      #      --build-name=1.0.$BUILD_NUMBER \
+      #      --build-number=$BUILD_NUMBER
+
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - maocypher@gmail.com
+        notify:
+          success: true
+          failure: true
+      #google_play:
+      #  credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+      #  track: $GOOGLE_PLAY_TRACK
+      #  submit_as_draft: true
+
+  #ios-workflow:
+  #  name: DogSportsDiary iOS Workflow
+  #  max_build_duration: 60
+  #  instance_type: mac_mini_m1
