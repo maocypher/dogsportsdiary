@@ -16,7 +16,7 @@ workflows:
       android_signing:
         - keystore_reference
       groups:
-        - google_play
+        - google_credentials
       vars:
         PACKAGE_NAME: "com.anni.dog_sports_diary"
         GOOGLE_PLAY_TRACK: internal
