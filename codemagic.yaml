@@ -15,11 +15,11 @@ workflows:
     environment:
       android_signing:
         - keystore_reference
-      #groups:
-      #  - google_play
+      groups:
+        - google_play
       vars:
-        PACKAGE_NAME: "io.codemagic.fluttersample"
-        GOOGLE_PLAY_TRACK: alpha
+        PACKAGE_NAME: "com.anni.dog_sports_diary"
+        GOOGLE_PLAY_TRACK: internal
       flutter: stable
 
     scripts:
