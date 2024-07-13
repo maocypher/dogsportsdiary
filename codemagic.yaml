@@ -17,6 +17,7 @@ workflows:
         - keystore_reference
       groups:
         - google_credentials
+        - github_credentials
       vars:
         PACKAGE_NAME: "com.anni.dog_sports_diary"
         GOOGLE_PLAY_TRACK: internal
@@ -47,6 +48,21 @@ workflows:
           flutter build appbundle --release \
             --build-name=1.0.$BUILD_NUMBER \
             --build-number=$BUILD_NUMBER
+      - name: Publish to GitHub
+        script: |
+          #!/usr/bin/env zsh
+          
+          # Publish only for tag builds
+          if [ -z ${CM_TAG} ]; then
+            echo "Not a tag build, will not publish GitHub release"
+            exit 0
+          fi
+          
+          gh release create "${CM_TAG}" \
+            --title "<Your Application Name> ${CM_TAG}" \
+            --notes-file changelog.md \
+            path/to/build-artifact.ipa \
+            path/to/build-artifact.apk
 
     artifacts:
       - build/**/outputs/**/*.aab
