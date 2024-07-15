@@ -143,6 +143,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
     var index = _selectedExercises.indexWhere((e) => e.key == exercise);
 
     if(index != -1) {
+      var oldRating = _selectedExercises[index].value;
+      if(oldRating == rating) {
+        rating = Constants.initRating;
+      }
+
       _selectedExercises[index] = Tuple(exercise, rating);
       _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
     }
