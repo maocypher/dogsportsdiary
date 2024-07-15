@@ -85,8 +85,12 @@ workflows:
     instance_type: mac_mini_m1
 
     environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: io.codemagic.fluttersample
       vars:
         PACKAGE_NAME: "com.anni.dog_sports_diary"
+        APP_STORE_APPLE_ID: 1555555551
       flutter: stable
 
     scripts:
@@ -99,6 +103,13 @@ workflows:
     - name: Install pods
       script: |
         find . -name "Podfile" -execdir pod install \;
+    - name: Flutter analyze
+      script: |
+        flutter analyze --no-fatal-infos
+    #- name: Flutter unit tests
+    #  script: |
+    #    flutter test
+    #  ignore_failure: true
     #- name: Flutter build ipa
     #  script: |
     #    flutter build ipa --release \
@@ -106,7 +117,7 @@ workflows:
     #      --export-options-plist=/Users/builder/export_options.plist
     - name: Flutter build ipa
       script: |
-        flutter build ios --debug --no-codesign
+        flutter build ios --debug --no-codesign \
           --build-name=1.0.0 \
           --export-options-plist=/Users/builder/export_options.plist
     artifacts:
