@@ -14,9 +14,13 @@ class DogSportsApp extends StatelessWidget {
       routerConfig: AppRouter.router,
       title: title,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+            brightness: MediaQuery.of(context).platformBrightness),
         useMaterial3: true,
+        // ... other light theme properties
       ),
+      themeMode: ThemeMode.system,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

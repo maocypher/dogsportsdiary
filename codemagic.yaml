@@ -1,5 +1,5 @@
 workflows:
-  android-workflow:
+  android-release-workflow:
     name: DogSportsDiary Android Workflow
     max_build_duration: 60
     instance_type: mac_mini_m1
@@ -79,7 +79,70 @@ workflows:
         track: $GOOGLE_PLAY_TRACK
         submit_as_draft: true
 
-  #ios-workflow:
-  #  name: DogSportsDiary iOS Workflow
-  #  max_build_duration: 60
-  #  instance_type: mac_mini_m1
+  ios-workflow:
+    name: DogSportsDiary iOS Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+    triggering:
+      events: # List the events that trigger builds
+        - tag
+      branch_patterns: # Include or exclude watched branches
+        - pattern: 'master'
+          include: true
+          source: true
+
+    environment:
+      #ios_signing:
+      #  distribution_type: app_store
+      #  bundle_identifier: io.codemagic.fluttersample
+      vars:
+        PACKAGE_NAME: "com.anni.dog_sports_diary"
+        APP_STORE_APPLE_ID: 1555555551
+      flutter: stable
+
+    scripts:
+    - name: Set up code signing settings on Xcode project
+      script: |
+        xcode-project use-profiles
+    - name: Get Flutter packages
+      script: |
+        flutter packages pub get
+    - name: Install pods
+      script: |
+        find . -name "Podfile" -execdir pod install \;
+    - name: Flutter analyze
+      script: |
+        flutter analyze --no-fatal-infos
+    #- name: Flutter unit tests
+    #  script: |
+    #    flutter test
+    #  ignore_failure: true
+    #- name: Flutter build ipa
+    #  script: |
+    #    flutter build ipa --release \
+    #      --build-name=1.0.0 \
+    #      --export-options-plist=/Users/builder/export_options.plist
+    - name: Flutter build simulator debug version
+      script: |
+        flutter build ios --debug --no-codesign \
+          --simulator \
+          --build-name=1.0.0
+
+    - name: Flutter build real device debug version
+      script: |
+        flutter build ios --debug --no-codesign \
+          --build-name=1.0.0
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/*/*.app
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - maocypher@gmail.com
+        notify:
+          success: true
+          failure: true

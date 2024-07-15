@@ -28,12 +28,7 @@ class DogViewModel extends ChangeNotifier {
   Map<DogSports, List<DogSportsClasses>> get sportClasses => Sports.sportsClasses;
   List<DogSports> get sportList => Sports.sportsClasses.keys.toList();
 
-  List<DogSports> _selectedSports = [];
-  List<DogSports> get selectedSports => _selectedSports;
-  set selectedSports(List<DogSports> value) {
-    _selectedSports = value;
-    notifyListeners();
-  }
+  final selectedSports = ValueNotifier<List<DogSports>>([]);
   final StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
   Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
@@ -65,7 +60,8 @@ class DogViewModel extends ChangeNotifier {
       if(_dog!.imagePath != null) {
         _imageFile = File(_dog!.imagePath!);
       }
-      _selectedSports = _dog!.sports.keys.toList();
+
+      selectedSports.value = _dog!.sports.keys.toList();
       notifyListeners();
     }
   }
@@ -136,19 +132,16 @@ class DogViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  selectSports(List<DogSports> sports) {
-    selectedSports = sports;
-
-    var currentDogSports = _dog!.sports.keys.toList();
-    //remove sports that are not selected
-    for (var sport in currentDogSports) {
-      if(!selectedSports.contains(sport)) {
-        removeSports(sport);
-      }
+  selectSports(DogSports? sport) {
+    final multiValue = selectedSports.value;
+    final isAlreadySelected = multiValue.contains(sport);
+    
+    if(isAlreadySelected){
+      selectedSports.value = ([...multiValue]..remove(sport));
+      _dog?.sports.remove(sport);
     }
-
-    //add new sports
-    for (var sport in selectedSports) {
+    else{
+      selectedSports.value = [...multiValue, sport!];
       _dog?.sports[sport] = sportClasses[sport]!.first;
     }
 
