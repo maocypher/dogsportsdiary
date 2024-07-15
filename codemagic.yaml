@@ -121,6 +121,7 @@ workflows:
           --build-name=1.0.0
     artifacts:
       - build/ios/ipa/*.ipa
+      - build/ios/*/*.app
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
     publishing:
