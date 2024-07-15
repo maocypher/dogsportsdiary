@@ -118,6 +118,7 @@ workflows:
     - name: Flutter build ipa
       script: |
         flutter build ios --debug --no-codesign \
+          --simulator \
           --build-name=1.0.0
     artifacts:
       - build/ios/ipa/*.ipa
