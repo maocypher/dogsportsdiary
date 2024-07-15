@@ -1,10 +1,11 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -150,14 +151,100 @@ class DogTabState extends State<DogTab> {
                           },
                         ),
                         const SizedBox(height: Constants.uiSpacer),
-                        CustomDropdown<DogSports>.multiSelect(
+                        //------------------------
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton2<DogSports>(
+                            isExpanded: true,
+                            hint: Text(
+                              AppLocalizations.of(context)!.sportsMultiSelectionHint,
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
+                            items: viewModel.sportList.map((sport) {
+                              return DropdownItem(
+                                value: sport,
+                                closeOnTap: false,
+                                child: ValueListenableBuilder<List<DogSports>>(
+                                  valueListenable: viewModel.listenableDogSports,
+                                  builder: (context, multiValue, _) {
+                                    final isSelected = multiValue.contains(sport);
+                                    return Container(
+                                      height: double.infinity,
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Row(
+                                        children: [
+                                          if (isSelected)
+                                            const Icon(Icons.check_box_outlined)
+                                          else
+                                            const Icon(Icons.check_box_outline_blank),
+                                          const SizedBox(),
+                                          Expanded(
+                                            child: Text(
+                                              AppLocalizations.of(context)!.dogSports(sport.name),
+                                              style: const TextStyle(
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }).toList(),
+                            multiValueListenable: viewModel.listenableDogSports,
+                            onChanged: (value) {
+                              final multiValue = viewModel.listenableDogSports.value;
+                              final isSelected = multiValue.contains(value);
+                              if (value == 'All') {
+                                isSelected
+                                    ? viewModel.listenableDogSports.value = []
+                                    : viewModel.listenableDogSports.value = List.from(viewModel.sportList);
+                              } else {
+                                viewModel.listenableDogSports.value = isSelected
+                                    ? ([...multiValue]..remove(value))
+                                    : [...multiValue, value!];
+                              }
+                            },
+                            selectedItemBuilder: (context) {
+                              return viewModel.sportList.map(
+                                    (item) {
+                                  return ValueListenableBuilder<List<DogSports>>(
+                                      valueListenable: viewModel.listenableDogSports,
+                                      builder: (context, multiValue, _) {
+                                        return Text(
+                                          multiValue
+                                              .select((item, _) => AppLocalizations.of(context)!.dogSports(item.name))
+                                              .where((item) => item != 'All')
+                                              .join(', '),
+                                          style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          maxLines: 1,
+                                        );
+                                      });
+                                },
+                              ).toList();
+                            },
+                            buttonStyleData: const ButtonStyleData(
+                              padding: EdgeInsets.only(left: 16, right: 8),
+                              height: 40
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              padding: EdgeInsets.zero,
+                            ),
+                          ),
+                        ),
+                        //------------------------
+                        /*CustomDropdown<DogSports>.multiSelect(
                           initialItems: viewModel.selectedSports,
                           items: viewModel.sportList,
                           onListChanged: (value) {
                             viewModel.selectSports(value);
                           },
                           hintText: AppLocalizations.of(context)!.sportsMultiSelectionHint,
-                        ),
+                        ),*/
                         const SizedBox(height: Constants.uiSpacer),
                         StreamBuilder<List<DogSports>>(
                           stream: viewModel.selectedDogSportsStream,
