@@ -151,7 +151,8 @@ class DogTabState extends State<DogTab> {
                           },
                         ),
                         const SizedBox(height: Constants.uiSpacer),
-                        //------------------------
+
+                        //--------- DogSports Multiselection ----------------
                         DropdownButtonHideUnderline(
                           child: DropdownButton2<DogSports>(
                             isExpanded: true,
@@ -166,7 +167,7 @@ class DogTabState extends State<DogTab> {
                                 value: sport,
                                 closeOnTap: false,
                                 child: ValueListenableBuilder<List<DogSports>>(
-                                  valueListenable: viewModel.listenableDogSports,
+                                  valueListenable: viewModel.selectedSports,
                                   builder: (context, multiValue, _) {
                                     final isSelected = multiValue.contains(sport);
                                     return Container(
@@ -193,25 +194,15 @@ class DogTabState extends State<DogTab> {
                                 ),
                               );
                             }).toList(),
-                            multiValueListenable: viewModel.listenableDogSports,
+                            multiValueListenable: viewModel.selectedSports,
                             onChanged: (value) {
-                              final multiValue = viewModel.listenableDogSports.value;
-                              final isSelected = multiValue.contains(value);
-                              if (value == 'All') {
-                                isSelected
-                                    ? viewModel.listenableDogSports.value = []
-                                    : viewModel.listenableDogSports.value = List.from(viewModel.sportList);
-                              } else {
-                                viewModel.listenableDogSports.value = isSelected
-                                    ? ([...multiValue]..remove(value))
-                                    : [...multiValue, value!];
-                              }
+                              viewModel.selectSports(value);
                             },
                             selectedItemBuilder: (context) {
                               return viewModel.sportList.map(
                                     (item) {
                                   return ValueListenableBuilder<List<DogSports>>(
-                                      valueListenable: viewModel.listenableDogSports,
+                                      valueListenable: viewModel.selectedSports,
                                       builder: (context, multiValue, _) {
                                         return Text(
                                           multiValue
@@ -236,21 +227,14 @@ class DogTabState extends State<DogTab> {
                             ),
                           ),
                         ),
-                        //------------------------
-                        /*CustomDropdown<DogSports>.multiSelect(
-                          initialItems: viewModel.selectedSports,
-                          items: viewModel.sportList,
-                          onListChanged: (value) {
-                            viewModel.selectSports(value);
-                          },
-                          hintText: AppLocalizations.of(context)!.sportsMultiSelectionHint,
-                        ),*/
+                        //---------------------------------------------------
+
                         const SizedBox(height: Constants.uiSpacer),
                         StreamBuilder<List<DogSports>>(
                           stream: viewModel.selectedDogSportsStream,
                           builder: (context, snapshot) {
                             return Column(
-                              children: viewModel.selectedSports.map((dogSport) {
+                              children: viewModel.selectedSports.value.map((dogSport) {
                                 return DropdownButtonFormField<DogSportsClasses>(
                                   value: viewModel.sportClasses[dogSport]?.first,
                                   items: viewModel.sportClasses[dogSport]?.map((sportsClass) {
