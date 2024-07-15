@@ -132,6 +132,7 @@ workflows:
     - name: Flutter build real device debug version
       script: |
         flutter build ios --debug --no-codesign \
+          --simulator \
           --build-name=1.0.0
 
     artifacts:
