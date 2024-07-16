@@ -27,6 +27,8 @@
   "distractions": "Distractions",
   "notes": "Notes",
   "rating": "Rating",
+  "createBackup": "Create backup",
+  "importBackup": "Import backup",
   "dogSports": "{sport, select, agility{Agility} jumping{Jumping} obedience{Obedience} rallyo{Rally-O} rallyObedience{Rally-O} thsVk{THS VK} thsDk{THS DK} cc{Canicross} other{unknown}}",
     "@dogSports": {
       "description": "A gendered message",

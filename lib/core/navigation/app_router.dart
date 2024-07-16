@@ -6,6 +6,7 @@ import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
+import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_tab.dart';
@@ -132,7 +133,7 @@ class AppRouter {
               ),
             ],
           ),
-          /*StatefulShellBranch(
+          StatefulShellBranch(
             navigatorKey: _shellNavigatorSettingsKey,
             routes: [
               // top route inside branch
@@ -141,14 +142,11 @@ class AppRouter {
                 name: Constants.settings,
                 pageBuilder: (context, state) => NoTransitionPage(
                   name: Constants.settings,
-                  child: SettingsTab(
-                      settingsViewModel: ServiceProvider.locator<SettingsViewModel>(),
-                      label: AppLocalizations.of(context)!.settings
-                  ),
+                  child: SettingsTab(),
                 ),
               ),
             ],
-          ),*/
+          ),
         ],
       ),
     ],
