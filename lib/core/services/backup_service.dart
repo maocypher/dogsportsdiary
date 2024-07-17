@@ -1,35 +1,59 @@
 import 'dart:io';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
-import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:dog_sports_diary/domain/entities/backup.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 
 class BackupService{
+  static const String fileName = 'dgSptDryBak.json';
 
   final DogRepository dogRepository = DogRepository.dogRepository;
   final DiaryEntryRepository diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
 
   Future<void> backup() async {
-    var dogs = await dogRepository.getAllDogs();
-    var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
+    try{
+      var dogs = await dogRepository.getAllDogs();
+      var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
 
-    var dogsJson = dogs.map((e) => e.toJson()).toList();
-    var diaryEntriesJson = diaryEntries.map((e) => e.toJson()).toList();
+      var date = DateTime.now();
+      var backup = Backup(dogs: dogs, diaryEntries: diaryEntries, date: date);
+      var backupJsonString = backup.toJsonString();
 
-    var backupJson = {
-      Constants.dogs: dogsJson,
-      Constants.diary: diaryEntriesJson
-    };
+      // /storage/emulated/0/Android/data/com.anni.dog_sports_diary/files/downloads/
+      var downloadDirectory = await getDownloadsDirectory();
 
-    var backupJsonString = backupJson.toString();
+      if (downloadDirectory != null) {
+        File file = File('${downloadDirectory.path}/${date.toIso8601String().substring(0, 10)}_$fileName');
+        if(!file.existsSync()){
+          file.createSync();
+        }
 
-    String? folderPath = await FilePicker.platform.getDirectoryPath();
+        await file.writeAsString(backupJsonString, flush: true);
 
-    if (folderPath != null) {
-      File file = File('$folderPath/dog-sports-diary-backup.json');
-      await file.writeAsString(backupJsonString, flush: true);
+        Fluttertoast.showToast(
+            msg: "Backup created successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+      }
+
+      Fluttertoast.showToast(
+          msg: "Backup cancelled",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3,
+          fontSize: 16.0);
+    }catch(e){
+      Fluttertoast.showToast(
+          msg: "Backup failed",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3,
+          fontSize: 16.0);
     }
   }
 
