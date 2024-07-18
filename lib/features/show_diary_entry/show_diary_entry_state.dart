@@ -10,14 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
-  final ShowDiaryEntryViewmodel showDiaryEntryViewmodel;
-
-  final String label;
-
-  ShowDiaryEntryState({
-    required this.showDiaryEntryViewmodel,
-    required this.label
-  });
+  final ShowDiaryEntryViewmodel showDiaryEntryViewmodel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +19,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.diary),
             ),
             body: Consumer<ShowDiaryEntryViewmodel>(
               builder: (context, viewModel, child) {

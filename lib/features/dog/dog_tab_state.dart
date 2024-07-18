@@ -1,6 +1,5 @@
 import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
@@ -14,16 +13,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DogTabState extends State<DogTab> {
 
-  final DogViewModel dogViewModel;
-  final String label;
+  final DogViewModel dogViewModel = DogViewModel.dogViewModel;
 
   TextEditingController _weightController = TextEditingController();
 
-  DogTabState({
-        required this.dogViewModel,
-        required this.label,
-        Dog? dog
-  });
+  @override
+  void initState() {
+    super.initState();
+    dogViewModel.init(widget.idStr);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class DogTabState extends State<DogTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.dog),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {

@@ -15,7 +15,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
-  final DogRepository repository;
+  final DogRepository repository = DogRepository.dogRepository;
 
   Dog? _dog;
   Dog? get dog => _dog;
@@ -32,14 +32,11 @@ class DogViewModel extends ChangeNotifier {
   final StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
   Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
-  DogViewModel({
-    required this.repository,
-    String? idStr
-  }){
+  Future<void> init(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
-      if(id != null){
-        loadDog(id);
+      if(id != null) {
+        await loadDog(id);
       }
     }
     else{
@@ -171,10 +168,7 @@ class DogViewModel extends ChangeNotifier {
 
   static inject() {
     // injecting the viewmodel
-    final repository = ServiceProvider.locator<DogRepository>();
-    //ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel(repository: repository));
-    ServiceProvider.locator.registerFactoryParam<DogViewModel, String?, void>(
-            (x, _) => DogViewModel(repository: repository, idStr: x));
+    ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel());
   }
 
   static DogViewModel get dogViewModel {

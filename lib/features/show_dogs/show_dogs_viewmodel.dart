@@ -4,14 +4,10 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:flutter/material.dart';
 
 class ShowDogsViewModel extends ChangeNotifier {
-  final DogRepository _repository;
+  final DogRepository _repository = DogRepository.dogRepository;
   late List<Dog> _dogs = List.empty();
 
   List<Dog> get dogs => _dogs;
-
-  ShowDogsViewModel(this._repository) {
-    loadDogs();
-  }
 
   Future<void> loadDogs() async {
     var dbDogs = await _repository.getAllDogs();
@@ -21,8 +17,7 @@ class ShowDogsViewModel extends ChangeNotifier {
 
   static inject() {
     // injecting the viewmodel
-    final repository = ServiceProvider.locator<DogRepository>();
-    ServiceProvider.locator.registerLazySingleton<ShowDogsViewModel>(() => ShowDogsViewModel(repository));
+    ServiceProvider.locator.registerLazySingleton<ShowDogsViewModel>(() => ShowDogsViewModel());
   }
 
   static ShowDogsViewModel get showDogsViewModel {

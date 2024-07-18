@@ -15,8 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DiaryEntryViewModel extends ChangeNotifier {
-  final DogRepository dogRepository;
-  final DiaryEntryRepository diaryEntryRepository;
+  final DogRepository dogRepository = DogRepository.dogRepository;
+  final DiaryEntryRepository diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
 
   DiaryEntry? _diaryEntry;
   DiaryEntry? get entry => _diaryEntry;
@@ -42,15 +42,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   final StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
   Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
 
-  DiaryEntryViewModel({
-    required this.dogRepository,
-    required this.diaryEntryRepository,
-    String? idStr
-  }){
-    init(idStr);
-  }
-
-  Future<void> init(String? idStr) async {
+  Future<DiaryEntryViewModel> init(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
       if(id != null) {
@@ -68,6 +60,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
 
     await loadDogs();
+
+    return this;
   }
 
   Future<void> loadEntry(int id) async {
@@ -202,19 +196,10 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   static inject() {
-    // injecting the viewmodel
-    final dogRepository = ServiceProvider.locator<DogRepository>();
-    final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
-
-    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
-            (x, _) => DiaryEntryViewModel(
-                dogRepository: dogRepository,
-                diaryEntryRepository: diaryEntryRepository,
-                idStr: x
-            ));
+    ServiceProvider.locator.registerFactory<DiaryEntryViewModel>(() => DiaryEntryViewModel());
   }
 
-  static DiaryEntryViewModel get dogViewModel {
+  static DiaryEntryViewModel get diaryEntryViewModel {
     return ServiceProvider.locator<DiaryEntryViewModel>();
   }
 }

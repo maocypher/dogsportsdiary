@@ -14,18 +14,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiaryEntryTabState extends State<DiaryEntryTab> {
 
-  final DiaryEntryViewModel diaryEntryViewModel;
-  final String label;
+  final DiaryEntryViewModel diaryEntryViewModel = DiaryEntryViewModel.diaryEntryViewModel;
 
   TextEditingController _temperatureController = TextEditingController();
   TextEditingController _trainingDurationController = TextEditingController();
   TextEditingController _warmUpDurationController = TextEditingController();
   TextEditingController _coolDownDurationController = TextEditingController();
 
-  DiaryEntryTabState({
-    required this.diaryEntryViewModel,
-    required this.label
-  });
+  @override
+  void initState() {
+    super.initState();
+    diaryEntryViewModel.init(widget.idStr);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.diaryEntry),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
