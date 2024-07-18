@@ -43,24 +43,14 @@ class BackupService {
     }
   }
 
-  Future<BackupResult> restore() async {
+  Future<BackupResult> restore(String filePath) async {
     try {
-      FilePickerResult? result =
-          await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
-
-      if (result == null) {
-        return BackupResult.cancelled;
-      }
-
-      var filePath = result.files.first.path;
-      if(filePath == null) {
-        return BackupResult.failure;
-      }
-
       File file = File(filePath);
       file.openSync(mode: FileMode.read);
       var backupJsonString = await file.readAsString();
       var backup = Backup.fromJsonString(backupJsonString);
+
+
 
       return BackupResult.success;
     } catch (e) {

@@ -19,8 +19,6 @@ class Backup{
 
   static Backup fromJson(Map<String, dynamic> json){
     var date = DateTime.parse(json[BackupConstants.date]);
-
-    //json[BackupConstants.dogs] to List<dog>
     List<Dog> dogsFromJson = json[BackupConstants.dogs].map<Dog>((e) => Dog.fromJson(e)).toList();
     List<DiaryEntry> diaryEntriesFromJson = json[BackupConstants.diaryEntries].map<DiaryEntry>((e) => DiaryEntry.fromJson(e)).toList();
 
