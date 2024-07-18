@@ -1,14 +1,20 @@
 import 'package:dog_sports_diary/domain/entities/backup.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
+import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
+import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsState extends State<SettingsTab> {
   final SettingsViewModel settingsViewModel = SettingsViewModel.settingsViewModel;
+  final ShowDogsViewModel showDogsViewModel = ShowDogsViewModel.showDogsViewModel;
+  final ShowDiaryEntryViewmodel showDiaryEntryViewModel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
+
   late BuildContext _context;
 
   @override
@@ -29,7 +35,7 @@ class SettingsState extends State<SettingsTab> {
                   ListTile(
                     title: Text(AppLocalizations.of(_context)!.createBackup),
                     onTap: () async {
-                      var backupResult = await settingsViewModel.backupService.backup();
+                      var backupResult = await settingsViewModel.backupService.backupAsync();
                       if(!mounted) {
                         return;
                       }
@@ -112,10 +118,10 @@ class SettingsState extends State<SettingsTab> {
     }
 
     //AlertDialog
-    showImportPopup(filePath!);
+    await showImportPopup(filePath!);
   }
 
-  void showImportPopup(String filePath) {
+  Future<void> showImportPopup(String filePath) async {
     showDialog(
       context: _context,
       builder: (BuildContext context) {
@@ -126,7 +132,7 @@ class SettingsState extends State<SettingsTab> {
             TextButton(
               child: Text(AppLocalizations.of(_context)!.buttonCancel),
               onPressed: () {
-                Navigator.of(context).pop();
+                _context.pop();
                 Fluttertoast.showToast(
                     msg: AppLocalizations.of(_context)!.restoreCancelled,
                     toastLength: Toast.LENGTH_SHORT,
@@ -138,12 +144,15 @@ class SettingsState extends State<SettingsTab> {
             TextButton(
               child: Text(AppLocalizations.of(_context)!.buttonRestore),
               onPressed: () async {
-                Navigator.of(context).pop();
-                var result = await settingsViewModel.backupService.restore(filePath);
+                var result = await settingsViewModel.backupService.restoreAsync(filePath);
+                await showDogsViewModel.initAsync();
+                await showDiaryEntryViewModel.initAsync();
 
                 if(!mounted) {
                   return;
                 }
+
+                _context.pop();
 
                 switch(result) {
                   case BackupResult.success:

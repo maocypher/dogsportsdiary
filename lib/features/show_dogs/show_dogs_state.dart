@@ -13,7 +13,7 @@ class ShowDogsState extends State<ShowDogsTab> {
   @override
   void initState() {
     super.initState();
-    showDogViewModel.loadDogs();
+    showDogViewModel.initAsync();
   }
 
   @override

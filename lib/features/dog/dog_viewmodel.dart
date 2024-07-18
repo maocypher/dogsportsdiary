@@ -32,11 +32,11 @@ class DogViewModel extends ChangeNotifier {
   final StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
   Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
-  Future<void> init(String? idStr) async {
+  Future<void> initAsync(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
       if(id != null) {
-        await loadDog(id);
+        await loadDogAsync(id);
       }
     }
     else{
@@ -49,7 +49,7 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> loadDog(int id) async {
+  Future<void> loadDogAsync(int id) async {
     var dbDog = await repository.getDogAsync(id);
 
     if(dbDog != null) {
@@ -63,12 +63,12 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImageAsync() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      final File? croppedImage = await cropImage(pickedFile);
+      final File? croppedImage = await cropImageAsync(pickedFile);
       if (croppedImage != null) {
         _imageFile = croppedImage;
         _dog?.imagePath = _imageFile!.path;
@@ -77,7 +77,7 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<File?> cropImage(XFile imageFile) async {
+  Future<File?> cropImageAsync(XFile imageFile) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -154,13 +154,13 @@ class DogViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteDog() async {
+  deleteDogAsync() async {
     if(_dog != null) {
       await repository.deleteDogAsync(_dog!.id!);
     }
   }
 
-  saveDog() async {
+  saveDogAsync() async {
     if(_dog != null) {
       await repository.saveDogAsync(_dog!);
     }

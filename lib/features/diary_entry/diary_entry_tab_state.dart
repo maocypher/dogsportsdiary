@@ -24,7 +24,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
   @override
   void initState() {
     super.initState();
-    diaryEntryViewModel.init(widget.idStr);
+    diaryEntryViewModel.initAsync(widget.idStr);
   }
 
   @override
@@ -45,7 +45,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    diaryEntryViewModel.deleteEntry();
+                    diaryEntryViewModel.deleteEntryAsync();
                     context.pop();
                   },
                 ),
@@ -63,7 +63,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           value: viewModel.selectedDog,
                           onChanged: (dog) {
                             if(dog != null){
-                              viewModel.loadDog(dog.id!, null);
+                              viewModel.loadDogAsync(dog.id!, null);
                             }
                           },
                           items: viewModel.dogList?.map((dog) {
@@ -322,7 +322,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntry();
+                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntryAsync();
                 context.pop();
               },
               child: const Icon(Icons.save),

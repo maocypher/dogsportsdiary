@@ -20,7 +20,7 @@ class DogTabState extends State<DogTab> {
   @override
   void initState() {
     super.initState();
-    dogViewModel.init(widget.idStr);
+    dogViewModel.initAsync(widget.idStr);
   }
 
   @override
@@ -41,7 +41,7 @@ class DogTabState extends State<DogTab> {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    dogViewModel.deleteDog();
+                    dogViewModel.deleteDogAsync();
                     context.pop();
                   },
                 ),
@@ -75,7 +75,7 @@ class DogTabState extends State<DogTab> {
                               bottom: -6, // adjust as needed
                               right: 0, // adjust as needed
                               child: ElevatedButton(
-                                onPressed: viewModel.pickImage,
+                                onPressed: viewModel.pickImageAsync,
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(4.0),
@@ -258,7 +258,7 @@ class DogTabState extends State<DogTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<DogViewModel>(context, listen: false).saveDog();
+                Provider.of<DogViewModel>(context, listen: false).saveDogAsync();
                 context.pop();
               },
               child: const Icon(Icons.save),

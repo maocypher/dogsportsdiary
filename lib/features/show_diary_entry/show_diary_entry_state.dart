@@ -14,6 +14,12 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
   late BuildContext _context;
 
   @override
+  void initState() {
+    super.initState();
+    showDiaryEntryViewmodel.initAsync();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _context = context;
 
@@ -69,7 +75,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogs();
+                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogsAsync();
                 if(!mounted){
                   return;
                 }

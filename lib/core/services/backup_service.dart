@@ -14,7 +14,7 @@ class BackupService {
   final DiaryEntryRepository diaryEntryRepository =
       DiaryEntryRepository.diaryEntryRepository;
 
-  Future<BackupResult> backup() async {
+  Future<BackupResult> backupAsync() async {
     try {
       var dogs = await dogRepository.getAllDogsAsync();
       var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
@@ -43,22 +43,18 @@ class BackupService {
     }
   }
 
-  Future<BackupResult> restore(String filePath) async {
+  Future<BackupResult> restoreAsync(String filePath) async {
     try {
       File file = File(filePath);
       file.openSync(mode: FileMode.read);
       var backupJsonString = await file.readAsString();
       var backup = Backup.fromJsonString(backupJsonString);
 
-      dogRepository.deleteAllDogsAsync();
-      for (var dog in backup.dogs) {
-        await dogRepository.saveDogAsync(dog);
-      }
+      await dogRepository.deleteAllDogsAsync();
+      await dogRepository.saveAllDogsAsync(backup.dogs);
 
-      diaryEntryRepository.deleteAllEntriesAsync();
-      for (var diaryEntry in backup.diaryEntries) {
-        await diaryEntryRepository.saveEntryAsync(diaryEntry);
-      }
+      await diaryEntryRepository.deleteAllEntriesAsync();
+      await diaryEntryRepository.saveAllEntriesAsync(backup.diaryEntries);
 
       return BackupResult.success;
     } catch (e) {
