@@ -112,7 +112,7 @@ class AppRouter {
               GoRoute(
                 path: Constants.routeSettings,
                 name: Constants.settings,
-                pageBuilder: (context, state) => NoTransitionPage(
+                pageBuilder: (context, state) => const NoTransitionPage(
                   name: Constants.settings,
                   child: SettingsTab(),
                 ),

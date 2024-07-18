@@ -3,6 +3,13 @@ import 'dart:convert';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 
+enum BackupResult{
+  unknown,
+  success,
+  failure,
+  cancelled
+}
+
 class Backup{
   final DateTime date;
   final List<Dog> dogs;

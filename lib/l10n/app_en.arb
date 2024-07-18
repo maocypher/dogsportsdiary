@@ -29,6 +29,9 @@
   "rating": "Rating",
   "createBackup": "Create backup",
   "importBackup": "Import backup",
+  "backupSuccessful": "Backup successful",
+  "backupCancelled": "Backup cancelled",
+  "backupFailed": "Backup failed",
   "dogSports": "{sport, select, agility{Agility} jumping{Jumping} obedience{Obedience} rallyo{Rally-O} rallyObedience{Rally-O} thsVk{THS VK} thsDk{THS DK} cc{Canicross} other{unknown}}",
     "@dogSports": {
       "description": "A gendered message",

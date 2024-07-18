@@ -26,6 +26,9 @@
   "rating": "Bewertung",
   "createBackup": "Backup erstellen",
   "importBackup": "Backup importieren",
+  "backupSuccessful": "Backup erfolgreich",
+  "backupCancelled": "Backup wurde abgebrochen",
+  "backupFailed": "Backup ist fehlgeschlagen",
   "dogSports": "{sport, select, agility{Agility} jumping{Jumping} obedience{Obedience} rallyo{Rally-O} rallyObedience{Rally-O} thsVk{THS VK} thsDk{THS DK} cc{Canicross} other{Unbekannt}}",
   "@dogSports": {
     "description": "Translation for dog sport",
