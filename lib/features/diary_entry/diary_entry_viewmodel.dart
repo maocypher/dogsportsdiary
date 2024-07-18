@@ -79,7 +79,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadDogs() async {
-    _dogList = await dogRepository.getAllDogs();
+    _dogList = await dogRepository.getAllDogsAsync();
 
     if(_dogList != null
         && _dogList!.isNotEmpty
@@ -91,7 +91,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadDog(int id, DiaryEntry? diaryEntry) async {
-    var dbDog = await dogRepository.getDog(id);
+    var dbDog = await dogRepository.getDogAsync(id);
 
     if(dbDog != null) {
       _selectedDog = dbDog;

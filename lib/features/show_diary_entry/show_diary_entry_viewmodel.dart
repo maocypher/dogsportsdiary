@@ -21,11 +21,11 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   }
 
   Future<bool> hasAnyDogs() async {
-    return await _dogRepository.hasAnyDog();
+    return await _dogRepository.hasAnyDogAsync();
   }
 
   Future<void> loadDogs() async {
-    var dbDogs = await _dogRepository.getAllDogs();
+    var dbDogs = await _dogRepository.getAllDogsAsync();
     _dogs = dbDogs;
     notifyListeners();
   }

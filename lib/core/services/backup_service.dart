@@ -16,7 +16,7 @@ class BackupService {
 
   Future<BackupResult> backup() async {
     try {
-      var dogs = await dogRepository.getAllDogs();
+      var dogs = await dogRepository.getAllDogsAsync();
       var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
 
       var date = DateTime.now();
@@ -50,7 +50,15 @@ class BackupService {
       var backupJsonString = await file.readAsString();
       var backup = Backup.fromJsonString(backupJsonString);
 
+      dogRepository.deleteAllDogsAsync();
+      for (var dog in backup.dogs) {
+        await dogRepository.saveDogAsync(dog);
+      }
 
+      diaryEntryRepository.deleteAllEntriesAsync();
+      for (var diaryEntry in backup.diaryEntries) {
+        await diaryEntryRepository.saveEntryAsync(diaryEntry);
+      }
 
       return BackupResult.success;
     } catch (e) {

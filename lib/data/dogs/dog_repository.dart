@@ -5,7 +5,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:hive/hive.dart';
 
 class DogRepository {
-  Future<void> saveDog(Dog dog) async {
+  Future<void> saveDogAsync(Dog dog) async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
     if(dog.id == null){
       dog.setId();
@@ -14,22 +14,27 @@ class DogRepository {
     await dogBox.put(dog.id, dog);
   }
 
-  Future<Dog?> getDog(int id) async {
+  Future<Dog?> getDogAsync(int id) async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
     return dogBox.get(id);
   }
 
-  Future<List<Dog>> getAllDogs() async {
+  Future<List<Dog>> getAllDogsAsync() async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
     return dogBox.values.orderBy((x) => x.name.toLowerCase()).toList();
   }
 
-  Future<void> deleteDog(int id) async {
+  Future<void> deleteDogAsync(int id) async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
     await dogBox.delete(id);
   }
 
-  Future<bool> hasAnyDog() async{
+  Future<void> deleteAllDogsAsync() async {
+    final dogBox = Hive.box<Dog>(Constants.dogBox);
+    await dogBox.clear();
+  }
+
+  Future<bool> hasAnyDogAsync() async{
     final dogBox = Hive.box<Dog>(Constants.dogBox);
     return dogBox.isNotEmpty;
   }

@@ -10,7 +10,7 @@ class ShowDogsViewModel extends ChangeNotifier {
   List<Dog> get dogs => _dogs;
 
   Future<void> loadDogs() async {
-    var dbDogs = await _repository.getAllDogs();
+    var dbDogs = await _repository.getAllDogsAsync();
     _dogs = dbDogs;
     notifyListeners();
   }

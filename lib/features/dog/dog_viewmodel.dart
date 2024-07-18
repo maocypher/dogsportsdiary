@@ -50,7 +50,7 @@ class DogViewModel extends ChangeNotifier {
   }
 
   Future<void> loadDog(int id) async {
-    var dbDog = await repository.getDog(id);
+    var dbDog = await repository.getDogAsync(id);
 
     if(dbDog != null) {
       _dog = dbDog;
@@ -156,13 +156,13 @@ class DogViewModel extends ChangeNotifier {
 
   deleteDog() async {
     if(_dog != null) {
-      await repository.deleteDog(_dog!.id!);
+      await repository.deleteDogAsync(_dog!.id!);
     }
   }
 
   saveDog() async {
     if(_dog != null) {
-      await repository.saveDog(_dog!);
+      await repository.saveDogAsync(_dog!);
     }
   }
 

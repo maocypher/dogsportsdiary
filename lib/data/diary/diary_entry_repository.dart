@@ -31,6 +31,12 @@ class DiaryEntryRepository {
     await diaryEntryBox.delete(id);
   }
 
+
+  Future<void> deleteAllEntriesAsync() async {
+    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
+    await diaryEntryBox.clear();
+  }
+
   static inject() {
     // injecting the viewmodel
     ServiceProvider.locator.registerFactory<DiaryEntryRepository>(() => DiaryEntryRepository());
