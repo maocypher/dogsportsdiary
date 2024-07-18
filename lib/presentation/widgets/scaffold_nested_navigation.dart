@@ -36,11 +36,11 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
             icon: const Icon(Icons.pets_outlined),
             label: AppLocalizations.of(context)!.dogs,
           ),
-          /*NavigationDestination(
+          NavigationDestination(
             selectedIcon: const Icon(Icons.settings),
             icon: const Icon(Icons.settings_outlined),
             label: AppLocalizations.of(context)!.settings,
-          ),*/
+          ),
         ],
         onDestinationSelected: _goBranch,
       ),

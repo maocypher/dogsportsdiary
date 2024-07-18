@@ -14,18 +14,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiaryEntryTabState extends State<DiaryEntryTab> {
 
-  final DiaryEntryViewModel diaryEntryViewModel;
-  final String label;
+  final DiaryEntryViewModel diaryEntryViewModel = DiaryEntryViewModel.diaryEntryViewModel;
 
   TextEditingController _temperatureController = TextEditingController();
   TextEditingController _trainingDurationController = TextEditingController();
   TextEditingController _warmUpDurationController = TextEditingController();
   TextEditingController _coolDownDurationController = TextEditingController();
 
-  DiaryEntryTabState({
-    required this.diaryEntryViewModel,
-    required this.label
-  });
+  @override
+  void initState() {
+    super.initState();
+    diaryEntryViewModel.initAsync(widget.idStr);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.diaryEntry),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
@@ -45,7 +45,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    diaryEntryViewModel.deleteEntry();
+                    diaryEntryViewModel.deleteEntryAsync();
                     context.pop();
                   },
                 ),
@@ -63,7 +63,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           value: viewModel.selectedDog,
                           onChanged: (dog) {
                             if(dog != null){
-                              viewModel.loadDog(dog.id!, null);
+                              viewModel.loadDogAsync(dog.id!, null);
                             }
                           },
                           items: viewModel.dogList?.map((dog) {
@@ -322,7 +322,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntry();
+                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntryAsync();
                 context.pop();
               },
               child: const Icon(Icons.save),

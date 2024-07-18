@@ -10,29 +10,31 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
-  final ShowDiaryEntryViewmodel showDiaryEntryViewmodel;
+  final ShowDiaryEntryViewmodel showDiaryEntryViewmodel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
+  late BuildContext _context;
 
-  final String label;
-
-  ShowDiaryEntryState({
-    required this.showDiaryEntryViewmodel,
-    required this.label
-  });
+  @override
+  void initState() {
+    super.initState();
+    showDiaryEntryViewmodel.initAsync();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
+
     return ChangeNotifierProvider<ShowDiaryEntryViewmodel>(
         create: (_) => showDiaryEntryViewmodel,
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(_context)!.diary),
             ),
             body: Consumer<ShowDiaryEntryViewmodel>(
               builder: (context, viewModel, child) {
                 if (viewModel.dogs.isEmpty) {
                   return Center(
-                    child: Text(AppLocalizations.of(context)!.diaryPageNoDogs),
+                    child: Text(AppLocalizations.of(_context)!.diaryPageNoDogs),
                   );
                 }
 
@@ -52,12 +54,12 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
                           .where((diaryEntry) => diaryEntry.dogId == viewModel.dogs[index].id && diaryEntry.sport!.key == sport.key)
                           .isNotEmpty).map((entry) {
                         return ExpansionTile(
-                          title: Text(AppLocalizations.of(context)!.dogSports(entry.key.toString())),
+                          title: Text(AppLocalizations.of(_context)!.dogSports(entry.key.toString())),
                           children: viewModel.diaryEntries.where((e) => e.dogId == viewModel.dogs[index].id && entry.key == e.sport!.key).map((diaryEntry) {
                             return GestureDetector(
                                 onTap: () {
                                   // Handle the tab event here
-                                  context.push('${Constants.routeDiary}/${diaryEntry.id}');
+                                  _context.push('${Constants.routeDiary}/${diaryEntry.id}');
                                 },
                                 child: ListTile(
                                   title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
@@ -73,11 +75,15 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogs();
+                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogsAsync();
+                if(!mounted){
+                  return;
+                }
+
                 if (!hasDogs) {
-                  context.push('${Constants.routeDog}/${Constants.routeDogNew}');
+                  _context.push('${Constants.routeDog}/${Constants.routeDogNew}');
                 } else {
-                  context.push('${Constants.routeDiary}/${Constants.routeDiaryNew}');
+                  _context.push('${Constants.routeDiary}/${Constants.routeDiaryNew}');
                 }
               },
               child: const Icon(Icons.add),
