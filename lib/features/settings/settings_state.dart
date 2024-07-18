@@ -12,6 +12,8 @@ class SettingsState extends State<SettingsTab> {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
+
     return ChangeNotifierProvider<SettingsViewModel>(
         create: (_) => settingsViewModel,
         builder: (context, child) {
@@ -67,8 +69,7 @@ class SettingsState extends State<SettingsTab> {
                   ListTile(
                     title: Text(AppLocalizations.of(_context)!.importBackup),
                     onTap: () {
-                      // Handle click for Entry 2
-                      //print('Clicked on Entry 2');
+                      settingsViewModel.backupService.restore();
                     },
                   ),
                   const Divider(), // Add a divider between entries

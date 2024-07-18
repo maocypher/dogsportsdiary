@@ -17,15 +17,17 @@ class Backup{
 
   Backup({required this.dogs, required this.diaryEntries, required this.date});
 
-  Backup fromJson(Map<String, dynamic> json){
+  static Backup fromJson(Map<String, dynamic> json){
     var date = DateTime.parse(json[BackupConstants.date]);
-    var dogsFromJson = json[BackupConstants.dogs].map((e) => Dog.fromJson(e)).toList();
-    var diaryEntriesFromJson = json[BackupConstants.diaryEntries].map((e) => DiaryEntry.fromJson(e)).toList();
+
+    //json[BackupConstants.dogs] to List<dog>
+    List<Dog> dogsFromJson = json[BackupConstants.dogs].map<Dog>((e) => Dog.fromJson(e)).toList();
+    List<DiaryEntry> diaryEntriesFromJson = json[BackupConstants.diaryEntries].map<DiaryEntry>((e) => DiaryEntry.fromJson(e)).toList();
 
     return Backup(dogs: dogsFromJson, diaryEntries: diaryEntriesFromJson, date: date);
   }
 
-  Backup fromJsonString(String jsonString){
+  static Backup fromJsonString(String jsonString){
     return fromJson(jsonDecode(jsonString));
   }
 
