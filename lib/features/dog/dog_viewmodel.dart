@@ -15,7 +15,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
-  final DogRepository repository;
+  final DogRepository repository = DogRepository.dogRepository;
 
   Dog? _dog;
   Dog? get dog => _dog;
@@ -32,14 +32,11 @@ class DogViewModel extends ChangeNotifier {
   final StreamController<List<DogSports>> _selectedDogSportsStreamController = StreamController<List<DogSports>>();
   Stream<List<DogSports>> get selectedDogSportsStream => _selectedDogSportsStreamController.stream;
 
-  DogViewModel({
-    required this.repository,
-    String? idStr
-  }){
+  Future<void> initAsync(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
-      if(id != null){
-        loadDog(id);
+      if(id != null) {
+        await loadDogAsync(id);
       }
     }
     else{
@@ -52,8 +49,8 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> loadDog(int id) async {
-    var dbDog = await repository.getDog(id);
+  Future<void> loadDogAsync(int id) async {
+    var dbDog = await repository.getDogAsync(id);
 
     if(dbDog != null) {
       _dog = dbDog;
@@ -66,12 +63,12 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImageAsync() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      final File? croppedImage = await cropImage(pickedFile);
+      final File? croppedImage = await cropImageAsync(pickedFile);
       if (croppedImage != null) {
         _imageFile = croppedImage;
         _dog?.imagePath = _imageFile!.path;
@@ -80,7 +77,7 @@ class DogViewModel extends ChangeNotifier {
     }
   }
 
-  Future<File?> cropImage(XFile imageFile) async {
+  Future<File?> cropImageAsync(XFile imageFile) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -157,24 +154,21 @@ class DogViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteDog() async {
+  deleteDogAsync() async {
     if(_dog != null) {
-      await repository.deleteDog(_dog!.id!);
+      await repository.deleteDogAsync(_dog!.id!);
     }
   }
 
-  saveDog() async {
+  saveDogAsync() async {
     if(_dog != null) {
-      await repository.saveDog(_dog!);
+      await repository.saveDogAsync(_dog!);
     }
   }
 
   static inject() {
     // injecting the viewmodel
-    final repository = ServiceProvider.locator<DogRepository>();
-    //ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel(repository: repository));
-    ServiceProvider.locator.registerFactoryParam<DogViewModel, String?, void>(
-            (x, _) => DogViewModel(repository: repository, idStr: x));
+    ServiceProvider.locator.registerFactory<DogViewModel>(() => DogViewModel());
   }
 
   static DogViewModel get dogViewModel {

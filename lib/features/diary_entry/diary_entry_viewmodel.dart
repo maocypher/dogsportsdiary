@@ -15,8 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DiaryEntryViewModel extends ChangeNotifier {
-  final DogRepository dogRepository;
-  final DiaryEntryRepository diaryEntryRepository;
+  final DogRepository dogRepository = DogRepository.dogRepository;
+  final DiaryEntryRepository diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
 
   DiaryEntry? _diaryEntry;
   DiaryEntry? get entry => _diaryEntry;
@@ -42,19 +42,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
   final StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
   Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
 
-  DiaryEntryViewModel({
-    required this.dogRepository,
-    required this.diaryEntryRepository,
-    String? idStr
-  }){
-    init(idStr);
-  }
-
-  Future<void> init(String? idStr) async {
+  Future<DiaryEntryViewModel> initAsync(String? idStr) async {
     if(idStr != null) {
       int? id = int.tryParse(idStr);
       if(id != null) {
-        await loadEntry(id);
+        await loadEntryAsync(id);
       }
     }
     else{
@@ -67,37 +59,39 @@ class DiaryEntryViewModel extends ChangeNotifier {
       );
     }
 
-    await loadDogs();
+    await loadDogsAsync();
+
+    return this;
   }
 
-  Future<void> loadEntry(int id) async {
+  Future<void> loadEntryAsync(int id) async {
     var dbEntry = await diaryEntryRepository.getEntryAsync(id);
 
     if(dbEntry != null) {
       _diaryEntry = dbEntry;
 
       if(dbEntry.dogId != null) {
-        await loadDog(dbEntry.dogId!, dbEntry);
+        await loadDogAsync(dbEntry.dogId!, dbEntry);
       }
 
       notifyListeners();
     }
   }
 
-  Future<void> loadDogs() async {
-    _dogList = await dogRepository.getAllDogs();
+  Future<void> loadDogsAsync() async {
+    _dogList = await dogRepository.getAllDogsAsync();
 
     if(_dogList != null
         && _dogList!.isNotEmpty
         && _selectedDog == null) {
-      await loadDog(_dogList!.first.id!, null);
+      await loadDogAsync(_dogList!.first.id!, null);
     }
 
     notifyListeners();
   }
 
-  Future<void> loadDog(int id, DiaryEntry? diaryEntry) async {
-    var dbDog = await dogRepository.getDog(id);
+  Future<void> loadDogAsync(int id, DiaryEntry? diaryEntry) async {
+    var dbDog = await dogRepository.getDogAsync(id);
 
     if(dbDog != null) {
       _selectedDog = dbDog;
@@ -189,32 +183,23 @@ class DiaryEntryViewModel extends ChangeNotifier {
     _diaryEntry = _diaryEntry?.copyWith(notes: notes);
   }
 
-  deleteEntry() async {
+  deleteEntryAsync() async {
     if(_diaryEntry != null) {
       await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
     }
   }
 
-  saveEntry() async {
+  saveEntryAsync() async {
     if(_diaryEntry != null) {
       await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
     }
   }
 
   static inject() {
-    // injecting the viewmodel
-    final dogRepository = ServiceProvider.locator<DogRepository>();
-    final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
-
-    ServiceProvider.locator.registerFactoryParam<DiaryEntryViewModel, String?, void>(
-            (x, _) => DiaryEntryViewModel(
-                dogRepository: dogRepository,
-                diaryEntryRepository: diaryEntryRepository,
-                idStr: x
-            ));
+    ServiceProvider.locator.registerFactory<DiaryEntryViewModel>(() => DiaryEntryViewModel());
   }
 
-  static DiaryEntryViewModel get dogViewModel {
+  static DiaryEntryViewModel get diaryEntryViewModel {
     return ServiceProvider.locator<DiaryEntryViewModel>();
   }
 }

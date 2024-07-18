@@ -6,8 +6,8 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:flutter/widgets.dart';
 
 class ShowDiaryEntryViewmodel extends ChangeNotifier {
-  final DogRepository _dogRepository;
-  final DiaryEntryRepository _diaryEntryRepository;
+  final DogRepository _dogRepository = DogRepository.dogRepository;
+  final DiaryEntryRepository _diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
 
   List<Dog> _dogs = List.empty();
   List<Dog> get dogs => _dogs;
@@ -15,22 +15,22 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   List<DiaryEntry> _diaryEntries = List.empty();
   List<DiaryEntry> get diaryEntries => _diaryEntries;
 
-  ShowDiaryEntryViewmodel(this._dogRepository, this._diaryEntryRepository) {
-    loadDogs();
-    loadDiaryEntries();
+  Future<void> initAsync() async {
+    await loadDogsAsync();
+    await loadDiaryEntriesAsync();
   }
 
-  Future<bool> hasAnyDogs() async {
-    return await _dogRepository.hasAnyDog();
+  Future<bool> hasAnyDogsAsync() async {
+    return await _dogRepository.hasAnyDogAsync();
   }
 
-  Future<void> loadDogs() async {
-    var dbDogs = await _dogRepository.getAllDogs();
+  Future<void> loadDogsAsync() async {
+    var dbDogs = await _dogRepository.getAllDogsAsync();
     _dogs = dbDogs;
     notifyListeners();
   }
 
-  Future<void> loadDiaryEntries() async {
+  Future<void> loadDiaryEntriesAsync() async {
     var dbEntires = await _diaryEntryRepository.getAllEntiresAsync();
 
     if(dbEntires.isNotEmpty) {
@@ -41,9 +41,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
 
   static inject() {
     // injecting the viewmodel
-    final dogRepository = ServiceProvider.locator<DogRepository>();
-    final diaryEntryRepository = ServiceProvider.locator<DiaryEntryRepository>();
-    ServiceProvider.locator.registerLazySingleton<ShowDiaryEntryViewmodel>(() => ShowDiaryEntryViewmodel(dogRepository, diaryEntryRepository));
+    ServiceProvider.locator.registerLazySingleton<ShowDiaryEntryViewmodel>(() => ShowDiaryEntryViewmodel());
   }
 
   static ShowDiaryEntryViewmodel get showDiaryEntryViewModel {
