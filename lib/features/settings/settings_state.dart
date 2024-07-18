@@ -35,48 +35,14 @@ class SettingsState extends State<SettingsTab> {
                   ListTile(
                     title: Text(AppLocalizations.of(_context)!.createBackup),
                     onTap: () async {
-                      var backupResult = await settingsViewModel.backupService.backupAsync();
-                      if(!mounted) {
-                        return;
-                      }
-
-                      switch (backupResult) {
-                        case BackupResult.success:
-                          Fluttertoast.showToast(
-                              msg: AppLocalizations.of(_context)!.backupSuccessful,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              fontSize: 16.0);
-                          break;
-                        case BackupResult.failure:
-                          Fluttertoast.showToast(
-                              msg: AppLocalizations.of(_context)!.backupFailed,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              fontSize: 16.0);
-
-                          break;
-                        case BackupResult.cancelled:
-                          Fluttertoast.showToast(
-                              msg: AppLocalizations.of(_context)!.backupCancelled,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 3,
-                              fontSize: 16.0);
-
-                          break;
-                        default:
-                          break;
-                      }
+                      await onCreateBackupTapAsync();
                     },
                   ),
                   const Divider(), // Add a divider between entries
                   ListTile(
                     title: Text(AppLocalizations.of(_context)!.restoreBackup),
                     onTap: () async {
-                      await onImportTap();
+                      await onRestoreBackupTapAsync();
                     },
                   ),
                   const Divider(), // Add a divider between entries
@@ -87,8 +53,47 @@ class SettingsState extends State<SettingsTab> {
           );
         });
   }
+  
+  Future<void> onCreateBackupTapAsync() async{
+    showSplashScreen();
+    var backupResult = await settingsViewModel.backupService.backupAsync();
+    if(!mounted) {
+      return;
+    }
 
-  Future<void> onImportTap() async{
+    switch (backupResult) {
+      case BackupResult.success:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.backupSuccessful,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+        break;
+      case BackupResult.failure:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.backupFailed,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+
+        break;
+      case BackupResult.cancelled:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.backupCancelled,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> onRestoreBackupTapAsync() async{
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
 
@@ -118,10 +123,10 @@ class SettingsState extends State<SettingsTab> {
     }
 
     //AlertDialog
-    await showImportPopup(filePath!);
+    await showRestoreAlertAsync(filePath!);
   }
 
-  Future<void> showImportPopup(String filePath) async {
+  Future<void> showRestoreAlertAsync(String filePath) async {
     showDialog(
       context: _context,
       builder: (BuildContext context) {
@@ -144,48 +149,71 @@ class SettingsState extends State<SettingsTab> {
             TextButton(
               child: Text(AppLocalizations.of(_context)!.buttonRestore),
               onPressed: () async {
-                var result = await settingsViewModel.backupService.restoreAsync(filePath);
-                await showDogsViewModel.initAsync();
-                await showDiaryEntryViewModel.initAsync();
-
-                if(!mounted) {
-                  return;
-                }
-
                 _context.pop();
-
-                switch(result) {
-                  case BackupResult.success:
-                    Fluttertoast.showToast(
-                        msg: AppLocalizations.of(_context)!.restoreSuccessful,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 3,
-                        fontSize: 16.0);
-                    break;
-                  case BackupResult.failure:
-                    Fluttertoast.showToast(
-                        msg: AppLocalizations.of(_context)!.restoreFailed,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 3,
-                        fontSize: 16.0);
-                    break;
-                  case BackupResult.cancelled:
-                    Fluttertoast.showToast(
-                        msg: AppLocalizations.of(_context)!.restoreCancelled,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 3,
-                        fontSize: 16.0);
-                    break;
-
-                  default:
-                    break;
-                }
+                await restoreBackupAsync(filePath);
               },
             ),
           ],
+        );
+      },
+    );
+  }
+  
+  Future<void> restoreBackupAsync(String filePath) async {
+    showSplashScreen();
+
+    var result = await settingsViewModel.backupService.restoreAsync(filePath);
+    await showDogsViewModel.initAsync();
+    await showDiaryEntryViewModel.initAsync();
+    await Future.delayed(const Duration(seconds: 1)); // stop flickering of splash screen
+
+    if(!mounted) {
+      return;
+    }
+
+    _context.pop();
+
+    switch(result) {
+      case BackupResult.success:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.restoreSuccessful,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+        break;
+      case BackupResult.failure:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.restoreFailed,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+        break;
+      case BackupResult.cancelled:
+        Fluttertoast.showToast(
+            msg: AppLocalizations.of(_context)!.restoreCancelled,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3,
+            fontSize: 16.0);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  void showSplashScreen(){
+    showDialog(
+      context: _context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Dialog(
+          backgroundColor: Colors.transparent,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       },
     );
