@@ -16,7 +16,7 @@ class DogRepository {
 
   Future<void> saveAllDogsAsync(List<Dog> dogs) async {
     final dogBox = Hive.box<Dog>(Constants.dogBox);
-    await dogBox.addAll(dogs);
+    await dogBox.putAll(Map.fromEntries(dogs.map((x) => MapEntry(x.id, x))));
   }
 
   Future<Dog?> getDogAsync(int id) async {
