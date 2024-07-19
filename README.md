@@ -1,16 +1,9 @@
 # dog_sports_diary
 
-A new Flutter project.
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Android](https://api.codemagic.io/apps/669212ad3fa3162726de46d3/android-release-workflow/status_badge.svg)](https://codemagic.io/app/669212ad3fa3162726de46d3/android-release-workflow/latest_build)
+[![iOS](https://api.codemagic.io/apps/669212ad3fa3162726de46d3/ios-workflow/status_badge.svg)](https://codemagic.io/app/669212ad3fa3162726de46d3/ios-workflow/latest_build)
 
-## Getting Started
+Dog sports diary to keep track of your current training
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/maocypher)

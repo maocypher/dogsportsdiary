@@ -18,7 +18,7 @@ class DiaryEntryRepository {
 
   Future<void> saveAllEntriesAsync(List<DiaryEntry> diaryEntries) async {
     final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    await diaryEntryBox.addAll(diaryEntries);
+    await diaryEntryBox.putAll(Map.fromEntries(diaryEntries.map((x) => MapEntry(x.id, x))));
   }
 
   Future<DiaryEntry?> getEntryAsync(int id) async {

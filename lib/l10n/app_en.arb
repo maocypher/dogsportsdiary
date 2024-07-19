@@ -30,6 +30,8 @@
   "distractions": "Distractions",
   "notes": "Notes",
   "rating": "Rating",
+  "ratingPlan": "Plan",
+  "ratingPlanned": "Planned",
   "createBackup": "Create backup",
   "restoreBackup": "Restore backup",
   "backupSuccessful": "Backup successful",

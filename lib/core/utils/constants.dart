@@ -16,6 +16,7 @@ class Constants {
   static const String classes = "classes";
   static const String exercise = "exercise";
   static const String rating = "rating";
+  static const String isPlanned = "isPlanned";
 
   //Routes
   static const String routeHome = '/';
