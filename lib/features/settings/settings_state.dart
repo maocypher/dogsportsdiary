@@ -56,10 +56,13 @@ class SettingsState extends State<SettingsTab> {
   
   Future<void> onCreateBackupTapAsync() async{
     showSplashScreen();
+
     var backupResult = await settingsViewModel.backupService.backupAsync();
     if(!mounted) {
       return;
     }
+
+    _context.pop();
 
     switch (backupResult) {
       case BackupResult.success:
