@@ -298,12 +298,12 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                     title: Row(
                                       children: [
                                         Expanded(
-                                          child: Text(AppLocalizations.of(context)!.exercises(exerciseTuple.key.toString())),
+                                          child: Text(AppLocalizations.of(context)!.exercises(exerciseTuple.exercise.toString())),
                                         ),
                                         StarRating(
-                                          rating: exerciseTuple.value,
+                                          rating: exerciseTuple.rating,
                                           allowHalfRating: false,
-                                          onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.key, newRating)),
+                                          onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.exercise, newRating)),
                                         ),
                                       ],
                                     ),
