@@ -1,6 +1,3 @@
-import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/core/utils/tuple.dart';
-
 enum Exercises{
   //General
   motivation,
@@ -306,25 +303,5 @@ extension ExercisesJsonExtension on Exercises {
       default:
         throw FormatException('Invalid exercise value: $json');
     }
-  }
-}
-
-extension ExercisesRankingJsonExtension on Tuple<Exercises, double>{
-  Map<String, dynamic> toJson() {
-    return {Constants.exercise: key.toJson(), Constants.rating: value};
-  }
-
-  static Tuple<Exercises, double> fromJson(Map<String, dynamic> json) {
-    return Tuple(ExercisesJsonExtension.fromJson(json[Constants.exercise] as String), json[Constants.rating] as double);
-  }
-}
-
-extension ExercisesRankingListJsonExtension on List<Tuple<Exercises, double>>{
-  List<Map<String, dynamic>> toJson() {
-    return map((e) => e.toJson()).toList();
-  }
-
-  static List<Tuple<Exercises, double>> fromJson(List<dynamic> json) {
-    return json.map((e) => ExercisesRankingJsonExtension.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

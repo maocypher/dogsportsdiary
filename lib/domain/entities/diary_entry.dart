@@ -1,6 +1,6 @@
+import 'package:dog_sports_diary/core/utils/rating.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
-import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 
@@ -10,7 +10,7 @@ class DiaryEntry implements Entity{
   final DateTime date;
   int? dogId;
   Tuple<DogSports, DogSportsClasses>? sport;
-  List<Tuple<Exercises, double>>? exerciseRating;
+  List<Rating>? exerciseRating;
   String? trainingGoal;
   String? highlight;
   String? distractions;
@@ -41,7 +41,7 @@ class DiaryEntry implements Entity{
     DateTime? date,
     int? dogId,
     Tuple<DogSports, DogSportsClasses>? sport,
-    List<Tuple<Exercises, double>>? exerciseRating,
+    List<Rating>? exerciseRating,
     String? trainingGoal,
     String? highlight,
     String? distractions,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/utils/rating.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
@@ -36,8 +37,8 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
   Map<Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
-  List<Tuple<Exercises, double>> _selectedExercises = [];
-  List<Tuple<Exercises, double>> get selectedExercises => _selectedExercises;
+  List<Rating> _selectedExercises = [];
+  List<Rating> get selectedExercises => _selectedExercises;
 
   final StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
   Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
@@ -121,7 +122,10 @@ class DiaryEntryViewModel extends ChangeNotifier {
     _selectedSport = sport;
 
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
-    _selectedExercises = exercise.map((e) => Tuple(e, Constants.initRating)).toList();
+    _selectedExercises = exercise.map((e) => Rating(
+        exercise: e,
+        rating: Constants.initRating,
+        isPlanned: false)).toList();
 
     _diaryEntry = _diaryEntry?.copyWith(sport: _selectedSport, exerciseRating: _selectedExercises);
 
@@ -134,15 +138,15 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   updateRating(Exercises exercise, double rating) {
-    var index = _selectedExercises.indexWhere((e) => e.key == exercise);
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
 
     if(index != -1) {
-      var oldRating = _selectedExercises[index].value;
+      var oldRating = _selectedExercises[index].rating;
       if(oldRating == rating) {
         rating = Constants.initRating;
       }
 
-      _selectedExercises[index] = Tuple(exercise, rating);
+      _selectedExercises[index] = Rating(exercise: exercise, rating: rating, isPlanned: _selectedExercises[index].isPlanned);
       _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
     }
   }
