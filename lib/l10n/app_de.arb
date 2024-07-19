@@ -27,6 +27,8 @@
   "distractions": "Schwierigkeiten",
   "notes": "Notizen",
   "rating": "Bewertung",
+  "ratingPlan": "Planen",
+  "ratingPlanned": "Geplant",
   "createBackup": "Backup erstellen",
   "restoreBackup": "Backup wiederherstellen",
   "backupSuccessful": "Backup erfolgreich",

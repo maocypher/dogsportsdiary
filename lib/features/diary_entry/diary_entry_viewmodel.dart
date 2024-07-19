@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/rating.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
-import 'package:dog_sports_diary/core/utils/tuple.dart';
+import 'package:dog_sports_diary/core/utils/tuple.dart' as dogSports;
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -30,15 +31,15 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Dog? _selectedDog;
   Dog? get selectedDog => _selectedDog;
 
-  List<Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
-  List<Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
+  List<dogSports.Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
+  List<dogSports.Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
 
-  Tuple<DogSports, DogSportsClasses>? _selectedSport;
-  Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
+  dogSports.Tuple<DogSports, DogSportsClasses>? _selectedSport;
+  dogSports.Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
-  Map<Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
+  Map<dogSports.Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
   List<Rating> _selectedExercises = [];
-  List<Rating> get selectedExercises => _selectedExercises;
+  List<Rating> get selectedExercises => _selectedExercises.orderByDescending((x) => x.isPlanned ? 1 : 0).orderByDescending((x) => x.rating).toList();
 
   final StreamController<List<Exercises>> _selectedDogSportsExercisesStreamController = StreamController<List<Exercises>>();
   Stream<List<Exercises>> get selectedDogSportsExercisesStream => _selectedDogSportsExercisesStreamController.stream;
@@ -118,7 +119,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
-  loadSport(Tuple<DogSports, DogSportsClasses> sport) {
+  loadSport(dogSports.Tuple<DogSports, DogSportsClasses> sport) {
     _selectedSport = sport;
 
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
@@ -148,6 +149,17 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
       _selectedExercises[index] = Rating(exercise: exercise, rating: rating, isPlanned: _selectedExercises[index].isPlanned);
       _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
+  updateIsPlanned(Exercises exercise) {
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+
+    if(index != -1) {
+      _selectedExercises[index] = Rating(exercise: exercise, rating: _selectedExercises[index].rating, isPlanned: !_selectedExercises[index].isPlanned);
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+
+      notifyListeners();
     }
   }
 
