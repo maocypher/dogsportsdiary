@@ -123,27 +123,26 @@ workflows:
     #    flutter build ipa --release \
     #      --build-name=1.0.0 \
     #      --export-options-plist=/Users/builder/export_options.plist
+    
     - name: Flutter build simulator debug version
       script: |
         flutter build ios --debug --no-codesign \
           --simulator \
           --build-name=1.0.0
-
     - name: Rename the simulator file
       script: |
         mv build/ios/iphonesimulator/Runner.app \
           build/ios/iphonesimulator/Runner-debug-simulator.app
-
+          
     - name: Flutter build real device debug version
       script: |
         flutter build ios --debug --no-codesign \
           --build-name=1.0.0
-
     - name: Rename the device file
       script: |
         mv build/ios/iphoneos/Runner.app \
           build/ios/iphoneos/Runner-debug.app
-
+          
     artifacts:
       - build/ios/ipa/*.ipa
       - build/ios/*/*.app
