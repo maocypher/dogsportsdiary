@@ -1,6 +1,5 @@
 import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
@@ -14,16 +13,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DogTabState extends State<DogTab> {
 
-  final DogViewModel dogViewModel;
-  final String label;
+  final DogViewModel dogViewModel = DogViewModel.dogViewModel;
 
   TextEditingController _weightController = TextEditingController();
 
-  DogTabState({
-        required this.dogViewModel,
-        required this.label,
-        Dog? dog
-  });
+  @override
+  void initState() {
+    super.initState();
+    dogViewModel.initAsync(widget.idStr);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class DogTabState extends State<DogTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.dog),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
@@ -43,7 +41,7 @@ class DogTabState extends State<DogTab> {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    dogViewModel.deleteDog();
+                    dogViewModel.deleteDogAsync();
                     context.pop();
                   },
                 ),
@@ -77,7 +75,7 @@ class DogTabState extends State<DogTab> {
                               bottom: -6, // adjust as needed
                               right: 0, // adjust as needed
                               child: ElevatedButton(
-                                onPressed: viewModel.pickImage,
+                                onPressed: viewModel.pickImageAsync,
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(4.0),
@@ -260,7 +258,7 @@ class DogTabState extends State<DogTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<DogViewModel>(context, listen: false).saveDog();
+                Provider.of<DogViewModel>(context, listen: false).saveDogAsync();
                 context.pop();
               },
               child: const Icon(Icons.save),

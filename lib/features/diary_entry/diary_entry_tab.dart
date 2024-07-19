@@ -1,18 +1,15 @@
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab_state.dart';
-import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class DiaryEntryTab extends StatefulWidget {
 
-  final DiaryEntryViewModel diaryEntryViewModel;
-  final String label;
+  final String? idStr;
 
   const DiaryEntryTab({
-    required this.diaryEntryViewModel,
-    required this.label,
+    this.idStr,
     super.key
   });
 
   @override
-  State<DiaryEntryTab> createState() => DiaryEntryTabState(diaryEntryViewModel: diaryEntryViewModel, label: label);
+  State<DiaryEntryTab> createState() => DiaryEntryTabState();
 }

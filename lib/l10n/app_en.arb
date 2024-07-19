@@ -3,6 +3,9 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
+  "buttonOk": "Ok",
+  "buttonCancel": "Cancel",
+  "buttonRestore": "Restore",
   "appTitle": "Dog sports diary",
   "diary": "Diary",
   "diaryEntry": "Diary entry",
@@ -27,6 +30,17 @@
   "distractions": "Distractions",
   "notes": "Notes",
   "rating": "Rating",
+  "ratingPlan": "Plan",
+  "ratingPlanned": "Planned",
+  "createBackup": "Create backup",
+  "restoreBackup": "Restore backup",
+  "backupSuccessful": "Backup successful",
+  "backupCancelled": "Backup cancelled",
+  "backupFailed": "Backup failed",
+  "restoreSuccessful": "Backup restored",
+  "restoreCancelled": "Restore cancelled",
+  "restoreFailed": "Restore failed",
+  "restoreBackupHintText": "Are you sure you want to restore the backup? This is irreversible.",
   "dogSports": "{sport, select, agility{Agility} jumping{Jumping} obedience{Obedience} rallyo{Rally-O} rallyObedience{Rally-O} thsVk{THS VK} thsDk{THS DK} cc{Canicross} other{unknown}}",
     "@dogSports": {
       "description": "A gendered message",

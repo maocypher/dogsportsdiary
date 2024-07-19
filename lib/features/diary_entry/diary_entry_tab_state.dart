@@ -8,24 +8,25 @@ import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiaryEntryTabState extends State<DiaryEntryTab> {
 
-  final DiaryEntryViewModel diaryEntryViewModel;
-  final String label;
+  final DiaryEntryViewModel diaryEntryViewModel = DiaryEntryViewModel.diaryEntryViewModel;
 
   TextEditingController _temperatureController = TextEditingController();
   TextEditingController _trainingDurationController = TextEditingController();
   TextEditingController _warmUpDurationController = TextEditingController();
   TextEditingController _coolDownDurationController = TextEditingController();
 
-  DiaryEntryTabState({
-    required this.diaryEntryViewModel,
-    required this.label
-  });
+  @override
+  void initState() {
+    super.initState();
+    diaryEntryViewModel.initAsync(widget.idStr);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(label),
+              title: Text(AppLocalizations.of(context)!.diaryEntry),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
@@ -45,7 +46,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    diaryEntryViewModel.deleteEntry();
+                    diaryEntryViewModel.deleteEntryAsync();
                     context.pop();
                   },
                 ),
@@ -63,7 +64,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           value: viewModel.selectedDog,
                           onChanged: (dog) {
                             if(dog != null){
-                              viewModel.loadDog(dog.id!, null);
+                              viewModel.loadDogAsync(dog.id!, null);
                             }
                           },
                           items: viewModel.dogList?.map((dog) {
@@ -293,19 +294,44 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                           children: <Widget>[
                             ListTile(
                               title: Column(
-                                children: viewModel.selectedExercises.map((exerciseTuple) {
-                                  return ListTile(
-                                    title: Row(
+                                children: viewModel.selectedExercises.map((exerciseRating) {
+                                  return Slidable(
+                                    key: ValueKey(exerciseRating),
+                                    // The start action pane is the one at the left or the top side.
+                                    startActionPane: ActionPane(
+                                      // A motion is a widget used to control how the pane animates.
+                                      motion: const DrawerMotion(),
+                                      // All actions are defined in the children parameter.
                                       children: [
-                                        Expanded(
-                                          child: Text(AppLocalizations.of(context)!.exercises(exerciseTuple.key.toString())),
-                                        ),
-                                        StarRating(
-                                          rating: exerciseTuple.value,
-                                          allowHalfRating: false,
-                                          onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseTuple.key, newRating)),
+                                        // A SlidableAction can have an icon and/or a label.
+                                        SlidableAction(
+                                          onPressed: (context) => viewModel.updateIsPlanned(exerciseRating.exercise),
+                                          backgroundColor: Colors.blueAccent,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.star,
+                                          label: AppLocalizations.of(context)!.ratingPlan,
                                         ),
                                       ],
+                                    ),
+
+                                    // The child of the Slidable is what the user sees when the
+                                    // component is not dragged.
+                                    child: ListTile(
+                                      leading: exerciseRating.isPlanned
+                                          ? const Icon(Icons.star)
+                                          : null,
+                                      title: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(AppLocalizations.of(context)!.exercises(exerciseRating.exercise.toString())),
+                                          ),
+                                          StarRating(
+                                            rating: exerciseRating.rating,
+                                            allowHalfRating: false,
+                                            onRatingChanged: (newRating) => setState(() => viewModel.updateRating(exerciseRating.exercise, newRating)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }).toList(),
@@ -322,7 +348,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntry();
+                Provider.of<DiaryEntryViewModel>(context, listen: false).saveEntryAsync();
                 context.pop();
               },
               child: const Icon(Icons.save),
