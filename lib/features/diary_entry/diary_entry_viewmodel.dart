@@ -13,6 +13,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -77,6 +78,9 @@ class DiaryEntryViewModel extends ChangeNotifier {
       }
 
       notifyListeners();
+    }
+    else {
+      Toast.showToast(msg: "Diary entry not found");
     }
   }
 
@@ -201,13 +205,21 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   deleteEntryAsync() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
+      var result = await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
+
+      if(result.isError()) {
+        Toast.showToast(msg: "Error deleting entry");
+      }
     }
   }
 
   saveEntryAsync() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
+      var result = await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
+
+      if(result.isError()) {
+        Toast.showToast(msg: "Error saving entry");
+      }
     }
   }
 

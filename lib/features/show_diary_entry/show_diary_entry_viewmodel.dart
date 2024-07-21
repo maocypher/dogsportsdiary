@@ -3,6 +3,7 @@ import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/widgets.dart';
 
 class ShowDiaryEntryViewmodel extends ChangeNotifier {
@@ -36,6 +37,9 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
     if(entriesResult.isSuccess()) {
       _diaryEntries = entriesResult.tryGetSuccess() ?? List.empty();
       notifyListeners();
+    }
+    else{
+      Toast.showToast(msg: "Something went wrong. Please try again later.");
     }
   }
 

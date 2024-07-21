@@ -29,9 +29,14 @@ class DiaryEntryRepository {
     }
   }
 
-  Result<DiaryEntry?, Exception> getEntry(int id) {
+  Result<DiaryEntry, Exception> getEntry(int id) {
     try{
       var result = _hiveService.diaryEntryBox.get(id);
+
+      if(result == null) {
+        return Error(Exception('Entry not found'));
+      }
+
       return Success(result);
     } on Exception catch (e){
       return Error(e);
