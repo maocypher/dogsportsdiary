@@ -1,5 +1,6 @@
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
+import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/rating.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
@@ -21,6 +22,19 @@ class TestFactories{
         trainingDurationInMin: 0,
         warmUpDurationInMin: 0,
         coolDownDurationInMin: 0
+    );
+  }
+
+  static Dog createDog() {
+    return Dog(
+      id: 1,
+      name: 'Rex',
+      dateOfBirth: DateTime.now(),
+      sports: Map<DogSports, DogSportsClasses>.fromEntries([
+        const MapEntry(DogSports.obedience, DogSportsClasses.obedienceOB)
+      ]),
+      weight: 20.0,
+      imagePath: 'image.png'
     );
   }
 }

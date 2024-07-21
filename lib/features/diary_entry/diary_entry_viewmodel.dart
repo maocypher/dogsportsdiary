@@ -85,22 +85,29 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadDogsAsync() async {
-    _dogList = await dogRepository.getAllDogsAsync();
+    var dogsResult = dogRepository.getAllDogs();
+    if(dogsResult.isSuccess()) {
+      _dogList = dogsResult.tryGetSuccess();
 
-    if(_dogList != null
-        && _dogList!.isNotEmpty
-        && _selectedDog == null) {
-      await loadDogAsync(_dogList!.first.id!, null);
+      if(_dogList != null
+          && _dogList!.isNotEmpty
+          && _selectedDog == null) {
+        await loadDogAsync(_dogList!.first.id!, null);
+      }
+
+      notifyListeners();
     }
-
-    notifyListeners();
+    else {
+      Toast.showToast(msg: "Error loading dogs");
+    }
   }
 
   Future<void> loadDogAsync(int id, DiaryEntry? diaryEntry) async {
-    var dbDog = await dogRepository.getDogAsync(id);
+    var dogResult = dogRepository.getDog(id);
 
-    if(dbDog != null) {
-      _selectedDog = dbDog;
+
+    if(dogResult.isSuccess()) {
+      _selectedDog = dogResult.tryGetSuccess();
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
       if(diaryEntry == null) {
@@ -120,6 +127,9 @@ class DiaryEntryViewModel extends ChangeNotifier {
       }
 
       notifyListeners();
+    }
+    else {
+      Toast.showToast(msg: "Dog not found");
     }
   }
 

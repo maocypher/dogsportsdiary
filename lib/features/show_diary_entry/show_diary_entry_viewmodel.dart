@@ -16,22 +16,32 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   List<DiaryEntry> _diaryEntries = List.empty();
   List<DiaryEntry> get diaryEntries => _diaryEntries;
 
-  Future<void> initAsync() async {
-    await loadDogsAsync();
-    await loadDiaryEntriesAsync();
+  void init() {
+    loadDogs();
+    loadDiaryEntries();
   }
 
-  Future<bool> hasAnyDogsAsync() async {
-    return await _dogRepository.hasAnyDogAsync();
+  bool hasAnyDogs() {
+    var result = _dogRepository.hasAnyDogs();
+    if(result.isSuccess()) {
+      return result.tryGetSuccess() ?? false;
+    }
+    else{
+      Toast.showToast(msg: "Something went wrong. Please try again later.");
+      return false;
+    }
   }
 
-  Future<void> loadDogsAsync() async {
-    var dbDogs = await _dogRepository.getAllDogsAsync();
-    _dogs = dbDogs;
-    notifyListeners();
+  void loadDogs() {
+    var dogsResult = _dogRepository.getAllDogs();
+
+    if(dogsResult.isSuccess()) {
+      _dogs = dogsResult.tryGetSuccess() ?? List.empty();
+      notifyListeners();
+    }
   }
 
-  Future<void> loadDiaryEntriesAsync() async {
+  void loadDiaryEntries(){
     var entriesResult = _diaryEntryRepository.getAllEntries();
 
     if(entriesResult.isSuccess()) {

@@ -16,12 +16,17 @@ class BackupService {
 
   Future<BackupResult> backupAsync() async {
     try {
-      var dogs = await dogRepository.getAllDogsAsync();
+      var dogsResult = dogRepository.getAllDogs();
+      if(dogsResult.isError()) {
+        return BackupResult.failure;
+      }
+
       var diaryEntriesResult = diaryEntryRepository.getAllEntries();
       if(diaryEntriesResult.isError()) {
         return BackupResult.failure;
       }
 
+      var dogs = dogsResult.tryGetSuccess() ?? List.empty();
       var diaryEntries = diaryEntriesResult.tryGetSuccess() ?? List.empty();
       var date = DateTime.now();
       var backup = Backup(dogs: dogs, diaryEntries: diaryEntries, date: date);

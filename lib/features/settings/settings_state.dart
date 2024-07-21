@@ -136,8 +136,8 @@ class SettingsState extends State<SettingsTab> {
     showSplashScreen();
 
     var result = await settingsViewModel.backupService.restoreAsync(filePath);
-    await showDogsViewModel.initAsync();
-    await showDiaryEntryViewModel.initAsync();
+    showDogsViewModel.init();
+    showDiaryEntryViewModel.init();
     await Future.delayed(const Duration(seconds: 1)); // stop flickering of splash screen
 
     if(!mounted) {
