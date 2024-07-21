@@ -70,7 +70,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
     var entryResult = diaryEntryRepository.getEntry(id);
     
     if(entryResult.isSuccess()) {
-      _diaryEntry = entryResult.getOrNull();
+      _diaryEntry = entryResult.tryGetSuccess();
 
       if(_diaryEntry!.dogId != null) {
         await loadDogAsync(_diaryEntry!.dogId!, _diaryEntry);

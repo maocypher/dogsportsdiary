@@ -34,7 +34,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
     var entriesResult = _diaryEntryRepository.getAllEntries();
 
     if(entriesResult.isSuccess()) {
-      _diaryEntries = entriesResult.getOrDefault(List.empty());
+      _diaryEntries = entriesResult.tryGetSuccess() ?? List.empty();
       notifyListeners();
     }
   }

@@ -95,4 +95,162 @@ void main(){
       expect(result.isSuccess(), true);
     });
   });
+
+  group("getEntry", (){
+    setUpAll(() {
+      GetIt.I.registerFactory<HiveService>(() => mockHiveService);
+
+      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+    });
+
+    tearDownAll(() {
+      GetIt.I.reset();
+    });
+
+    test("should_returnFailure_when_getIsNotSuccessful", () async {
+      //arrange
+      when(() => mockBox.get(any())).thenThrow(Exception());
+
+      var inputData = TestFactories.createDiaryEntry();
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = cut.getEntry(inputData.id!);
+
+      //assert
+      expect(result.isError(), true);
+    });
+
+    test("should_returnSuccess_when_getIsSuccessful", () async {
+      //arrange
+      when(() => mockBox.get(any())).thenAnswer((_) => TestFactories.createDiaryEntry());
+
+      var inputData = TestFactories.createDiaryEntry();
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = cut.getEntry(inputData.id!);
+
+      //assert
+      expect(result.isSuccess(), true);
+      expect(result.tryGetSuccess()!.id, inputData.id);
+    });
+  });
+
+  group("getAllEntries", (){
+    setUpAll(() {
+      GetIt.I.registerFactory<HiveService>(() => mockHiveService);
+
+      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+    });
+
+    tearDownAll(() {
+      GetIt.I.reset();
+    });
+
+    test("should_returnFailure_when_getAllIsNotSuccessful", () async {
+      //arrange
+      when(() => mockBox.values).thenThrow(Exception());
+
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = cut.getAllEntries();
+
+      //assert
+      expect(result.isError(), true);
+    });
+
+    test("should_returnSuccess_when_getAllIsSuccessful", () async {
+      //arrange
+      when(() => mockBox.values).thenAnswer((_) => [TestFactories.createDiaryEntry()]);
+
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = cut.getAllEntries();
+
+      //assert
+      expect(result.isSuccess(), true);
+      expect(result.tryGetSuccess()!.length, 1);
+    });
+  });
+
+  group("deleteEntryAsync", (){
+    setUpAll(() {
+      GetIt.I.registerFactory<HiveService>(() => mockHiveService);
+
+      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+    });
+
+    tearDownAll(() {
+      GetIt.I.reset();
+    });
+
+    test("should_returnFailure_when_deleteIsNotSuccessful", () async {
+      //arrange
+      when(() => mockBox.delete(any())).thenThrow(Exception());
+
+      var inputData = TestFactories.createDiaryEntry();
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = await cut.deleteEntryAsync(inputData.id!);
+
+      //assert
+      expect(result.isError(), true);
+    });
+
+    test("should_returnSuccess_when_deleteIsSuccessful", () async {
+      //arrange
+      when(() => mockBox.delete(any())).thenAnswer((_) async => 1);
+
+      var inputData = TestFactories.createDiaryEntry();
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = await cut.deleteEntryAsync(inputData.id!);
+
+      //assert
+      expect(result.isSuccess(), true);
+    });
+  });
+
+  group("deleteAllEntriesAsync", (){
+    setUpAll(() {
+      GetIt.I.registerFactory<HiveService>(() => mockHiveService);
+
+      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+    });
+
+    tearDownAll(() {
+      GetIt.I.reset();
+    });
+
+    test("should_returnFailure_when_deleteAllIsNotSuccessful", () async {
+      //arrange
+      when(() => mockBox.clear()).thenThrow(Exception());
+
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = await cut.deleteAllEntriesAsync();
+
+      //assert
+      expect(result.isError(), true);
+    });
+
+    test("should_returnSuccess_when_deleteAllIsSuccessful", () async {
+      //arrange
+      when(() => mockBox.clear()).thenAnswer((_) async => 1);
+
+      var cut = DiaryEntryRepository();
+
+      //act
+      var result = await cut.deleteAllEntriesAsync();
+
+      //assert
+      expect(result.isSuccess(), true);
+    });
+  });
 }
