@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/services/backup_service.dart';
 import 'package:flutter/material.dart';
 

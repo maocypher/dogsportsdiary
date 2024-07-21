@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';

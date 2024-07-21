@@ -1,5 +1,5 @@
 import 'package:darq/darq.dart';
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/services/hive_service.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 

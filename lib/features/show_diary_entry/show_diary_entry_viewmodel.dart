@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -31,10 +31,10 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   }
 
   Future<void> loadDiaryEntriesAsync() async {
-    var dbEntires = await _diaryEntryRepository.getAllEntiresAsync();
+    var entriesResult = _diaryEntryRepository.getAllEntries();
 
-    if(dbEntires.isNotEmpty) {
-      _diaryEntries = dbEntires;
+    if(entriesResult.isSuccess()) {
+      _diaryEntries = entriesResult.getOrDefault(List.empty());
       notifyListeners();
     }
   }

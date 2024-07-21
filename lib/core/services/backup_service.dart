@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/backup.dart';
+import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:file_picker/file_picker.dart';
 
 class BackupService {
@@ -17,7 +18,7 @@ class BackupService {
   Future<BackupResult> backupAsync() async {
     try {
       var dogs = await dogRepository.getAllDogsAsync();
-      var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
+      List<DiaryEntry> diaryEntries = diaryEntryRepository.getAllEntries().getOrNull() ?? [];
 
       var date = DateTime.now();
       var backup = Backup(dogs: dogs, diaryEntries: diaryEntries, date: date);

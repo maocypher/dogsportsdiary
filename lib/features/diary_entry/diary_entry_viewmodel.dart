@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:darq/darq.dart';
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/core/utils/rating.dart';
+import 'package:dog_sports_diary/domain/entities/rating.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
-import 'package:dog_sports_diary/core/utils/tuple.dart' as dogSports;
+import 'package:dog_sports_diary/core/utils/tuple.dart' as dog_sports;
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -31,13 +31,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Dog? _selectedDog;
   Dog? get selectedDog => _selectedDog;
 
-  List<dogSports.Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
-  List<dogSports.Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
+  List<dog_sports.Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
+  List<dog_sports.Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
 
-  dogSports.Tuple<DogSports, DogSportsClasses>? _selectedSport;
-  dogSports.Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
+  dog_sports.Tuple<DogSports, DogSportsClasses>? _selectedSport;
+  dog_sports.Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
-  Map<dogSports.Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
+  Map<dog_sports.Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
   List<Rating> _selectedExercises = [];
   List<Rating> get selectedExercises => _selectedExercises.orderByDescending((x) => x.isPlanned ? 1 : 0).orderByDescending((x) => x.rating).toList();
 
@@ -67,13 +67,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadEntryAsync(int id) async {
-    var dbEntry = await diaryEntryRepository.getEntryAsync(id);
+    var entryResult = diaryEntryRepository.getEntry(id);
+    
+    if(entryResult.isSuccess()) {
+      _diaryEntry = entryResult.getOrNull();
 
-    if(dbEntry != null) {
-      _diaryEntry = dbEntry;
-
-      if(dbEntry.dogId != null) {
-        await loadDogAsync(dbEntry.dogId!, dbEntry);
+      if(_diaryEntry!.dogId != null) {
+        await loadDogAsync(_diaryEntry!.dogId!, _diaryEntry);
       }
 
       notifyListeners();
@@ -119,7 +119,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
-  loadSport(dogSports.Tuple<DogSports, DogSportsClasses> sport) {
+  loadSport(dog_sports.Tuple<DogSports, DogSportsClasses> sport) {
     _selectedSport = sport;
 
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
