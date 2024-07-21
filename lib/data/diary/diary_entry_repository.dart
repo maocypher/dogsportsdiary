@@ -1,45 +1,47 @@
 import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
-import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/services/hive_service.dart';
+import 'package:dog_sports_diary/core/utils/result.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
-import 'package:hive/hive.dart';
 
 class DiaryEntryRepository {
+  final HiveService _hiveService = HiveService.hiveService;
 
-  Future<void> saveEntryAsync(DiaryEntry diaryEntry) async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
+  Future<Result<void, Exception>> saveEntryAsync(DiaryEntry diaryEntry) async {
+    try{
+      if(diaryEntry.id == null) {
+        diaryEntry.setId();
+      }
 
-    if(diaryEntry.id == null) {
-      diaryEntry.setId();
+      throw Exception();
+
+      await _hiveService.diaryEntryBox.put(diaryEntry.id, diaryEntry);
+
+      return const Success(null);
+    } on Exception catch (e){
+      return Failure(e);
     }
-
-    await diaryEntryBox.put(diaryEntry.id, diaryEntry);
   }
 
   Future<void> saveAllEntriesAsync(List<DiaryEntry> diaryEntries) async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    await diaryEntryBox.putAll(Map.fromEntries(diaryEntries.map((x) => MapEntry(x.id, x))));
+    await _hiveService.diaryEntryBox.putAll(Map.fromEntries(diaryEntries.map((x) => MapEntry(x.id, x))));
   }
 
   Future<DiaryEntry?> getEntryAsync(int id) async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    return diaryEntryBox.get(id);
+    return _hiveService.diaryEntryBox.get(id);
   }
 
   Future<List<DiaryEntry>> getAllEntiresAsync() async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    return diaryEntryBox.values.orderByDescending((x) => x.date).toList();
+    return _hiveService.diaryEntryBox.values.orderByDescending((x) => x.date).toList();
   }
 
   Future<void> deleteEntryAsync(int id) async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    await diaryEntryBox.delete(id);
+    await _hiveService.diaryEntryBox.delete(id);
   }
 
 
   Future<void> deleteAllEntriesAsync() async {
-    final diaryEntryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
-    await diaryEntryBox.clear();
+    await _hiveService.diaryEntryBox.clear();
   }
 
   static inject() {

@@ -1,47 +1,41 @@
 import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/serivce_provider.dart';
-import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/core/services/hive_service.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:hive/hive.dart';
 
 class DogRepository {
+  final HiveService _hiveService = HiveService.hiveService;
+
   Future<void> saveDogAsync(Dog dog) async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
     if(dog.id == null){
       dog.setId();
     }
 
-    await dogBox.put(dog.id, dog);
+    await _hiveService.dogBox.put(dog.id, dog);
   }
 
   Future<void> saveAllDogsAsync(List<Dog> dogs) async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    await dogBox.putAll(Map.fromEntries(dogs.map((x) => MapEntry(x.id, x))));
+    await _hiveService.dogBox.putAll(Map.fromEntries(dogs.map((x) => MapEntry(x.id, x))));
   }
 
   Future<Dog?> getDogAsync(int id) async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    return dogBox.get(id);
+    return _hiveService.dogBox.get(id);
   }
 
   Future<List<Dog>> getAllDogsAsync() async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    return dogBox.values.orderBy((x) => x.name.toLowerCase()).toList();
+    return _hiveService.dogBox.values.orderBy((x) => x.name.toLowerCase()).toList();
   }
 
   Future<void> deleteDogAsync(int id) async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    await dogBox.delete(id);
+    await _hiveService.dogBox.delete(id);
   }
 
   Future<void> deleteAllDogsAsync() async {
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    await dogBox.clear();
+    await _hiveService.dogBox.clear();
   }
 
   Future<bool> hasAnyDogAsync() async{
-    final dogBox = Hive.box<Dog>(Constants.dogBox);
-    return dogBox.isNotEmpty;
+    return _hiveService.dogBox.isNotEmpty;
   }
 
   static inject() {

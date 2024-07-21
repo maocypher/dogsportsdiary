@@ -10,7 +10,10 @@ import 'package:path_provider/path_provider.dart';
 class HiveService{
 
   final Box<DiaryEntry> _diaryBox = Hive.box<DiaryEntry>(Constants.diaryBox);
+  Box<DiaryEntry> get diaryEntryBox => _diaryBox;
+
   final Box<Dog> _dogBox = Hive.box<Dog>(Constants.dogBox);
+  Box<Dog> get dogBox => _dogBox;
 
   static Future<void> initAsync() async {
     final directory = await getApplicationDocumentsDirectory();
