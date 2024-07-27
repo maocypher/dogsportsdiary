@@ -58,6 +58,7 @@ class ShowDogsState extends State<ShowDogsTab> {
               },
             ),
             floatingActionButton: FloatingActionButton(
+              key: const ValueKey("btnAddDog"),
               onPressed: () {
                 context.push('/dog/new-dog');
               },

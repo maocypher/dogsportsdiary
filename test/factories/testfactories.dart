@@ -25,10 +25,10 @@ class TestFactories{
     );
   }
 
-  static Dog createDog() {
+  static Dog createDog(int? id, String? name) {
     return Dog(
-      id: 1,
-      name: 'Rex',
+      id: id ?? 1,
+      name: name ?? 'Rex',
       dateOfBirth: DateTime.now(),
       sports: Map<DogSports, DogSportsClasses>.fromEntries([
         const MapEntry(DogSports.obedience, DogSportsClasses.obedienceOB)
