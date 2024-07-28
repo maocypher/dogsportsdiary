@@ -74,6 +74,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
               },
             ),
             floatingActionButton: FloatingActionButton(
+              key: const ValueKey("btnAddDiaryEntry"),
               onPressed: () {
                 var hasDogs = showDiaryEntryViewmodel.hasAnyDogs();
 

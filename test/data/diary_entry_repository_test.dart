@@ -18,7 +18,7 @@ void main(){
 
       when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
 
-      registerFallbackValue(TestFactories.createDiaryEntry());
+      registerFallbackValue(TestFactories.createDiaryEntry(null, null, null, null));
     });
 
     tearDownAll(() {
@@ -29,7 +29,7 @@ void main(){
       //arrange
       when(() => mockBox.put(any(), any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -43,7 +43,7 @@ void main(){
       //arrange
       when(() => mockBox.put(any(), any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -60,7 +60,7 @@ void main(){
 
       when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
 
-      registerFallbackValue(TestFactories.createDiaryEntry());
+      registerFallbackValue(TestFactories.createDiaryEntry(null, null, null, null));
     });
 
     tearDownAll(() {
@@ -71,7 +71,7 @@ void main(){
       //arrange
       when(() => mockBox.putAll(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -85,7 +85,7 @@ void main(){
       //arrange
       when(() => mockBox.putAll(any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -111,7 +111,7 @@ void main(){
       //arrange
       when(() => mockBox.get(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -123,9 +123,9 @@ void main(){
 
     test("should_returnSuccess_when_getIsSuccessful", () async {
       //arrange
-      when(() => mockBox.get(any())).thenAnswer((_) => TestFactories.createDiaryEntry());
+      when(() => mockBox.get(any())).thenAnswer((_) => TestFactories.createDiaryEntry(null, null, null, null));
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -163,7 +163,7 @@ void main(){
 
     test("should_returnSuccess_when_getAllIsSuccessful", () async {
       //arrange
-      when(() => mockBox.values).thenAnswer((_) => [TestFactories.createDiaryEntry()]);
+      when(() => mockBox.values).thenAnswer((_) => [TestFactories.createDiaryEntry(null, null, null, null)]);
 
       var cut = DiaryEntryRepository();
 
@@ -191,7 +191,7 @@ void main(){
       //arrange
       when(() => mockBox.delete(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
@@ -205,7 +205,7 @@ void main(){
       //arrange
       when(() => mockBox.delete(any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry();
+      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
       var cut = DiaryEntryRepository();
 
       //act
