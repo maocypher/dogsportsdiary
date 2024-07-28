@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
@@ -37,6 +38,15 @@ class TestFactories{
       ]),
       weight: 20.0,
       imagePath: 'image.png'
+    );
+  }
+
+  static Dog initDog() {
+    return Dog(
+        name: '',
+        dateOfBirth: DateTime.now(),
+        sports: {},
+        weight: Constants.initWeight
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/services/hive_service.dart';
+import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class MockGoRouterProvider extends StatelessWidget {
 //ViewModels
 class MockShowDogsViewModel extends Mock implements ShowDogsViewModel{}
 class MockShowDiaryEntryViewmodel extends Mock implements ShowDiaryEntryViewmodel {}
+class MockDogViewModel extends Mock implements DogViewModel {}
 
 //Database
 class MockHiveService extends Mock implements HiveService {}
