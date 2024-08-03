@@ -20,9 +20,10 @@ import 'package:intl/intl.dart';
 class DiaryEntryViewModel extends ChangeNotifier {
   final DogRepository dogRepository = DogRepository.dogRepository;
   final DiaryEntryRepository diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
+  final Toast toast = Toast.toast;
 
   DiaryEntry? _diaryEntry;
-  DiaryEntry? get entry => _diaryEntry;
+  DiaryEntry? get diaryEntry => _diaryEntry;
 
   String? get date => DateFormat('yyyy-MM-dd').format(_diaryEntry?.date ?? DateTime.now());
 
@@ -80,7 +81,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
       notifyListeners();
     }
     else {
-      Toast.showToast(msg: "Diary entry not found");
+      toast.showToast(msg: "Diary entry not found");
     }
   }
 
@@ -98,7 +99,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
       notifyListeners();
     }
     else {
-      Toast.showToast(msg: "Error loading dogs");
+      toast.showToast(msg: "Error loading dogs");
     }
   }
 
@@ -129,7 +130,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
       notifyListeners();
     }
     else {
-      Toast.showToast(msg: "Dog not found");
+      toast.showToast(msg: "Dog not found");
     }
   }
 
@@ -218,7 +219,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
       var result = await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
 
       if(result.isError()) {
-        Toast.showToast(msg: "Error deleting entry");
+        toast.showToast(msg: "Error deleting entry");
       }
     }
   }
@@ -228,7 +229,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
       var result = await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
 
       if(result.isError()) {
-        Toast.showToast(msg: "Error saving entry");
+        toast.showToast(msg: "Error saving entry");
       }
     }
   }

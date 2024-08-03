@@ -126,7 +126,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                               title: TextFormField(
                                 controller: _temperatureController = TextEditingController(
-                                  text: viewModel.entry?.temperature.toString() ?? '${Constants.initTemperature}',
+                                  text: viewModel.diaryEntry?.temperature.toString() ?? '${Constants.initTemperature}',
                                 ),
                                 decoration: InputDecoration(
                                   labelText: AppLocalizations.of(context)!.temperature,
@@ -150,7 +150,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: _trainingDurationController = TextEditingController(
-                                    text: viewModel.entry?.trainingDurationInMin.toString() ?? '${Constants.initMinutes}',
+                                    text: viewModel.diaryEntry?.trainingDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.trainingDuration,
@@ -174,7 +174,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: _warmUpDurationController = TextEditingController(
-                                    text: viewModel.entry?.warmUpDurationInMin.toString() ?? '${Constants.initMinutes}',
+                                    text: viewModel.diaryEntry?.warmUpDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.warumUpDuration,
@@ -198,7 +198,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                             ListTile(
                                 title: TextFormField(
                                   controller: _coolDownDurationController = TextEditingController(
-                                    text: viewModel.entry?.coolDownDurationInMin.toString() ?? '${Constants.initMinutes}',
+                                    text: viewModel.diaryEntry?.coolDownDurationInMin.toString() ?? '${Constants.initMinutes}',
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.coolDownDuration,
@@ -224,7 +224,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   maxLines: null,
                                   textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.trainingGoal,
+                                    text: viewModel.diaryEntry?.trainingGoal,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.trainingGoal,
@@ -239,7 +239,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   maxLines: null,
                                   textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.highlight,
+                                    text: viewModel.diaryEntry?.highlight,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.highlight,
@@ -254,7 +254,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   maxLines: null,
                                   textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.distractions,
+                                    text: viewModel.diaryEntry?.distractions,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.distractions,
@@ -269,7 +269,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                                   maxLines: null,
                                   textInputAction: TextInputAction.newline,
                                   controller: TextEditingController(
-                                    text: viewModel.entry?.notes,
+                                    text: viewModel.diaryEntry?.notes,
                                   ),
                                   decoration: InputDecoration(
                                     labelText: AppLocalizations.of(context)!.notes,

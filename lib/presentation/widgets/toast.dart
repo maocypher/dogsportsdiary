@@ -1,7 +1,8 @@
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart' as fluttertoast;
 
 class Toast {
-  static void showToast({
+  void showToast({
     required String msg
   }) {
     fluttertoast.Fluttertoast.showToast(
@@ -10,5 +11,13 @@ class Toast {
         gravity: fluttertoast.ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
         fontSize: 16.0);
+  }
+
+  static inject() {
+    ServiceProvider.locator.registerFactory<Toast>(() => Toast());
+  }
+
+  static Toast get toast {
+    return ServiceProvider.locator<Toast>();
   }
 }

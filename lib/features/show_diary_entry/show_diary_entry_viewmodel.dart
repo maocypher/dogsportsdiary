@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 class ShowDiaryEntryViewmodel extends ChangeNotifier {
   final DogRepository _dogRepository = DogRepository.dogRepository;
   final DiaryEntryRepository _diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
+  final Toast _toast = Toast.toast;
 
   List<Dog> _dogs = List.empty();
   List<Dog> get dogs => _dogs;
@@ -27,7 +28,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
       return result.tryGetSuccess() ?? false;
     }
     else{
-      Toast.showToast(msg: "Something went wrong. Please try again later.");
+      _toast.showToast(msg: "Something went wrong. Please try again later.");
       return false;
     }
   }
@@ -49,7 +50,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
       notifyListeners();
     }
     else{
-      Toast.showToast(msg: "Something went wrong. Please try again later.");
+      _toast.showToast(msg: "Something went wrong. Please try again later.");
     }
   }
 

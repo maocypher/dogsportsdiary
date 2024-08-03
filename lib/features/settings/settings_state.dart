@@ -14,6 +14,7 @@ class SettingsState extends State<SettingsTab> {
   final SettingsViewModel settingsViewModel = SettingsViewModel.settingsViewModel;
   final ShowDogsViewModel showDogsViewModel = ShowDogsViewModel.showDogsViewModel;
   final ShowDiaryEntryViewmodel showDiaryEntryViewModel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
+  final Toast toast = Toast.toast;
 
   late BuildContext _context;
 
@@ -66,15 +67,15 @@ class SettingsState extends State<SettingsTab> {
 
     switch (backupResult) {
       case BackupResult.success:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.backupSuccessful);
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupSuccessful);
         break;
 
       case BackupResult.failure:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.backupFailed);
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupFailed);
         break;
 
       case BackupResult.cancelled:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.backupCancelled);
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupCancelled);
         break;
 
       default:
@@ -91,13 +92,13 @@ class SettingsState extends State<SettingsTab> {
     }
 
     if(result == null) {
-      Toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
+      toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
       return;
     }
 
     var filePath = result.files.first.path;
     if(filePath == null) {
-      Toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
+      toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
     }
 
     //AlertDialog
@@ -116,7 +117,7 @@ class SettingsState extends State<SettingsTab> {
               child: Text(AppLocalizations.of(_context)!.buttonCancel),
               onPressed: () {
                 _context.pop();
-                Toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
+                toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
               },
             ),
             TextButton(
@@ -148,15 +149,15 @@ class SettingsState extends State<SettingsTab> {
 
     switch(result) {
       case BackupResult.success:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.restoreSuccessful);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreSuccessful);
         break;
 
       case BackupResult.failure:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
         break;
 
       case BackupResult.cancelled:
-        Toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
         break;
 
       default:

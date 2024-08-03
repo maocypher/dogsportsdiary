@@ -17,6 +17,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
   final DogRepository repository = DogRepository.dogRepository;
+  final Toast toast = Toast.toast;
 
   Dog? _dog;
   Dog? get dog => _dog;
@@ -63,7 +64,7 @@ class DogViewModel extends ChangeNotifier {
       notifyListeners();
     }
     else{
-      Toast.showToast(msg: "Dog not found");
+      toast.showToast(msg: "Dog not found");
     }
   }
 
