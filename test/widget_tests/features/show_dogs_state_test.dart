@@ -7,8 +7,8 @@ import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../factories/testfactories.dart';
-import '../mocks.dart';
+import '../../common/factories/testfactories.dart';
+import '../../mocks.dart';
 
 void main(){
   final mockGoRouter = MockGoRouter();

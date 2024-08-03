@@ -11,8 +11,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../factories/testfactories.dart';
-import '../mocks.dart';
+import '../../common/factories/testfactories.dart';
+import '../../mocks.dart';
 
 void main() {
   final MockDogViewModel mockShowDogsViewModel = MockDogViewModel();

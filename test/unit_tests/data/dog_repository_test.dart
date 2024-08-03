@@ -1,24 +1,24 @@
 import 'package:dog_sports_diary/core/services/hive_service.dart';
-import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
-import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
+import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
+import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../factories/testfactories.dart';
-import '../mocks.dart';
+import '../../common/factories/testfactories.dart';
+import '../../mocks.dart';
 
 void main(){
   final MockHiveService mockHiveService = MockHiveService();
-  final MockBox<DiaryEntry> mockBox = MockBox<DiaryEntry>();
+  final MockBox<Dog> mockBox = MockBox<Dog>();
 
-  group("saveEntryAsync", (){
+  group("saveDogAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
 
-      registerFallbackValue(TestFactories.createDiaryEntry(null, null, null, null));
+      registerFallbackValue(TestFactories.createDog(null, null));
     });
 
     tearDownAll(() {
@@ -29,11 +29,11 @@ void main(){
       //arrange
       when(() => mockBox.put(any(), any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.saveEntryAsync(inputData);
+      var result = await cut.saveDogAsync(inputData);
 
       //assert
       expect(result.isError(), true);
@@ -43,24 +43,24 @@ void main(){
       //arrange
       when(() => mockBox.put(any(), any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.saveEntryAsync(inputData);
+      var result = await cut.saveDogAsync(inputData);
 
       //assert
       expect(result.isSuccess(), true);
     });
   });
 
-  group("saveAllEntriesAsync", (){
+  group("saveAllDogsAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
 
-      registerFallbackValue(TestFactories.createDiaryEntry(null, null, null, null));
+      registerFallbackValue(TestFactories.createDog(null, null));
     });
 
     tearDownAll(() {
@@ -71,11 +71,11 @@ void main(){
       //arrange
       when(() => mockBox.putAll(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.saveAllEntriesAsync([inputData]);
+      var result = await cut.saveAllDogsAsync([inputData]);
 
       //assert
       expect(result.isError(), true);
@@ -85,22 +85,22 @@ void main(){
       //arrange
       when(() => mockBox.putAll(any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.saveAllEntriesAsync([inputData]);
+      var result = await cut.saveAllDogsAsync([inputData]);
 
       //assert
       expect(result.isSuccess(), true);
     });
   });
 
-  group("getEntry", (){
+  group("getDogAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
     });
 
     tearDownAll(() {
@@ -111,11 +111,11 @@ void main(){
       //arrange
       when(() => mockBox.get(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = cut.getEntry(inputData.id!);
+      var result = cut.getDog(inputData.id!);
 
       //assert
       expect(result.isError(), true);
@@ -123,13 +123,13 @@ void main(){
 
     test("should_returnSuccess_when_getIsSuccessful", () async {
       //arrange
-      when(() => mockBox.get(any())).thenAnswer((_) => TestFactories.createDiaryEntry(null, null, null, null));
+      when(() => mockBox.get(any())).thenAnswer((_) => TestFactories.createDog(null, null));
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = cut.getEntry(inputData.id!);
+      var result = cut.getDog(inputData.id!);
 
       //assert
       expect(result.isSuccess(), true);
@@ -137,11 +137,11 @@ void main(){
     });
   });
 
-  group("getAllEntries", (){
+  group("getAllDogsAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
     });
 
     tearDownAll(() {
@@ -152,10 +152,10 @@ void main(){
       //arrange
       when(() => mockBox.values).thenThrow(Exception());
 
-      var cut = DiaryEntryRepository();
+      var cut = DogRepository();
 
       //act
-      var result = cut.getAllEntries();
+      var result = cut.getAllDogs();
 
       //assert
       expect(result.isError(), true);
@@ -163,12 +163,12 @@ void main(){
 
     test("should_returnSuccess_when_getAllIsSuccessful", () async {
       //arrange
-      when(() => mockBox.values).thenAnswer((_) => [TestFactories.createDiaryEntry(null, null, null, null)]);
+      when(() => mockBox.values).thenAnswer((_) => [TestFactories.createDog(null, null)]);
 
-      var cut = DiaryEntryRepository();
+      var cut = DogRepository();
 
       //act
-      var result = cut.getAllEntries();
+      var result = cut.getAllDogs();
 
       //assert
       expect(result.isSuccess(), true);
@@ -176,11 +176,11 @@ void main(){
     });
   });
 
-  group("deleteEntryAsync", (){
+  group("deleteDogAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
     });
 
     tearDownAll(() {
@@ -191,11 +191,11 @@ void main(){
       //arrange
       when(() => mockBox.delete(any())).thenThrow(Exception());
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.deleteEntryAsync(inputData.id!);
+      var result = await cut.deleteDogAsync(inputData.id!);
 
       //assert
       expect(result.isError(), true);
@@ -205,22 +205,22 @@ void main(){
       //arrange
       when(() => mockBox.delete(any())).thenAnswer((_) async => 1);
 
-      var inputData = TestFactories.createDiaryEntry(null, null, null, null);
-      var cut = DiaryEntryRepository();
+      var inputData = TestFactories.createDog(null, null);
+      var cut = DogRepository();
 
       //act
-      var result = await cut.deleteEntryAsync(inputData.id!);
+      var result = await cut.deleteDogAsync(inputData.id!);
 
       //assert
       expect(result.isSuccess(), true);
     });
   });
 
-  group("deleteAllEntriesAsync", (){
+  group("deleteAllDogsAsync", (){
     setUpAll(() {
       GetIt.I.registerFactory<HiveService>(() => mockHiveService);
 
-      when(() => mockHiveService.diaryEntryBox).thenReturn(mockBox);
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
     });
 
     tearDownAll(() {
@@ -231,10 +231,10 @@ void main(){
       //arrange
       when(() => mockBox.clear()).thenThrow(Exception());
 
-      var cut = DiaryEntryRepository();
+      var cut = DogRepository();
 
       //act
-      var result = await cut.deleteAllEntriesAsync();
+      var result = await cut.deleteAllDogsAsync();
 
       //assert
       expect(result.isError(), true);
@@ -244,13 +244,52 @@ void main(){
       //arrange
       when(() => mockBox.clear()).thenAnswer((_) async => 1);
 
-      var cut = DiaryEntryRepository();
+      var cut = DogRepository();
 
       //act
-      var result = await cut.deleteAllEntriesAsync();
+      var result = await cut.deleteAllDogsAsync();
 
       //assert
       expect(result.isSuccess(), true);
+    });
+  });
+
+  group("hasAnyDogAsync", (){
+    setUpAll(() {
+      GetIt.I.registerFactory<HiveService>(() => mockHiveService);
+
+      when(() => mockHiveService.dogBox).thenReturn(mockBox);
+    });
+
+    tearDownAll(() {
+      GetIt.I.reset();
+    });
+
+    test("should_returnFailure_when_hasAnyIsNotSuccessful", () async {
+      //arrange
+      when(() => mockBox.isNotEmpty).thenThrow(Exception());
+
+      var cut = DogRepository();
+
+      //act
+      var result = cut.hasAnyDogs();
+
+      //assert
+      expect(result.isError(), true);
+    });
+
+    test("should_returnSuccess_when_hasAnyIsSuccessful", () async {
+      //arrange
+      when(() => mockBox.isNotEmpty).thenAnswer((_) => true);
+
+      var cut = DogRepository();
+
+      //act
+      var result = cut.hasAnyDogs();
+
+      //assert
+      expect(result.isSuccess(), true);
+      expect(result.tryGetSuccess(), true);
     });
   });
 }
