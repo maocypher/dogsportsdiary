@@ -106,7 +106,6 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Future<void> loadDogAsync(int id, DiaryEntry? diaryEntry) async {
     var dogResult = dogRepository.getDog(id);
 
-
     if(dogResult.isSuccess()) {
       _selectedDog = dogResult.tryGetSuccess();
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
