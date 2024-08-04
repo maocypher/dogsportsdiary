@@ -33,10 +33,10 @@ workflows:
       - name: Flutter analyze
         script: |
           flutter analyze --no-fatal-infos
-      #- name: Flutter unit tests
-      #  script: |
-      #    flutter test
-      #  ignore_failure: false
+      - name: Flutter unit tests
+        script: |
+          flutter test
+        ignore_failure: false
       #- name: Build AAB with Flutter
       #  script: |
       #    flutter build appbundle --release \
@@ -46,38 +46,38 @@ workflows:
         script: |
           BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
           flutter build appbundle --release \
-            --build-name=1.1.$BUILD_NUMBER \
+            --build-name=1.0.$BUILD_NUMBER \
             --build-number=$BUILD_NUMBER
-      #- name: Publish to GitHub
-      #  script: |
-      #    #!/usr/bin/env zsh
-      #
-      #    # Publish only for tag builds
-      #    if [ -z ${CM_TAG} ]; then
-      #      echo "Not a tag build, will not publish GitHub release"
-      #      exit 0
-      #    fi
-      #
-      #    gh release create "${CM_TAG}" \
-      #      --title "v${CM_TAG}" \
-      #      --notes-file changelog.md \
-      #      build/**/outputs/**/*.aab
+      - name: Publish to GitHub
+        script: |
+          #!/usr/bin/env zsh
+      
+          # Publish only for tag builds
+          if [ -z ${CM_TAG} ]; then
+            echo "Not a tag build, will not publish GitHub release"
+            exit 0
+          fi
+      
+          gh release create "${CM_TAG}" \
+            --title "v${CM_TAG}" \
+            --notes-file changelog.md \
+            build/**/outputs/**/*.aab
 
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
-    #publishing:
-    #  email:
-    #    recipients:
-    #      - maocypher@gmail.com
-    #    notify:
-    #      success: true
-    #      failure: true
-    #  google_play:
-    #    credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-    #    track: $GOOGLE_PLAY_TRACK
-    #    submit_as_draft: true
+    publishing:
+      email:
+        recipients:
+          - maocypher@gmail.com
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: $GOOGLE_PLAY_TRACK
+        submit_as_draft: true
 
   ios-workflow:
     name: DogSportsDiary iOS Workflow
@@ -114,10 +114,10 @@ workflows:
     - name: Flutter analyze
       script: |
         flutter analyze --no-fatal-infos
-    #- name: Flutter unit tests
-    #  script: |
-    #    flutter test
-    #  ignore_failure: true
+    - name: Flutter unit tests
+      script: |
+        flutter test
+      ignore_failure: false
     #- name: Flutter build ipa
     #  script: |
     #    flutter build ipa --release \
