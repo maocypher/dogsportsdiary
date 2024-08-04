@@ -1,13 +1,15 @@
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/widgets.dart';
 
 class ShowDiaryEntryViewmodel extends ChangeNotifier {
   final DogRepository _dogRepository = DogRepository.dogRepository;
   final DiaryEntryRepository _diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
+  final Toast _toast = Toast.toast;
 
   List<Dog> _dogs = List.empty();
   List<Dog> get dogs => _dogs;
@@ -15,27 +17,40 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   List<DiaryEntry> _diaryEntries = List.empty();
   List<DiaryEntry> get diaryEntries => _diaryEntries;
 
-  Future<void> initAsync() async {
-    await loadDogsAsync();
-    await loadDiaryEntriesAsync();
+  void init() {
+    loadDogs();
+    loadDiaryEntries();
   }
 
-  Future<bool> hasAnyDogsAsync() async {
-    return await _dogRepository.hasAnyDogAsync();
+  bool hasAnyDogs() {
+    var result = _dogRepository.hasAnyDogs();
+    if(result.isSuccess()) {
+      return result.tryGetSuccess() ?? false;
+    }
+    else{
+      _toast.showToast(msg: "Something went wrong. Please try again later.");
+      return false;
+    }
   }
 
-  Future<void> loadDogsAsync() async {
-    var dbDogs = await _dogRepository.getAllDogsAsync();
-    _dogs = dbDogs;
-    notifyListeners();
-  }
+  void loadDogs() {
+    var dogsResult = _dogRepository.getAllDogs();
 
-  Future<void> loadDiaryEntriesAsync() async {
-    var dbEntires = await _diaryEntryRepository.getAllEntiresAsync();
-
-    if(dbEntires.isNotEmpty) {
-      _diaryEntries = dbEntires;
+    if(dogsResult.isSuccess()) {
+      _dogs = dogsResult.tryGetSuccess() ?? List.empty();
       notifyListeners();
+    }
+  }
+
+  void loadDiaryEntries(){
+    var entriesResult = _diaryEntryRepository.getAllEntries();
+
+    if(entriesResult.isSuccess()) {
+      _diaryEntries = entriesResult.tryGetSuccess() ?? List.empty();
+      notifyListeners();
+    }
+    else{
+      _toast.showToast(msg: "Something went wrong. Please try again later.");
     }
   }
 

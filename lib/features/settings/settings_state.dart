@@ -3,9 +3,9 @@ import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,6 +14,7 @@ class SettingsState extends State<SettingsTab> {
   final SettingsViewModel settingsViewModel = SettingsViewModel.settingsViewModel;
   final ShowDogsViewModel showDogsViewModel = ShowDogsViewModel.showDogsViewModel;
   final ShowDiaryEntryViewmodel showDiaryEntryViewModel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
+  final Toast toast = Toast.toast;
 
   late BuildContext _context;
 
@@ -66,31 +67,17 @@ class SettingsState extends State<SettingsTab> {
 
     switch (backupResult) {
       case BackupResult.success:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.backupSuccessful,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupSuccessful);
         break;
+
       case BackupResult.failure:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.backupFailed,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
-
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupFailed);
         break;
+
       case BackupResult.cancelled:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.backupCancelled,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
-
+        toast.showToast(msg: AppLocalizations.of(_context)!.backupCancelled);
         break;
+
       default:
         break;
     }
@@ -105,24 +92,13 @@ class SettingsState extends State<SettingsTab> {
     }
 
     if(result == null) {
-      Fluttertoast.showToast(
-          msg: AppLocalizations.of(_context)!.restoreCancelled,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 3,
-          fontSize: 16.0);
-
+      toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
       return;
     }
 
     var filePath = result.files.first.path;
     if(filePath == null) {
-      Fluttertoast.showToast(
-          msg: AppLocalizations.of(_context)!.restoreFailed,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 3,
-          fontSize: 16.0);
+      toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
     }
 
     //AlertDialog
@@ -141,12 +117,7 @@ class SettingsState extends State<SettingsTab> {
               child: Text(AppLocalizations.of(_context)!.buttonCancel),
               onPressed: () {
                 _context.pop();
-                Fluttertoast.showToast(
-                    msg: AppLocalizations.of(_context)!.restoreCancelled,
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 3,
-                    fontSize: 16.0);
+                toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
               },
             ),
             TextButton(
@@ -166,8 +137,8 @@ class SettingsState extends State<SettingsTab> {
     showSplashScreen();
 
     var result = await settingsViewModel.backupService.restoreAsync(filePath);
-    await showDogsViewModel.initAsync();
-    await showDiaryEntryViewModel.initAsync();
+    showDogsViewModel.init();
+    showDiaryEntryViewModel.init();
     await Future.delayed(const Duration(seconds: 1)); // stop flickering of splash screen
 
     if(!mounted) {
@@ -178,28 +149,15 @@ class SettingsState extends State<SettingsTab> {
 
     switch(result) {
       case BackupResult.success:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.restoreSuccessful,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreSuccessful);
         break;
+
       case BackupResult.failure:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.restoreFailed,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreFailed);
         break;
+
       case BackupResult.cancelled:
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(_context)!.restoreCancelled,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3,
-            fontSize: 16.0);
+        toast.showToast(msg: AppLocalizations.of(_context)!.restoreCancelled);
         break;
 
       default:

@@ -16,7 +16,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
   @override
   void initState() {
     super.initState();
-    showDiaryEntryViewmodel.initAsync();
+    showDiaryEntryViewmodel.init();
   }
 
   @override
@@ -74,11 +74,9 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                var hasDogs = await showDiaryEntryViewmodel.hasAnyDogsAsync();
-                if(!mounted){
-                  return;
-                }
+              key: const ValueKey("btnAddDiaryEntry"),
+              onPressed: () {
+                var hasDogs = showDiaryEntryViewmodel.hasAnyDogs();
 
                 if (!hasDogs) {
                   _context.push('${Constants.routeDog}/${Constants.routeDogNew}');

@@ -89,6 +89,7 @@ class DogTabState extends State<DogTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
+                          key: const ValueKey("txtBoxName"),
                           controller: TextEditingController(
                             text: viewModel.dog?.name,
                           ),
@@ -102,6 +103,7 @@ class DogTabState extends State<DogTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
+                          key: const ValueKey("txtBoxDateOfBirth"),
                           controller: TextEditingController(
                             text: viewModel.dateOfBirth,
                           ),
@@ -125,6 +127,7 @@ class DogTabState extends State<DogTab> {
                         ),
                         const SizedBox(height: Constants.uiSpacer),
                         TextFormField(
+                          key: const ValueKey("txtBoxWeight"),
                           controller: _weightController = TextEditingController(
                             text: viewModel.dog?.weight.toString(),
                           ),
@@ -234,6 +237,7 @@ class DogTabState extends State<DogTab> {
                             return Column(
                               children: viewModel.selectedSports.value.map((dogSport) {
                                 return DropdownButtonFormField<DogSportsClasses>(
+                                  key: ValueKey("drpDown$dogSport"),
                                   value: viewModel.sportClasses[dogSport]?.first,
                                   items: viewModel.sportClasses[dogSport]?.map((sportsClass) {
                                     return DropdownMenuItem<DogSportsClasses>(

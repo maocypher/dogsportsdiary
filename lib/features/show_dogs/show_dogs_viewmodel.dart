@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,17 @@ class ShowDogsViewModel extends ChangeNotifier {
 
   List<Dog> get dogs => _dogs;
 
-  Future<void> initAsync() async {
-    await loadDogsAsync();
+  void init() {
+    loadDogs();
   }
 
-  Future<void> loadDogsAsync() async {
-    var dbDogs = await _repository.getAllDogsAsync();
-    _dogs = dbDogs;
-    notifyListeners();
+  void loadDogs() {
+    var dogsResult = _repository.getAllDogs();
+
+    if(dogsResult.isSuccess()) {
+      _dogs = dogsResult.tryGetSuccess() ?? List.empty();
+      notifyListeners();
+    }
   }
 
   static inject() {
