@@ -15,6 +15,7 @@
   "dateOfBirth": "Date of birth",
   "weight": "Weight",
   "settings": "Settings",
+  "overview": "Overview",
   "dogPageAddDogs": "Press the + button to add a dog",
   "diaryPageNoDogs": "You have no dogs added yet",
   "sportsMultiSelectionHint": "Select sports",
