@@ -4,7 +4,6 @@ import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class OverviewViewModel extends ChangeNotifier {
@@ -15,6 +14,8 @@ class OverviewViewModel extends ChangeNotifier {
 
   List<Dog> get dogs => _dogs;
   Map<DogSports, List<(Exercises, int)>> _history = {};
+
+  List<Widget> legend = [];
 
   void init() {
     loadDogs();
@@ -28,66 +29,15 @@ class OverviewViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  
-  List<BarChartGroupData> getBarChartData(int dogId,DogSports sport)
-  {
-    List<BarChartGroupData> barChartData = [];
+
+  List<(Exercises, int)> getHistory(int dogId, DogSports sport) {
     _history = _overviewService.getHistoryOfLastFourWeeks(dogId);
 
     if(_history[sport] == null){
-      return barChartData;
+      return [];
     }
 
-    var sportHistory = _history[sport];
-    
-    for(var i = 0; i < sportHistory!.length; i++){
-      barChartData.add(BarChartGroupData(
-          x: i,
-          barRods: [
-            BarChartRodData(toY: sportHistory[i].$2.toDouble())
-          ]
-      ));
-    }
-
-    return barChartData;
-  }
-
-  Widget getTitles(DogSports sport, double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.blueGrey,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-
-    String text = value.toInt().toString();
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(text, style: style),
-    );
-  }
-
-  FlTitlesData getTitlesData(DogSports sport) {
-    return FlTitlesData(
-      show: true,
-      bottomTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 30,
-          getTitlesWidget: (value, meta) => getTitles(sport, value, meta),
-        ),
-      ),
-      leftTitles: const AxisTitles(
-        sideTitles: SideTitles(showTitles: true),
-      ),
-      topTitles: const AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-      rightTitles: const AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-    );
+    return _history[sport] ?? [];
   }
 
   static inject() {

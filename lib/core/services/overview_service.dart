@@ -52,6 +52,7 @@ class OverviewService {
       )
       .groupBy((rating) => rating.exercise)
       .map((grouping) => (grouping.key, grouping.length))
+      .orderByDescending((item) => item.$2)
       .toList();
 
       exerciseCounter[sport] = counter;

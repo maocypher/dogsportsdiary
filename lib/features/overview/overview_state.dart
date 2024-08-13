@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dog_sports_diary/features/overview/overview_tab.dart';
 import 'package:dog_sports_diary/features/overview/overview_viewmodel.dart';
 import 'package:dog_sports_diary/presentation/widgets/toast.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,7 +30,7 @@ class OverviewState extends State<OverviewTab> {
               title: Text(AppLocalizations.of(_context)!.overview),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(0.0),
               child: CarouselSlider.builder(
                 options: CarouselOptions(
                   height: MediaQuery.of(context).size.height,
@@ -39,76 +38,39 @@ class OverviewState extends State<OverviewTab> {
                 ),
                 itemCount: overviewViewModel.dogs.length,
                 itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    Column(
-                        children: [
-                          Text(
-                              overviewViewModel.dogs[itemIndex].name,
-                              style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const ListTile(
+                            leading: Icon(Icons.album),
+                            title: Text('Title'),
                           ),
-
-                          const Text(
-                            "Training count last 7 days",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          AspectRatio(
-                            aspectRatio: 1.6,
-                            child: BarChart(
-                              BarChartData(
-                                barTouchData: barTouchData,
-                                titlesData: overviewViewModel.getTitlesData(overviewViewModel.dogs[itemIndex].sports.keys.first),
-                                borderData: borderData,
-                                barGroups: overviewViewModel.getBarChartData(overviewViewModel.dogs[itemIndex].id!, overviewViewModel.dogs[itemIndex].sports.keys.first),
-                                gridData: const FlGridData(show: false),
-                                alignment: BarChartAlignment.spaceAround,
-                                maxY: 20,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              DataTable(
+                                columns: const [
+                                  DataColumn(label: Text('Exercise')),
+                                  DataColumn(label: Text('Count')),
+                                ],
+                                rows: overviewViewModel.getHistory(overviewViewModel.dogs[itemIndex].id!, overviewViewModel.dogs[itemIndex].sports.keys.first).map((history) {
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(Text(AppLocalizations.of(context)!.exercises(history.$1.toString()))),
+                                      DataCell(Text(history.$2.toString())),
+                                    ],
+                                  );
+                                }).toList(),
                               ),
-                            ),
-                          )
-                        ])
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
               )
             ),
           );
         });
   }
-
-  BarTouchData get barTouchData => BarTouchData(
-    enabled: false,
-    touchTooltipData: BarTouchTooltipData(
-      getTooltipColor: (group) => Colors.transparent,
-      tooltipPadding: EdgeInsets.zero,
-      tooltipMargin: 8,
-      getTooltipItem: (
-          BarChartGroupData group,
-          int groupIndex,
-          BarChartRodData rod,
-          int rodIndex,
-          ) {
-        return BarTooltipItem(
-          rod.toY.round().toString(),
-          const TextStyle(
-            color: Colors.cyan,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-      },
-    ),
-  );
-
-  FlBorderData get borderData => FlBorderData(
-    show: false,
-  );
-
-  LinearGradient get _barsGradient => const LinearGradient(
-    colors: [
-      Colors.blueAccent,
-      Colors.cyan,
-    ],
-    begin: Alignment.bottomCenter,
-    end: Alignment.topCenter,
-  );
 }
