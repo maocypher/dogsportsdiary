@@ -27,6 +27,11 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         selectedIndex: navigationShell.currentIndex,
         destinations: <NavigationDestination>[
           NavigationDestination(
+            selectedIcon: const Icon(Icons.timeline),
+            icon: const Icon(Icons.timeline_outlined),
+            label: AppLocalizations.of(context)!.overview,
+          ),
+          NavigationDestination(
             selectedIcon: const Icon(Icons.menu_book),
             icon: const Icon(Icons.menu_book_outlined),
             label: AppLocalizations.of(context)!.diary,

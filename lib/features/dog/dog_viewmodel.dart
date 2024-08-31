@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' as intl;
@@ -16,6 +17,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DogViewModel extends ChangeNotifier {
   final DogRepository repository = DogRepository.dogRepository;
+  final Toast toast = Toast.toast;
 
   Dog? _dog;
   Dog? get dog => _dog;
@@ -50,16 +52,19 @@ class DogViewModel extends ChangeNotifier {
   }
 
   Future<void> loadDogAsync(int id) async {
-    var dbDog = await repository.getDogAsync(id);
+    var dogResult = repository.getDog(id);
 
-    if(dbDog != null) {
-      _dog = dbDog;
+    if(dogResult.isSuccess()){
+      _dog = dogResult.tryGetSuccess();
       if(_dog!.imagePath != null) {
         _imageFile = File(_dog!.imagePath!);
       }
 
       selectedSports.value = _dog!.sports.keys.toList();
       notifyListeners();
+    }
+    else{
+      toast.showToast(msg: "Dog not found");
     }
   }
 

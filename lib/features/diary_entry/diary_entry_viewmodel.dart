@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:darq/darq.dart';
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/core/utils/rating.dart';
+import 'package:dog_sports_diary/domain/entities/rating.dart';
 import 'package:dog_sports_diary/core/utils/string_extensions.dart';
-import 'package:dog_sports_diary/core/utils/tuple.dart' as dogSports;
+import 'package:dog_sports_diary/core/utils/tuple.dart' as dog_sports;
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
@@ -13,15 +13,17 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/entities/exercise.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';
 import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DiaryEntryViewModel extends ChangeNotifier {
   final DogRepository dogRepository = DogRepository.dogRepository;
   final DiaryEntryRepository diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
+  final Toast toast = Toast.toast;
 
   DiaryEntry? _diaryEntry;
-  DiaryEntry? get entry => _diaryEntry;
+  DiaryEntry? get diaryEntry => _diaryEntry;
 
   String? get date => DateFormat('yyyy-MM-dd').format(_diaryEntry?.date ?? DateTime.now());
 
@@ -31,13 +33,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
   Dog? _selectedDog;
   Dog? get selectedDog => _selectedDog;
 
-  List<dogSports.Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
-  List<dogSports.Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
+  List<dog_sports.Tuple<DogSports, DogSportsClasses>> _selectedDogSports = [];
+  List<dog_sports.Tuple<DogSports, DogSportsClasses>> get selectedDogSports => _selectedDogSports;
 
-  dogSports.Tuple<DogSports, DogSportsClasses>? _selectedSport;
-  dogSports.Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
+  dog_sports.Tuple<DogSports, DogSportsClasses>? _selectedSport;
+  dog_sports.Tuple<DogSports, DogSportsClasses>? get selectedSport => _selectedSport;
 
-  Map<dogSports.Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
+  Map<dog_sports.Tuple<DogSports, DogSportsClasses>, List<Exercises>> get sportExercises => Sports.sportsExercises;
   List<Rating> _selectedExercises = [];
   List<Rating> get selectedExercises => _selectedExercises.orderByDescending((x) => x.isPlanned ? 1 : 0).orderByDescending((x) => x.rating).toList();
 
@@ -67,36 +69,45 @@ class DiaryEntryViewModel extends ChangeNotifier {
   }
 
   Future<void> loadEntryAsync(int id) async {
-    var dbEntry = await diaryEntryRepository.getEntryAsync(id);
+    var entryResult = diaryEntryRepository.getEntry(id);
+    
+    if(entryResult.isSuccess()) {
+      _diaryEntry = entryResult.tryGetSuccess();
 
-    if(dbEntry != null) {
-      _diaryEntry = dbEntry;
-
-      if(dbEntry.dogId != null) {
-        await loadDogAsync(dbEntry.dogId!, dbEntry);
+      if(_diaryEntry!.dogId != null) {
+        await loadDogAsync(_diaryEntry!.dogId!, _diaryEntry);
       }
 
       notifyListeners();
     }
+    else {
+      toast.showToast(msg: "Diary entry not found");
+    }
   }
 
   Future<void> loadDogsAsync() async {
-    _dogList = await dogRepository.getAllDogsAsync();
+    var dogsResult = dogRepository.getAllDogs();
+    if(dogsResult.isSuccess()) {
+      _dogList = dogsResult.tryGetSuccess();
 
-    if(_dogList != null
-        && _dogList!.isNotEmpty
-        && _selectedDog == null) {
-      await loadDogAsync(_dogList!.first.id!, null);
+      if(_dogList != null
+          && _dogList!.isNotEmpty
+          && _selectedDog == null) {
+        await loadDogAsync(_dogList!.first.id!, null);
+      }
+
+      notifyListeners();
     }
-
-    notifyListeners();
+    else {
+      toast.showToast(msg: "Error loading dogs");
+    }
   }
 
   Future<void> loadDogAsync(int id, DiaryEntry? diaryEntry) async {
-    var dbDog = await dogRepository.getDogAsync(id);
+    var dogResult = dogRepository.getDog(id);
 
-    if(dbDog != null) {
-      _selectedDog = dbDog;
+    if(dogResult.isSuccess()) {
+      _selectedDog = dogResult.tryGetSuccess();
       _selectedDogSports = DogSportsTupleJsonExtension.toList(_selectedDog!.sports);
 
       if(diaryEntry == null) {
@@ -117,9 +128,12 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
       notifyListeners();
     }
+    else {
+      toast.showToast(msg: "Dog not found");
+    }
   }
 
-  loadSport(dogSports.Tuple<DogSports, DogSportsClasses> sport) {
+  loadSport(dog_sports.Tuple<DogSports, DogSportsClasses> sport) {
     _selectedSport = sport;
 
     var exercise = sportExercises.entries.where((e) => e.key == sport).first.value;
@@ -201,13 +215,21 @@ class DiaryEntryViewModel extends ChangeNotifier {
 
   deleteEntryAsync() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
+      var result = await diaryEntryRepository.deleteEntryAsync(_diaryEntry!.id!);
+
+      if(result.isError()) {
+        toast.showToast(msg: "Error deleting entry");
+      }
     }
   }
 
   saveEntryAsync() async {
     if(_diaryEntry != null) {
-      await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
+      var result = await diaryEntryRepository.saveEntryAsync(_diaryEntry!);
+
+      if(result.isError()) {
+        toast.showToast(msg: "Error saving entry");
+      }
     }
   }
 

@@ -19,10 +19,10 @@ class DogNavigationObserver extends NavigatorObserver {
     log.i('didPop: ${route.str}, previousRoute= ${previousRoute?.str}');
 
     if(previousRoute?.settings.name == Constants.dogs || previousRoute?.settings.name == Constants.diary) {
-      showDogsViewModel.loadDogsAsync();
+      showDogsViewModel.loadDogs();
 
-      showDiaryEntryViewModel.loadDogsAsync();
-      showDiaryEntryViewModel.loadDiaryEntriesAsync();
+      showDiaryEntryViewModel.loadDogs();
+      showDiaryEntryViewModel.loadDiaryEntries();
     }
   }
 

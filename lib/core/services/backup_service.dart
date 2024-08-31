@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dog_sports_diary/core/di/serivce_provider.dart';
+import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/backup.dart';
@@ -16,9 +16,18 @@ class BackupService {
 
   Future<BackupResult> backupAsync() async {
     try {
-      var dogs = await dogRepository.getAllDogsAsync();
-      var diaryEntries = await diaryEntryRepository.getAllEntiresAsync();
+      var dogsResult = dogRepository.getAllDogs();
+      if(dogsResult.isError()) {
+        return BackupResult.failure;
+      }
 
+      var diaryEntriesResult = diaryEntryRepository.getAllEntries();
+      if(diaryEntriesResult.isError()) {
+        return BackupResult.failure;
+      }
+
+      var dogs = dogsResult.tryGetSuccess() ?? List.empty();
+      var diaryEntries = diaryEntriesResult.tryGetSuccess() ?? List.empty();
       var date = DateTime.now();
       var backup = Backup(dogs: dogs, diaryEntries: diaryEntries, date: date);
       var backupJsonString = backup.toJsonString();

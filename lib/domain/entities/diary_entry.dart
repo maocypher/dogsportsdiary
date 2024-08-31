@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/core/utils/rating.dart';
+import 'package:dog_sports_diary/domain/entities/rating.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
 import 'package:dog_sports_diary/domain/entities/sports.dart';

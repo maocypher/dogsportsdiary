@@ -20,7 +20,7 @@ workflows:
         - github_credentials
       vars:
         PACKAGE_NAME: "com.anni.dog_sports_diary"
-        GOOGLE_PLAY_TRACK: internal
+        GOOGLE_PLAY_TRACK: alpha
       flutter: stable
 
     scripts:
@@ -33,10 +33,10 @@ workflows:
       - name: Flutter analyze
         script: |
           flutter analyze --no-fatal-infos
-      #- name: Flutter unit tests
-      #  script: |
-      #    flutter test
-      #  ignore_failure: false
+      - name: Flutter unit tests
+        script: |
+          flutter test
+        ignore_failure: false
       #- name: Build AAB with Flutter
       #  script: |
       #    flutter build appbundle --release \
@@ -44,20 +44,20 @@ workflows:
       #      --build-number=$PROJECT_BUILD_NUMBER
       - name: Build AAB with Flutter
         script: |
-          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
           flutter build appbundle --release \
             --build-name=1.0.$BUILD_NUMBER \
             --build-number=$BUILD_NUMBER
       - name: Publish to GitHub
         script: |
           #!/usr/bin/env zsh
-          
+      
           # Publish only for tag builds
           if [ -z ${CM_TAG} ]; then
             echo "Not a tag build, will not publish GitHub release"
             exit 0
           fi
-          
+      
           gh release create "${CM_TAG}" \
             --title "v${CM_TAG}" \
             --notes-file changelog.md \
@@ -114,10 +114,10 @@ workflows:
     - name: Flutter analyze
       script: |
         flutter analyze --no-fatal-infos
-    #- name: Flutter unit tests
-    #  script: |
-    #    flutter test
-    #  ignore_failure: true
+    - name: Flutter unit tests
+      script: |
+        flutter test
+      ignore_failure: false
     #- name: Flutter build ipa
     #  script: |
     #    flutter build ipa --release \

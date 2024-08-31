@@ -17,7 +17,7 @@ class DiaryEntryNavigationObserver extends NavigatorObserver {
     log.i('didPop: ${route.str}, previousRoute= ${previousRoute?.str}');
 
     if(previousRoute?.settings.name == Constants.diary) {
-      showDiaryEntryViewModel.loadDiaryEntriesAsync();
+      showDiaryEntryViewModel.loadDiaryEntries();
     }
   }
 
