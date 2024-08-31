@@ -16,6 +16,8 @@
   "weight": "Weight",
   "settings": "Settings",
   "overview": "Overview",
+  "overviewLast28Days": "Last 28 days",
+  "overviewNoDataLast28Days": "No training data for last 28 days",
   "dogPageAddDogs": "Press the + button to add a dog",
   "diaryPageNoDogs": "You have no dogs added yet",
   "sportsMultiSelectionHint": "Select sports",
@@ -60,6 +62,8 @@
         }
       }
     },
+    "exercise": "Exercise",
+    "count": "Count",
     "exercises": "{exercise, select, motivation{Motivation} concentration{Concentration} excitement{Excitement} heelwork{Heelwork} heelParking{Close} heelAngle{Angle} heelEndurance{Endurance} heelSpeedSlow{Slow HW} heelSpeedNormal{Normale HW} heelSpeedFast{Fast HW} group{Group} positionFromMovement{Position from movement} distanceControl{Distance control} retrieve{Retrieve} retrieveKeepCalm{Hold still} retrieveFastPickUp{Fast pick up} retrieveSpeed{Fast outward/return} retrieveDelivery{Delivery} retrieveParking{Parking} square{Square} recall{Recall} cones{Cones} hurdle{Hurdle} scent{Scent distinction} stand{Stand}  stop{Stop} down{Down} sit{Sit} stay{Stay} turn{Turn} turnLeft{Turn left} turnRight{Turn right} sitInFront{Sit in front} slalom{Slalom} eight{Eight} goRound{Go around DG} back{Back} spiral{Spirale} sidewards{Sidewards} twist{Twist} awall{Slanted wall} hoop{Hoop} broadJump{Broad jump} footbridge{Footbridge} seesaw{Seesaw} tunnel{Tunnel} other{Other}}",
       "@exercises": {
         "description": "Translation for exercises",

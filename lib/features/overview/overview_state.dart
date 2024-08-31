@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dog_sports_diary/features/overview/overview_tab.dart';
 import 'package:dog_sports_diary/features/overview/overview_viewmodel.dart';
@@ -39,33 +41,53 @@ class OverviewState extends State<OverviewTab> {
                 itemCount: overviewViewModel.dogs.length,
                 itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                     Card(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const ListTile(
-                            leading: Icon(Icons.album),
-                            title: Text('Title'),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              DataTable(
-                                columns: const [
-                                  DataColumn(label: Text('Exercise')),
-                                  DataColumn(label: Text('Count')),
-                                ],
-                                rows: overviewViewModel.getHistory(overviewViewModel.dogs[itemIndex].id!, overviewViewModel.dogs[itemIndex].sports.keys.first).map((history) {
-                                  return DataRow(
-                                    cells: [
-                                      DataCell(Text(AppLocalizations.of(context)!.exercises(history.$1.toString()))),
-                                      DataCell(Text(history.$2.toString())),
-                                    ],
-                                  );
-                                }).toList(),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: overviewViewModel.dogs[itemIndex].imagePath == null ? null : FileImage(File(overviewViewModel.dogs[itemIndex].imagePath!)),
+                                backgroundColor: overviewViewModel.dogs[itemIndex].imagePath == null ? Colors.grey : null,
                               ),
-                            ],
-                          ),
-                        ],
+                              title: Text(overviewViewModel.dogs[itemIndex].name),
+                              subtitle: Text(AppLocalizations.of(_context)!.overviewLast28Days),
+                            ),
+                            Column(
+                              children: overviewViewModel.dogs[itemIndex].sports.keys.map((sport) {
+                                return Column(
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(_context)!.dogSports(sport.toString()),
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                      softWrap: true,
+                                    ),
+                                    overviewViewModel.getHistory(overviewViewModel.dogs[itemIndex].id!, sport).isEmpty
+                                        ? Text(AppLocalizations.of(_context)!.overviewNoDataLast28Days)
+                                        : SizedBox(
+                                            width: double.infinity, // Take up the full width of the parent
+                                            child: DataTable(
+                                              columns: [
+                                                DataColumn(label: Text(AppLocalizations.of(_context)!.exercise)),
+                                                DataColumn(label: Text(AppLocalizations.of(_context)!.count)),
+                                              ],
+                                              rows: overviewViewModel.getHistory(overviewViewModel.dogs[itemIndex].id!, sport).map((history) {
+                                                return DataRow(
+                                                  cells: [
+                                                    DataCell(Text(AppLocalizations.of(context)!.exercises(history.$1.toString()))),
+                                                    DataCell(Text(history.$2.toString())),
+                                                  ],
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                    const SizedBox(height: 20), // Add a line break
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
                       ),
                     )
               )
