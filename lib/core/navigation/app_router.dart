@@ -3,6 +3,7 @@ import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
+import 'package:dog_sports_diary/features/overview/overview_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_tab.dart';
@@ -15,15 +16,17 @@ class AppRouter {
   static final _shellNavigatorDogKey = GlobalKey<NavigatorState>(debugLabel: 'shellDogTab');
   static final _shellNavigatorDiaryKey = GlobalKey<NavigatorState>(debugLabel: 'shellDiaryTab');
   static final _shellNavigatorSettingsKey = GlobalKey<NavigatorState>(debugLabel: 'shellSettingsTab');
+  static final _shellNavigatorOverviewKey = GlobalKey<NavigatorState>(debugLabel: 'shellOverviewTab');
 
   static GlobalKey<NavigatorState> get rootNavigatorKey => _rootNavigatorKey;
   static GlobalKey<NavigatorState> get shellNavigatorDogKey => _shellNavigatorDogKey;
   static GlobalKey<NavigatorState> get shellNavigatorDiaryKey => _shellNavigatorDiaryKey;
   static GlobalKey<NavigatorState> get shellNavigatorSettingsKey => _shellNavigatorSettingsKey;
+  static GlobalKey<NavigatorState> get shellNavigatorOverviewKey => _shellNavigatorOverviewKey;
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: Constants.routeDiary,
+    initialLocation: Constants.routeOverview,
     routes: [
       // Stateful nested navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
@@ -34,7 +37,23 @@ class AppRouter {
               navigationShell: navigationShell);
         },
         branches: [
-          // first branch (A)
+          //Overview
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorOverviewKey,
+            routes: [
+              // top route inside branch
+              GoRoute(
+                path: Constants.routeOverview,
+                name: Constants.overview,
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  name: Constants.overview,
+                  child: OverviewTab(),
+                ),
+              ),
+            ],
+          ),
+
+          //Diary
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDiaryKey,
             observers: [
@@ -71,7 +90,8 @@ class AppRouter {
               ),
             ],
           ),
-          // second branch (B)
+
+          //Dogs
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDogKey,
             observers: [DogNavigationObserver()],
@@ -105,6 +125,8 @@ class AppRouter {
               ),
             ],
           ),
+
+          //Settings
           StatefulShellBranch(
             navigatorKey: _shellNavigatorSettingsKey,
             routes: [

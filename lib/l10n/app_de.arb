@@ -12,6 +12,9 @@
   "dateOfBirth": "Geburtstag",
   "weight": "Gewicht",
   "settings": "Einstellungen",
+  "overview": "Überblick",
+  "overviewLast28Days": "Letzte 28 Tage",
+  "overviewNoDataLast28Days": "Keine Trainingsdaten für die letzten 28 Tage",
   "dogPageAddDogs": "Drücke + und füge einen Hund hinzu",
   "diaryPageNoDogs": "Du hast noch keine Hunde hinzugefügt",
   "sportsMultiSelectionHint": "Wähle Sportarten",
@@ -56,6 +59,8 @@
       }
     }
   },
+  "exercise": "Übung",
+  "count": "Anzahl",
   "exercises": "{exercise, select, motivation{Motivation} concentration{Konzentration} excitement{Aufregung} heelwork{Fußarbeit} heelParking{Grundstellung} heelAngle{Winkel} heelEndurance{Ausdauertraining} heelSpeedSlow{Langsamschritt} heelSpeedNormal{Normalschritt} heelSpeedFast{Laufschritt} group{Gruppe} positionFromMovement{Position aus der Bewegung} distanceControl{Distanzkontrolle} retrieve{Apport} retrieveKeepCalm{Ruhiges Halten} retrieveFastPickUp{Schnelle Aufnahme} retrieveSpeed{Schneller Hin-/Rückweg} retrieveDelivery{Abgabe} retrieveParking{Einparken} square{Box} recall{Abrufen} cones{Pylone} hurdle{Hürde} scent{Geruchsunterscheidung} stand{Steh}  stop{Stop} down{Platz} sit{Sitz} stay{Bleib} turn{Kehrtwendung} turnLeft{Links Kehrt} turnRight{Rechts Kehrt} sitInFront{Vorsitz} slalom{Slalom} eight{Acht} goRound{HF Umrunden} back{Zurück} spiral{Spirale} sidewards{Zur Seite} twist{Kreis} awall{Schrägwand} hoop{Durchsprung} broadJump{Weitsprung} footbridge{Steg} seesaw{Wippe} tunnel{Tunnel}  other{Unbekannt}}",
   "@exercises": {
     "description": "Translation for exercises",

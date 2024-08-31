@@ -52,6 +52,24 @@ class DiaryEntryRepository {
     }
   }
 
+  Result<List<DiaryEntry>, Exception> getAllEntriesByDogDate(
+      int dogId,
+      DateTime startDate,
+      DateTime endDate)
+  {
+    try{
+      var result = _hiveService.diaryEntryBox.values
+          .where((x) => x.dogId == dogId
+                && x.date.compareTo(startDate) >= 0
+                && x.date.compareTo(endDate) <= 0)
+          .orderByDescending((x) => x.date)
+          .toList();
+      return Success(result);
+    } on Exception catch (e){
+      return Error(e);
+    }
+  }
+
   Future<Result<Unit, Exception>> deleteEntryAsync(int id) async {
     try{
       await _hiveService.diaryEntryBox.delete(id);
@@ -60,7 +78,6 @@ class DiaryEntryRepository {
       return Error(e);
     }
   }
-
 
   Future<Result<Unit, Exception>> deleteAllEntriesAsync() async {
     try{

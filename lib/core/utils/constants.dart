@@ -12,6 +12,7 @@ class Constants {
   static const String diary = "diary";
   static const String dogs = "dogs";
   static const String settings = "settings";
+  static const String overview = "overview";
   static const String sport = "sport";
   static const String classes = "classes";
   static const String exercise = "exercise";
@@ -27,6 +28,7 @@ class Constants {
   static const String routeDogNew = 'new-dog';
   static const String routeDogEdit = 'edit-dog';
   static const String routeSettings = '/settings';
+  static const String routeOverview = '/overview';
 
   //Database
   static const String diaryBox = 'diaryEntryBox';
