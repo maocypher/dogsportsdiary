@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 
 class HistoryTab extends StatefulWidget {
 
-  const HistoryTab({super.key});
+  final String? dogIdStr;
+  final String? exerciseIdStr;
+
+  const HistoryTab({this.dogIdStr, this.exerciseIdStr, super.key});
 
   @override
   State<StatefulWidget> createState() => HistoryState();
