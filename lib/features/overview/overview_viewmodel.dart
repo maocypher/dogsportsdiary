@@ -2,8 +2,8 @@ import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/services/overview_service.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:dog_sports_diary/domain/entities/history_count.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/history_count.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 import 'package:flutter/material.dart';
 
 class OverviewViewModel extends ChangeNotifier {

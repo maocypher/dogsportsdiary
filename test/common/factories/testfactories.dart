@@ -2,10 +2,10 @@ import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:dog_sports_diary/domain/entities/exercise.dart';
-import 'package:dog_sports_diary/domain/entities/rating.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
-import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
+import 'package:dog_sports_diary/domain/value_objects/rating.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
 
 class TestFactories{
   static DiaryEntry createDiaryEntry(int? id, int? dogId, Tuple<DogSports, DogSportsClasses>? dogSport, DateTime? date) {

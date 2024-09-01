@@ -2,9 +2,9 @@ import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
-import 'package:dog_sports_diary/domain/entities/exercise.dart';
-import 'package:dog_sports_diary/domain/entities/history_count.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
+import 'package:dog_sports_diary/domain/value_objects/history_count.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 
 class OverviewService {
   final DogRepository dogRepository = DogRepository.dogRepository;

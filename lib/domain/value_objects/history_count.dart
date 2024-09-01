@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/domain/entities/exercise.dart';
+import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
 
 class HistoryCount{
   final Exercises exercise;
