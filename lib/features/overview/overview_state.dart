@@ -36,7 +36,7 @@ class OverviewState extends State<OverviewTab> {
               child: CarouselSlider.builder(
                 options: CarouselOptions(
                   height: MediaQuery.of(context).size.height,
-
+                  enableInfiniteScroll: false
                 ),
                 itemCount: overviewViewModel.dogs.length,
                 itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
