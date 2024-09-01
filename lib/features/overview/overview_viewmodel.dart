@@ -15,8 +15,6 @@ class OverviewViewModel extends ChangeNotifier {
   List<Dog> get dogs => _dogs;
   Map<DogSports, List<HistoryCount>> _history = {};
 
-  List<Widget> legend = [];
-
   void init() {
     loadDogs();
   }
