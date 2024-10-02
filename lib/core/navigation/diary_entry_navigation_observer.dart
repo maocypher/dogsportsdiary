@@ -1,4 +1,3 @@
-import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -16,9 +15,7 @@ class DiaryEntryNavigationObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute){
     log.i('didPop: ${route.str}, previousRoute= ${previousRoute?.str}');
 
-    if(previousRoute?.settings.name == Constants.diary) {
-      showDiaryEntryViewModel.loadDiaryEntries();
-    }
+    showDiaryEntryViewModel.loadDiaryEntries();
   }
 
   @override

@@ -10,12 +10,10 @@ class OverviewViewModel extends ChangeNotifier {
   final DogRepository _repository = DogRepository.dogRepository;
   final OverviewService _overviewService = OverviewService.overviewService;
 
-  late List<Dog> _dogs = List.empty();
-
+  List<Dog> _dogs = List.empty();
   List<Dog> get dogs => _dogs;
-  Map<DogSports, List<(Exercises, int)>> _history = {};
 
-  List<Widget> legend = [];
+  Map<DogSports, List<(Exercises, int)>> _history = {};
 
   void init() {
     loadDogs();
@@ -42,7 +40,7 @@ class OverviewViewModel extends ChangeNotifier {
 
   static inject() {
     // injecting the viewmodel
-    ServiceProvider.locator.registerFactory<OverviewViewModel>(() => OverviewViewModel());
+    ServiceProvider.locator.registerLazySingleton<OverviewViewModel>(() => OverviewViewModel());
   }
 
   static OverviewViewModel get overviewViewModel {
