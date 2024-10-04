@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/domain/entities/backup.dart';
+import 'package:dog_sports_diary/domain/value_objects/backup.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';

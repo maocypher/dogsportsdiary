@@ -1,8 +1,8 @@
-import 'package:dog_sports_diary/domain/entities/rating.dart';
+import 'package:dog_sports_diary/domain/value_objects/rating.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
-import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
 
 class DiaryEntry implements Entity{
   @override

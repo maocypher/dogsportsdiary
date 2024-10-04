@@ -1,4 +1,4 @@
-import 'package:dog_sports_diary/core/utils/constants.dart';
+import 'package:dog_sports_diary/features/overview/overview_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ class DogNavigationObserver extends NavigatorObserver {
   final log = Logger();
   final ShowDogsViewModel showDogsViewModel = ShowDogsViewModel.showDogsViewModel;
   final ShowDiaryEntryViewmodel showDiaryEntryViewModel = ShowDiaryEntryViewmodel.showDiaryEntryViewModel;
+  final OverviewViewModel overviewViewModel = OverviewViewModel.overviewViewModel;
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
@@ -18,12 +19,12 @@ class DogNavigationObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute){
     log.i('didPop: ${route.str}, previousRoute= ${previousRoute?.str}');
 
-    if(previousRoute?.settings.name == Constants.dogs || previousRoute?.settings.name == Constants.diary) {
-      showDogsViewModel.loadDogs();
+    showDogsViewModel.loadDogs();
 
-      showDiaryEntryViewModel.loadDogs();
-      showDiaryEntryViewModel.loadDiaryEntries();
-    }
+    showDiaryEntryViewModel.loadDogs();
+    showDiaryEntryViewModel.loadDiaryEntries();
+
+    overviewViewModel.loadDogs();
   }
 
   @override

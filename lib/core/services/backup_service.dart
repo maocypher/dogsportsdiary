@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
-import 'package:dog_sports_diary/domain/entities/backup.dart';
+import 'package:dog_sports_diary/domain/value_objects/backup.dart';
 import 'package:file_picker/file_picker.dart';
 
 class BackupService {

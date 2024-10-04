@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:flutter/material.dart';

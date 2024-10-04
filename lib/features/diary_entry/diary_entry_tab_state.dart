@@ -1,8 +1,8 @@
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/core/utils/tuple.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
-import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';

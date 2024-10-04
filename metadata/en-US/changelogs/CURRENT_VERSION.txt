@@ -1,0 +1,6 @@
+* Add dogs for which you want to keep a diary
+* Create diary entries for your trainings for one or more dogs
+* Plan your next training for one or more dogs
+* Get an overview of your trainings of the last 28 days, to plan you next trainings better
+* Create a backup of your data or restore a backup
+* First F-Droid release

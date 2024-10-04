@@ -1,7 +1,7 @@
 import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/domain/entities/sports.dart';
-import 'package:dog_sports_diary/domain/entities/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports.dart';
+import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_viewmodel.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';

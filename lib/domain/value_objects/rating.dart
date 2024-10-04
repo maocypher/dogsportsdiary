@@ -1,5 +1,5 @@
 import 'package:dog_sports_diary/core/utils/constants.dart';
-import 'package:dog_sports_diary/domain/entities/exercise.dart';
+import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
 
 class Rating{
   final Exercises exercise;

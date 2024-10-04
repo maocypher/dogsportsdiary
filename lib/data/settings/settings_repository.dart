@@ -1,5 +1,5 @@
 import 'package:dog_sports_diary/core/di/service_provider.dart';
-import 'package:dog_sports_diary/domain/entities/settings.dart';
+import 'package:dog_sports_diary/domain/value_objects/settings.dart';
 import 'package:hive/hive.dart';
 
 class SettingsRepository {
