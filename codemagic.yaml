@@ -19,7 +19,7 @@ workflows:
         - google_credentials
         - github_credentials
       vars:
-        PACKAGE_NAME: "com.anni.dog_sports_diary"
+        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         GOOGLE_PLAY_TRACK: alpha
       flutter: stable
 
@@ -97,7 +97,7 @@ workflows:
       #  distribution_type: app_store
       #  bundle_identifier: io.codemagic.fluttersample
       vars:
-        PACKAGE_NAME: "com.anni.dog_sports_diary"
+        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         APP_STORE_APPLE_ID: 1555555551
       flutter: stable
 

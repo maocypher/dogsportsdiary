@@ -6,5 +6,5 @@ class OverviewTab extends StatefulWidget {
   const OverviewTab({super.key});
 
   @override
-  State<StatefulWidget> createState() => OverviewState();
+  State<OverviewTab> createState() => OverviewState();
 }

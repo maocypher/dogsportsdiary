@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.anni.dog_sports_diary"
+    namespace = "io.github.maocypher.dogsportsdiary"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "26.3.11579264"//flutter.ndkVersion
 
@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.anni.dog_sports_diary"
+        applicationId = "io.github.maocypher.dogsportsdiary"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = flutter.minSdkVersion
