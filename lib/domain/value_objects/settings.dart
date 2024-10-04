@@ -1,6 +1,6 @@
 import 'package:dog_sports_diary/domain/abstractions/entity.dart';
-import 'package:dog_sports_diary/domain/entities/ranking.dart';
-import 'package:dog_sports_diary/domain/entities/theme.dart';
+import 'package:dog_sports_diary/domain/value_objects/ranking.dart';
+import 'package:dog_sports_diary/domain/value_objects/theme.dart';
 
 class Settings implements Entity{
   @override

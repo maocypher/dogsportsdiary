@@ -3,6 +3,7 @@ import 'package:dog_sports_diary/core/navigation/dog_navigation_observer.dart';
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
+import 'package:dog_sports_diary/features/history/history_tab.dart';
 import 'package:dog_sports_diary/features/overview/overview_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
@@ -52,6 +53,16 @@ class AppRouter {
                   name: Constants.overview,
                   child: OverviewTab(),
                 ),
+                routes: [
+                  GoRoute(
+                    path: ':dogId/history/:exerciseId',
+                    name: Constants.routeOverviewHistory,
+                    pageBuilder: (context, state) => NoTransitionPage(
+                      name: Constants.routeOverviewHistory,
+                      child: HistoryTab(dogIdStr: state.pathParameters['dogId'], exerciseIdStr: state.pathParameters['exerciseId']),
+                    ),
+                  ),
+                ]
               ),
             ],
           ),
