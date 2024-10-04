@@ -41,6 +41,9 @@ class AppRouter {
           //Overview
           StatefulShellBranch(
             navigatorKey: _shellNavigatorOverviewKey,
+            observers: [
+              DogNavigationObserver()
+            ],
             routes: [
               // top route inside branch
               GoRoute(

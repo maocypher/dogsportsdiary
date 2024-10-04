@@ -1,4 +1,4 @@
-package com.anni.dog_sports_diary
+package io.github.maocypher.dogsportsdiary
 
 import io.flutter.embedding.android.FlutterActivity
 
