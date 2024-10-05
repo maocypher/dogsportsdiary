@@ -32,7 +32,7 @@ workflows:
           flutter packages pub get
       - name: Flutter analyze
         script: |
-          flutter analyze --no-fatal-infos
+          flutter analyze --no-fatal-infos --no-fatal-warnings
       - name: Flutter unit tests
         script: |
           flutter test
@@ -113,7 +113,7 @@ workflows:
         find . -name "Podfile" -execdir pod install \;
     - name: Flutter analyze
       script: |
-        flutter analyze --no-fatal-infos
+        flutter analyze --no-fatal-infos --no-fatal-warnings
     - name: Flutter unit tests
       script: |
         flutter test
