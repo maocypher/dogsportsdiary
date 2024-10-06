@@ -74,10 +74,10 @@ workflows:
         notify:
           success: true
           failure: true
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: $GOOGLE_PLAY_TRACK
-        submit_as_draft: true
+      #google_play:
+      #  credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+      #  track: $GOOGLE_PLAY_TRACK
+      #  submit_as_draft: true
 
   ios-workflow:
     name: DogSportsDiary iOS Workflow
