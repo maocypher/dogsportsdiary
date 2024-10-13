@@ -4,17 +4,18 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
 
-    triggering:
-      events: # List the events that trigger builds
-        - tag
-      branch_patterns: # Include or exclude watched branches
-        - pattern: 'master'
-          include: true
-          source: true
+#    triggering:
+#      events: # List the events that trigger builds
+#        - tag
+#      branch_patterns: # Include or exclude watched branches
+#        - pattern: 'master'
+#          include: true
+#          source: true
 
     environment:
       android_signing:
-        - keystore_reference
+        - dogsportsdiary_signature
+        #- keystore_reference
       groups:
         - google_credentials
         - github_credentials
@@ -42,11 +43,25 @@ workflows:
       #    flutter build appbundle --release \
       #      --build-name=1.0.$PROJECT_BUILD_NUMBER \
       #      --build-number=$PROJECT_BUILD_NUMBER
-      - name: Build AAB with Flutter
+#      - name: Build AAB with Flutter
+#        script: |
+#          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+#          flutter build appbundle --release \
+#            --build-name=1.0.$BUILD_NUMBER \
+#            --build-number=$BUILD_NUMBER
+      - name: Zip source code
         script: |
-          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
-          flutter build appbundle --release \
-            --build-name=1.0.$BUILD_NUMBER \
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          zip -r ${BUILD_NAME}.zip .
+          tar -czvf ${BUILD_NAME}.tar.gz .
+      - name: Build APK with Flutter
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+          flutter build apk --release \
+            --build-name=$BUILD_NAME \
             --build-number=$BUILD_NUMBER
       - name: Publish to GitHub
         script: |
@@ -57,13 +72,17 @@ workflows:
             echo "Not a tag build, will not publish GitHub release"
             exit 0
           fi
-      
+          
           gh release create "${CM_TAG}" \
             --title "v${CM_TAG}" \
             --notes-file changelog.md \
-            build/**/outputs/**/*.aab
+            build/**/outputs/**/*.aab \
+            build/**/outputs/**/*.apk \
+            ${CM_TAG}.zip \
+            ${CM_TAG}.tar.gz
 
     artifacts:
+      - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
@@ -84,13 +103,13 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
 
-    triggering:
-      events: # List the events that trigger builds
-        - tag
-      branch_patterns: # Include or exclude watched branches
-        - pattern: 'master'
-          include: true
-          source: true
+#    triggering:
+#      events: # List the events that trigger builds
+#        - tag
+#      branch_patterns: # Include or exclude watched branches
+#        - pattern: 'master'
+#          include: true
+#          source: true
 
     environment:
       #ios_signing:
