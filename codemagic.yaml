@@ -14,7 +14,8 @@ workflows:
 
     environment:
       android_signing:
-        - keystore_reference
+        - dogsportsdiary_signature
+        #- keystore_reference
       groups:
         - google_credentials
         - github_credentials
