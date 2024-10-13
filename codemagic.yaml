@@ -4,13 +4,13 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
 
-    triggering:
-      events: # List the events that trigger builds
-        - tag
-      branch_patterns: # Include or exclude watched branches
-        - pattern: 'master'
-          include: true
-          source: true
+#    triggering:
+#      events: # List the events that trigger builds
+#        - tag
+#      branch_patterns: # Include or exclude watched branches
+#        - pattern: 'master'
+#          include: true
+#          source: true
 
     environment:
       android_signing:
@@ -103,13 +103,13 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
 
-    triggering:
-      events: # List the events that trigger builds
-        - tag
-      branch_patterns: # Include or exclude watched branches
-        - pattern: 'master'
-          include: true
-          source: true
+#    triggering:
+#      events: # List the events that trigger builds
+#        - tag
+#      branch_patterns: # Include or exclude watched branches
+#        - pattern: 'master'
+#          include: true
+#          source: true
 
     environment:
       #ios_signing:
