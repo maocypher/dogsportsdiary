@@ -49,6 +49,12 @@ workflows:
 #          flutter build appbundle --release \
 #            --build-name=1.0.$BUILD_NUMBER \
 #            --build-number=$BUILD_NUMBER
+      - name: Zip source code
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          zip -r ${BUILD_NAME}.zip .
+          tar -czvf ${BUILD_NAME}.tar.gz .
       - name: Build APK with Flutter
         script: |
           VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
@@ -66,11 +72,14 @@ workflows:
             echo "Not a tag build, will not publish GitHub release"
             exit 0
           fi
-      
+          
           gh release create "${CM_TAG}" \
             --title "v${CM_TAG}" \
             --notes-file changelog.md \
-            build/**/outputs/**/*.aab
+            build/**/outputs/**/*.aab \
+            build/**/outputs/**/*.apk \
+            ${CM_TAG}.zip \
+            ${CM_TAG}.tar.gz
 
     artifacts:
       - build/**/outputs/**/*.apk
