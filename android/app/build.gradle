@@ -71,6 +71,7 @@ android {
     }
     buildTypes {
         release {
+            vcsInfo.include false
             // Signing with the debug keys for now, so `flutter run --release` works.
             if(System.getenv()["CI"] || localProperties.getProperty("flutter.signApks") == "true") {
                 signingConfig signingConfigs.release
