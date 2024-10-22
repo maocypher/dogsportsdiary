@@ -1,0 +1,6 @@
+* Füge Hunde hinzu, für die du Tagebuch führen möchtest
+* Notiere deine Trainings für einen oder mehrere Hunde
+* Plane deine Traings für einen oder mehrere Hunde vor
+* Erhalte einen Überblick über das, was du in den letzten 28 Tagen trainiert hast, um deine weiteren Trainings besser zu planen
+* Erstelle ein Backup von deinen Daten oder stelle ein Backup wieder her
+* Erstes F-Droid Release
