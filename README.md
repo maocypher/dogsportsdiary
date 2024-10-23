@@ -10,7 +10,6 @@ Dog sports diary to keep track of your current training
 
 Dog sports diary is free and open source software licensed under the AGPL-3.0-or-later.
 It's purpose is to support people who are interested in dog sports to keep track of their trainings.
-It is not intended to be used for commercial purposes.
 
 Copyright (C) 2024 Ann-Jacqueline Lange
 
