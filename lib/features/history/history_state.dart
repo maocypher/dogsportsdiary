@@ -71,7 +71,7 @@ class HistoryState extends State<HistoryTab> {
         show: true,
         drawVerticalLine: true,
         horizontalInterval: 1,
-        verticalInterval: 1,
+        verticalInterval: historyViewModel.dateRange / 4,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: Colors.amber,
@@ -97,7 +97,7 @@ class HistoryState extends State<HistoryTab> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: 1,
+            interval: historyViewModel.dateRange / 4,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -115,7 +115,7 @@ class HistoryState extends State<HistoryTab> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 28,
+      maxX: historyViewModel.dateRange,
       minY: 0,
       maxY: 6,
       lineBarsData: [
@@ -150,26 +150,15 @@ class HistoryState extends State<HistoryTab> {
       fontSize: 16,
     );
     Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = Text(formatter.format(DateTime.now().subtract(Duration(days: 28))), style: style);
-        break;
-      case 7:
-        text = Text(formatter.format(DateTime.now().subtract(Duration(days: 21))), style: style);
-        break;
-      case 14:
-        text = Text(formatter.format(DateTime.now().subtract(Duration(days: 14))), style: style);
-        break;
-      case 21:
-        text = Text(formatter.format(DateTime.now().subtract(Duration(days: 7))), style: style);
-        break;
-      case 28:
-        text = const Text("Heute", style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
+
+    // if(value.toInt() % 5 == 0) {
+    //   text = Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style);
+    // }
+    // else{
+    //   text = const Text('', style: style);
+    // }
+
+    text = Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style);
 
     return SideTitleWidget(
       axisSide: meta.axisSide,

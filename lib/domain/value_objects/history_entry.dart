@@ -7,7 +7,7 @@ class HistoryEntry{
 
   HistoryEntry({required this.rating, required this.date});
 
-  FlSpot toFlSpot(){
-    return FlSpot(date.difference(DateTime.now().subtract(Duration(days: 28))).inDays.toDouble(), rating.rating);
+  FlSpot toFlSpot(DateTime firstDate){
+    return FlSpot(date.difference(firstDate).inDays.toDouble(), rating.rating);
   }
 }

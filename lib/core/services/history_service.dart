@@ -9,7 +9,7 @@ class HistoryService {
   final DiaryEntryRepository diaryEntryRepository =
       DiaryEntryRepository.diaryEntryRepository;
 
-  List<HistoryEntry> getHistoryOfLastFourWeeks(int dogId, Exercises exercise)
+  List<HistoryEntry> getHistoryOfExercise(int dogId, Exercises exercise)
   {
     List<HistoryEntry> historyEntries = [];
     var dogResult = dogRepository.getDog(dogId);
@@ -17,24 +17,15 @@ class HistoryService {
       return historyEntries;
     }
 
-    var dog = dogResult.tryGetSuccess();
+    var lastTwentyTrainingsResult = diaryEntryRepository.getAllEntriesByDogExercise(dogId, exercise, 20);
 
-    var dateTimeFourWeeksAgo = DateTime.now().subtract(const Duration(days: 28));
-    var lastFourWeeksResult = diaryEntryRepository.getAllEntriesByDogDate(dogId, dateTimeFourWeeksAgo, DateTime.now());
-
-    if(lastFourWeeksResult.isError()){
+    if(lastTwentyTrainingsResult.isError()){
       return historyEntries;
     }
 
-    var lastFourWeeks = lastFourWeeksResult.tryGetSuccess();
+    var lastTwentyTrainings = lastTwentyTrainingsResult.tryGetSuccess();
 
-    for(var sport in dog!.sports.keys){
-      var lastFourWeeksBySport = lastFourWeeks!.where((x) => x.sport!.key == sport && x.exerciseRating!.any((y) => y.exercise == exercise && y.rating > 0))
-          .map((x) => HistoryEntry(rating: x.exerciseRating!.firstWhere((x) => x.exercise == exercise), date: x.date));
-
-      historyEntries.addAll(lastFourWeeksBySport);
-    }
-
+    historyEntries = lastTwentyTrainings!.map((x) => HistoryEntry(rating: x.exerciseRating!.firstWhere((x) => x.exercise == exercise), date: x.date)).toList();
     historyEntries.sort((HistoryEntry a, HistoryEntry b) => a.date.compareTo(b.date));
 
     return historyEntries;

@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 class HistoryViewModel extends ChangeNotifier {
   final HistoryService _historyService = HistoryService.historyService;
 
-  List<FlSpot> get history => _history.map((x) => x.toFlSpot()).toList();
+  double get dateRange => _history.isEmpty ? 0 : _history.last.date.difference(_history.first.date).inDays.toDouble();
+  DateTime get firstDate => _history.isEmpty ? DateTime.now() : _history.first.date;
+  List<FlSpot> get history => _history.map((x) => x.toFlSpot(_history.first.date)).toList();
   List<HistoryEntry> _history = [];
 
   List<Widget> legend = [];
@@ -20,7 +22,7 @@ class HistoryViewModel extends ChangeNotifier {
     if(dogIdStr != null && exerciseIdStr != null) {
       _dogId = int.tryParse(dogIdStr);
       _exercise = Exercises.values.firstWhere((x) => x.toString() == exerciseIdStr);
-      _history = _historyService.getHistoryOfLastFourWeeks(_dogId!, _exercise!);
+      _history = _historyService.getHistoryOfExercise(_dogId!, _exercise!);
     }
   }
 
