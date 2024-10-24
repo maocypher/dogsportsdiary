@@ -1,3 +1,5 @@
+import 'package:choice/choice.dart';
+import 'package:dog_sports_diary/features/history/history_range.dart';
 import 'package:dog_sports_diary/features/history/history_tab.dart';
 import 'package:dog_sports_diary/features/history/history_viewmodel.dart';
 import 'package:dog_sports_diary/presentation/widgets/toast.dart';
@@ -23,7 +25,7 @@ class HistoryState extends State<HistoryTab> {
   @override
   void initState() {
     super.initState();
-    historyViewModel.initAsync(widget.dogIdStr, widget.exerciseIdStr);
+    historyViewModel.init(widget.dogIdStr, widget.exerciseIdStr);
   }
 
   @override
@@ -37,31 +39,63 @@ class HistoryState extends State<HistoryTab> {
               appBar: AppBar(
                 title: Text(AppLocalizations.of(_context)!.history),
               ),
-              body: Padding(
-                padding: EdgeInsets.all(0.0),
-                child: getLineChartForHistory(),
+              body: Column(
+                children: [getTimeRangeSelection(), getLineChartForHistory()],
               ));
         });
   }
 
-  Widget getLineChartForHistory(){
+  Widget getLineChartForHistory() {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.70,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(
-              mainData(),
-            ),
-          ),
+            aspectRatio: 1.0,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(AppLocalizations.of(context)!.exercises(historyViewModel.exercise.toString()),
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 18,
+                      left: 12,
+                      top: 24,
+                      bottom: 12,
+                    ),
+                    child: LineChart(
+                      mainData(),
+                    ),
+                  ))
+                ])
         ),
       ],
+    );
+  }
+
+  Widget getTimeRangeSelection(){
+    return Choice<HistoryRange>.inline(
+      clearable: true,
+      value: ChoiceSingle.value(historyViewModel.selectedHistoryRange),
+      onChanged: ChoiceSingle.onChanged(historyViewModel.setSelectedHistoryRange),
+      itemCount: HistoryRange.values.length,
+      itemBuilder: (state, i) {
+        return ChoiceChip(
+          selected: state.selected(HistoryRange.values[i]),
+          onSelected: state.onSelected(HistoryRange.values[i]),
+          label: Text(HistoryRange.values[i].toString()),
+        );
+      },
+      listBuilder: ChoiceList.createScrollable(
+        spacing: 10,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 25,
+        ),
+      ),
     );
   }
 
@@ -71,7 +105,7 @@ class HistoryState extends State<HistoryTab> {
         show: true,
         drawVerticalLine: true,
         horizontalInterval: 1,
-        verticalInterval: historyViewModel.dateRange / 4,
+        verticalInterval: historyViewModel.interval,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: Colors.amber,
@@ -97,7 +131,7 @@ class HistoryState extends State<HistoryTab> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            interval: historyViewModel.dateRange / 4,
+            interval: historyViewModel.interval,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),

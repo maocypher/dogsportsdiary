@@ -71,6 +71,26 @@ class DiaryEntryRepository {
     }
   }
 
+  Result<List<DiaryEntry>, Exception> getAllEntriesByDogExerciseDate(
+      int dogId,
+      Exercises exercise,
+      DateTime startDate,
+      DateTime endDate)
+  {
+    try{
+      var result = _hiveService.diaryEntryBox.values
+          .where((x) => x.dogId == dogId
+          && x.exerciseRating!.any((y) => y.exercise == exercise && y.rating > 0)
+          && x.date.compareTo(startDate) >= 0
+          && x.date.compareTo(endDate) <= 0)
+          .orderByDescending((x) => x.date)
+          .toList();
+      return Success(result);
+    } on Exception catch (e){
+      return Error(e);
+    }
+  }
+
   Result<List<DiaryEntry>, Exception> getAllEntriesByDogExercise(
       int dogId,
       Exercises exercise,
