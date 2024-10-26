@@ -74,7 +74,7 @@ class HistoryState extends State<HistoryTab> {
                           );
                         }
                         return LineChart(
-                          mainData(),
+                          historyLineChartData(),
                         );
                       }
                     )
@@ -109,7 +109,7 @@ class HistoryState extends State<HistoryTab> {
     );
   }
 
-  LineChartData mainData() {
+  LineChartData historyLineChartData() {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -166,13 +166,14 @@ class HistoryState extends State<HistoryTab> {
         LineChartBarData(
           spots: historyViewModel.history,
           isCurved: true,
+          curveSmoothness: 0.1,
           gradient: LinearGradient(
             colors: gradientColors,
           ),
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: const FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: true,
@@ -193,20 +194,10 @@ class HistoryState extends State<HistoryTab> {
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-
-    // if(value.toInt() % 5 == 0) {
-    //   text = Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style);
-    // }
-    // else{
-    //   text = const Text('', style: style);
-    // }
-
-    text = Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style);
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style),
     );
   }
 
