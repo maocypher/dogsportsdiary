@@ -66,9 +66,18 @@ class HistoryState extends State<HistoryTab> {
                       top: 24,
                       bottom: 12,
                     ),
-                    child: LineChart(
-                      mainData(),
-                    ),
+                    child: Consumer<HistoryViewModel>(
+                      builder: (context, viewModel, child) {
+                        if (viewModel.history.isEmpty) {
+                          return Center(
+                            child: Text("no data")//Text(AppLocalizations.of(context)!.noHistory),
+                          );
+                        }
+                        return LineChart(
+                          mainData(),
+                        );
+                      }
+                    )
                   ))
                 ])
         ),
