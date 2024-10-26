@@ -170,7 +170,7 @@ class HistoryState extends State<HistoryTab> {
           gradient: LinearGradient(
             colors: gradientColors,
           ),
-          barWidth: 5,
+          barWidth: 3,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: true,
