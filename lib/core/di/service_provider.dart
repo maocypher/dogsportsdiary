@@ -1,4 +1,5 @@
 import 'package:dog_sports_diary/core/services/backup_service.dart';
+import 'package:dog_sports_diary/core/services/history_service.dart';
 import 'package:dog_sports_diary/core/services/hive_service.dart';
 import 'package:dog_sports_diary/core/services/overview_service.dart';
 import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
@@ -43,6 +44,7 @@ interface class ServiceProvider {
     //Services
     BackupService.inject();
     OverviewService.inject();
+    HistoryService.inject();
     Toast.inject();
   }
 }

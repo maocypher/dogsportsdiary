@@ -2,6 +2,7 @@ import 'package:darq/darq.dart';
 import 'package:dog_sports_diary/core/di/service_provider.dart';
 import 'package:dog_sports_diary/core/services/hive_service.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
+import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class DiaryEntryRepository {
@@ -63,6 +64,44 @@ class DiaryEntryRepository {
                 && x.date.compareTo(startDate) >= 0
                 && x.date.compareTo(endDate) <= 0)
           .orderByDescending((x) => x.date)
+          .toList();
+      return Success(result);
+    } on Exception catch (e){
+      return Error(e);
+    }
+  }
+
+  Result<List<DiaryEntry>, Exception> getAllEntriesByDogExerciseDate(
+      int dogId,
+      Exercises exercise,
+      DateTime startDate,
+      DateTime endDate)
+  {
+    try{
+      var result = _hiveService.diaryEntryBox.values
+          .where((x) => x.dogId == dogId
+          && x.exerciseRating!.any((y) => y.exercise == exercise && y.rating > 0)
+          && x.date.compareTo(startDate) >= 0
+          && x.date.compareTo(endDate) <= 0)
+          .orderByDescending((x) => x.date)
+          .toList();
+      return Success(result);
+    } on Exception catch (e){
+      return Error(e);
+    }
+  }
+
+  Result<List<DiaryEntry>, Exception> getAllEntriesByDogExercise(
+      int dogId,
+      Exercises exercise,
+      int limit)
+  {
+    try{
+      var result = _hiveService.diaryEntryBox.values
+          .where((x) => x.dogId == dogId
+          && x.exerciseRating!.any((y) => y.exercise == exercise && y.rating > 0))
+          .orderByDescending((x) => x.date)
+          .take(limit)
           .toList();
       return Success(result);
     } on Exception catch (e){
