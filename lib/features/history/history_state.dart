@@ -70,7 +70,7 @@ class HistoryState extends State<HistoryTab> {
                       builder: (context, viewModel, child) {
                         if (viewModel.history.isEmpty) {
                           return Center(
-                            child: Text("no data")//Text(AppLocalizations.of(context)!.noHistory),
+                            child: Text(AppLocalizations.of(context)!.historyNoData),
                           );
                         }
                         return LineChart(
@@ -87,15 +87,16 @@ class HistoryState extends State<HistoryTab> {
 
   Widget getTimeRangeSelection(){
     return Choice<HistoryRange>.inline(
-      clearable: true,
+      clearable: false,
       value: ChoiceSingle.value(historyViewModel.selectedHistoryRange),
       onChanged: ChoiceSingle.onChanged(historyViewModel.setSelectedHistoryRange),
       itemCount: HistoryRange.values.length,
       itemBuilder: (state, i) {
         return ChoiceChip(
+          showCheckmark: false,
           selected: state.selected(HistoryRange.values[i]),
           onSelected: state.onSelected(HistoryRange.values[i]),
-          label: Text(HistoryRange.values[i].toString()),
+          label: Text(AppLocalizations.of(context)!.historyRange(HistoryRange.values[i].name)),
         );
       },
       listBuilder: ChoiceList.createScrollable(

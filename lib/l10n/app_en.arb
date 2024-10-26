@@ -19,6 +19,7 @@
   "overviewLast28Days": "Last 28 days",
   "overviewNoDataLast28Days": "No training data for last 28 days",
   "history": "History",
+  "historyNoData": "No training data",
   "dogPageAddDogs": "Press the + button to add a dog",
   "diaryPageNoDogs": "You have no dogs added yet",
   "sportsMultiSelectionHint": "Select sports",
@@ -73,5 +74,14 @@
             "type": "String"
           }
         }
+      },
+    "historyRange": "{range, select, fourWeeks{4W} threeMonths{3M} sixMonths{6M} oneYear{1Y} other{Unbekannt}}",
+    "@historyRange": {
+      "description": "Translation for history range",
+      "placeholders": {
+        "range": {
+          "type": "String"
+        }
       }
+    }
 }
