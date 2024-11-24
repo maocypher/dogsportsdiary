@@ -1,5 +1,5 @@
 name: dog_sports_diary
-description: "A new Flutter project."
+description: "A diary to keep track of your trainings in dog sports."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.9+9
+version: 1.0.10+10
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -37,21 +37,22 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   carousel_slider: ^5.0.0
+  choice: ^2.3.2
   cupertino_icons: ^1.0.6
   darq: ^2.0.0
-  device_info_plus: ^10.1.0
+  device_info_plus: ^11.1.0
   dropdown_button2: ^3.0.0-beta.16
   file_picker: ^8.0.6
   fl_chart: ^0.69.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.1
   flutter_rating: ^2.0.2
   flutter_slidable: ^3.1.1
   fluttertoast: ^8.2.6
-  get_it: ^7.7.0
+  get_it: ^8.0.0
   go_router: ^14.1.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  image_cropper: ^6.0.0
+  image_cropper: ^8.0.2
   image_picker: ^1.1.1
   intl: ^0.19.0
   json_annotation: ^4.9.0
@@ -67,7 +68,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.4.11
   faker: ^2.1.0
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   hive_test: ^1.0.1
   mocktail: ^1.0.4
 

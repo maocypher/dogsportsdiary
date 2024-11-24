@@ -115,8 +115,8 @@ class OverviewState extends State<OverviewTab> {
                                         DataCell(
                                           GestureDetector(
                                             onTap: () {
-                                              // _context.push('${Constants.routeOverview}/${overviewViewModel.dogs[itemIndex]
-                                              //     .id!}/${Constants.routeOverviewHistory}/${historyCount.exercise}');
+                                              _context.push('${Constants.routeOverview}/${overviewViewModel.dogs[itemIndex]
+                                                  .id!}/${Constants.routeOverviewHistory}/${historyCount.exercise}');
                                             },
                                             child: Text(AppLocalizations.of(context)!.exercises(historyCount!.exercise.toString())),
                                           ),),
