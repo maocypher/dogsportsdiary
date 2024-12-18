@@ -116,6 +116,12 @@ This application uses the following open source packages:
 - **Purpose:** Result type implementation
 - **License Details:** [View License](https://github.com/vkdhanaraj/multiple_result/blob/master/LICENSE)
 
+### package_info_plus (v8.1.2)
+- **License:** BSD-3-Clause
+- **Repository:** https://github.com/fluttercommunity/plus_plugins/tree/main/packages/package_info_plus/package_info_plus
+- **Purpose:** Showing current app version number
+- **License Details:** [View License](https://github.com/fluttercommunity/plus_plugins/blob/main/packages/package_info_plus/package_info_plus/LICENSE)
+
 ### path_provider (v2.1.3)
 - **License:** BSD-3-Clause
 - **Repository:** https://github.com/flutter/plugins

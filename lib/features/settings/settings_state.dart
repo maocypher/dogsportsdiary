@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsState extends State<SettingsTab> {
   final SettingsViewModel settingsViewModel = SettingsViewModel.settingsViewModel;
@@ -55,7 +56,21 @@ class SettingsState extends State<SettingsTab> {
                     },
                   ),
                   const Divider(), // Add a divider between entries
-                  // Add more ListTile widgets as needed
+                  FutureBuilder<String>(
+                    future: _getVersion(),
+                    builder: (context, snapshot) {
+                      return Container(
+                        padding: const EdgeInsets.all(16),
+                        alignment: Alignment.center,
+                        child: Text(
+                          snapshot.data ?? 'Loading version...',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -186,5 +201,10 @@ class SettingsState extends State<SettingsTab> {
         );
       },
     );
+  }
+
+  Future<String> _getVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    return 'Version ${packageInfo.version} (${packageInfo.buildNumber})';
   }
 }
