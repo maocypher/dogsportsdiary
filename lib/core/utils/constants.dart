@@ -18,6 +18,7 @@ class Constants {
   static const String exercise = "exercise";
   static const String rating = "rating";
   static const String isPlanned = "isPlanned";
+  static const String openSourceLicenses = "openSourceLicenses";
 
   //Routes
   static const String routeHome = '/';
@@ -30,6 +31,7 @@ class Constants {
   static const String routeSettings = '/settings';
   static const String routeOverview = '/overview';
   static const String routeOverviewHistory = 'history';
+  static const String routeOpenSourceTab = 'opensource';
 
   //Database
   static const String diaryBox = 'diaryEntryBox';
