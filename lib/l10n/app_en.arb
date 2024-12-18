@@ -37,6 +37,7 @@
   "rating": "Rating",
   "ratingPlan": "Plan",
   "ratingPlanned": "Planned",
+  "opensourcepackages": "Third party licenses",
   "createBackup": "Create backup",
   "restoreBackup": "Restore backup",
   "backupSuccessful": "Backup successful",

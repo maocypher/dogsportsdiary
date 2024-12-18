@@ -1,3 +1,4 @@
+import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/value_objects/backup.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_viewmodel.dart';
@@ -44,6 +45,13 @@ class SettingsState extends State<SettingsTab> {
                     title: Text(AppLocalizations.of(_context)!.restoreBackup),
                     onTap: () async {
                       await onRestoreBackupTapAsync();
+                    },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    title: Text(AppLocalizations.of(_context)!.opensourcepackages),
+                    onTap: () async {
+                      _context.push('${Constants.routeSettings}/${Constants.routeOpenSourceTab}');
                     },
                   ),
                   const Divider(), // Add a divider between entries
