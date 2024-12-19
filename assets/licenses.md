@@ -20,19 +20,19 @@ This application uses the following open source packages:
 - **Purpose:** LINQ-like operations for Dart collections
 - **License Details:** [View License](https://github.com/andriimartynov/darq/blob/master/LICENSE)
 
-### device_info_plus (v11.1.0)
+### device_info_plus (v11.2.0)
 - **License:** BSD-3-Clause
 - **Repository:** https://github.com/fluttercommunity/plus_plugins
 - **Purpose:** Device information access (dynamic dark/light theme)
 - **License Details:** [View License](https://github.com/fluttercommunity/plus_plugins/blob/main/LICENSE)
 
-### dropdown_button2 (v3.0.0-beta.16)
+### dropdown_button2 (v3.0.0-beta.21)
 - **License:** MIT
 - **Repository:** https://github.com/AhmedLSayed9/dropdown_button2
 - **Purpose:** Enhanced dropdown button widget
 - **License Details:** [View License](https://github.com/AhmedLSayed9/dropdown_button2/blob/master/LICENSE)
 
-### file_picker (v8.0.6)
+### file_picker (v8.1.6)
 - **License:** MIT
 - **Repository:** https://github.com/miguelpruivo/flutter_file_picker
 - **Purpose:** File picking functionality
@@ -43,6 +43,12 @@ This application uses the following open source packages:
 - **Repository:** https://github.com/imaNNeoFighT/fl_chart
 - **Purpose:** Chart visualization
 - **License Details:** [View License](https://github.com/imaNNeoFighT/fl_chart/blob/master/LICENSE)
+
+### flutter_launch_icons (v0.14.2)
+- **License:** MIT
+- **Repository:** https://github.com/fluttercommunity/flutter_launcher_icons/
+- **Purpose:** Launch icon
+- **License Details:** [View License](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/LICENSE)
 
 ### flutter_markdown (v0.7.4+3)
 - **License:** BSD-3-Clause
@@ -56,25 +62,25 @@ This application uses the following open source packages:
 - **Purpose:** Rating widget implementation
 - **License Details:** [View License](https://github.com/goweek/flutter_rating/blob/master/LICENSE)
 
-### flutter_slidable (v3.1.1)
+### flutter_slidable (v3.1.2)
 - **License:** MIT
 - **Repository:** https://github.com/letsar/flutter_slidable
 - **Purpose:** Slidable list items
 - **License Details:** [View License](https://github.com/letsar/flutter_slidable/blob/master/LICENSE)
 
-### fluttertoast (v8.2.6)
+### fluttertoast (v8.2.10)
 - **License:** MIT
 - **Repository:** https://github.com/PonnamKarthik/FlutterToast
 - **Purpose:** Toast notifications
 - **License Details:** [View License](https://github.com/PonnamKarthik/FlutterToast/blob/master/LICENSE)
 
-### get_it (v8.0.0)
+### get_it (v8.0.3)
 - **License:** MIT
 - **Repository:** https://github.com/fluttercommunity/get_it
 - **Purpose:** Service locator
 - **License Details:** [View License](https://github.com/fluttercommunity/get_it/blob/master/LICENSE)
 
-### go_router (v14.1.2)
+### go_router (v14.6.2)
 - **License:** BSD-3-Clause
 - **Repository:** https://github.com/flutter/packages
 - **Purpose:** Navigation/routing
@@ -86,7 +92,13 @@ This application uses the following open source packages:
 - **Purpose:** Local database storage
 - **License Details:** [View License](https://github.com/hivedb/hive/blob/master/LICENSE)
 
-### image_cropper (v8.0.2)
+### hive_flutter (v1.1.0)
+- **License:** Apache 2.0
+- **Repository:** https://github.com/hivedb/hive
+- **Purpose:** Local database storage
+- **License Details:** [View License](https://github.com/hivedb/hive/blob/master/LICENSE)
+
+### image_cropper (v8.1.0)
 - **License:** MIT
 - **Repository:** https://github.com/hnvn/flutter_image_cropper
 - **Purpose:** Image cropping functionality
@@ -148,7 +160,7 @@ This application uses the following open source packages:
 
 ## Development Dependencies
 
-### build_runner (v2.4.11)
+### build_runner (v2.4.14)
 - **License:** BSD-3-Clause
 - **Repository:** https://github.com/dart-lang/build
 - **Purpose:** Code generation tool
