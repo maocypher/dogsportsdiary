@@ -86,7 +86,7 @@ This application uses the following open source packages:
 - **Purpose:** Navigation/routing
 - **License Details:** [View License](https://github.com/flutter/packages/blob/main/LICENSE)
 
-### hive (v2.2.3) & hive_flutter (v1.1.0)
+### hive (v2.2.3)
 - **License:** Apache 2.0
 - **Repository:** https://github.com/hivedb/hive
 - **Purpose:** Local database storage
