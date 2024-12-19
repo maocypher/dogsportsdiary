@@ -4,6 +4,7 @@ import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/dog/dog_tab.dart';
 import 'package:dog_sports_diary/features/history/history_tab.dart';
+import 'package:dog_sports_diary/features/opensource_packages/opensource_packages_tab.dart';
 import 'package:dog_sports_diary/features/overview/overview_tab.dart';
 import 'package:dog_sports_diary/features/settings/settings_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
@@ -152,6 +153,16 @@ class AppRouter {
                   name: Constants.settings,
                   child: SettingsTab(),
                 ),
+                routes: [
+                  GoRoute(
+                    path: Constants.routeOpenSourceTab,
+                    name: Constants.openSourceLicenses,
+                    pageBuilder: (context, state) => const NoTransitionPage(
+                      name: Constants.openSourceLicenses,
+                      child: OpensourcePackagesTab(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

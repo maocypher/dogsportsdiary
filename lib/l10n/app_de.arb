@@ -35,6 +35,7 @@
   "ratingPlan": "Planen",
   "ratingPlanned": "Geplant",
   "createBackup": "Backup erstellen",
+  "opensourcepackages": "Drittanbieterlizenzen",
   "restoreBackup": "Backup wiederherstellen",
   "backupSuccessful": "Backup erfolgreich",
   "backupCancelled": "Backup wurde abgebrochen",

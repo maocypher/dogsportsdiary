@@ -1,0 +1,2 @@
+* Drittanbieterlizenzen werden aufgeführt
+* Aktuelle Version der App wird auf der Einstellungenseite angezeigt
