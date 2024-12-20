@@ -9,6 +9,20 @@ class Rating{
 
   Rating({required this.exercise, required this.rating, required this.isPlanned, this.notes});
 
+  Rating copyWith({
+    Exercises? exercise,
+    double? rating,
+    bool? isPlanned,
+    String? notes
+  }) {
+    return Rating(
+        exercise: exercise ?? this.exercise,
+        rating: rating ?? this.rating,
+        isPlanned: isPlanned ?? this.isPlanned,
+        notes: notes ?? this.notes
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       Constants.exercise: exercise.toJson(),

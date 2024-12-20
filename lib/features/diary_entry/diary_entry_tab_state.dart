@@ -433,7 +433,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
   }
 
   Widget? showRatingNotes(Rating exerciseRating){
-    return exerciseRating.rating > 0
+    return diaryEntryViewModel.shouldShowNotesToRatings(exerciseRating)
         ? Row(children: [
       Expanded(
         child: TextFormField(
@@ -442,8 +442,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
           TextInputAction.newline,
           controller:
           TextEditingController(
-            text: diaryEntryViewModel
-                .diaryEntry?.notes,
+            text: exerciseRating.notes ?? "",
           ),
           decoration: InputDecoration(
             labelText:
@@ -451,9 +450,9 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                 context)!
                 .notes,
           ),
-          // onChanged: (value) {
-          //   viewModel.updateNotes(value);
-          // },
+          onChanged: (value) {
+            diaryEntryViewModel.updateRatingNotes(exerciseRating.exercise, value);
+          },
         ),
       ),
     ]) : null;
