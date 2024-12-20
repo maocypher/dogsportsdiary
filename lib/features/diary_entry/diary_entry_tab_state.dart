@@ -362,7 +362,8 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                 // The child of the Slidable is what the user sees when the
                 // component is not dragged.
-                child: Column(children: [
+                child: Column(
+                    children: [
                   ListTile(
                     leading: exerciseRating.isPlanned
                         ? const Icon(Icons.star)
@@ -370,25 +371,10 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                     title: Row(
                       children: [
                         Expanded(
-                            child: Row(children: [
-                          Text(
-                            AppLocalizations.of(context)!
-                                .exercises(exerciseRating.exercise.toString()),
-                          ),
-                          if (diaryEntryViewModel
-                              .shouldShowNotesToRatings(exerciseRating))
-                            IconButton(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  exerciseRating.editMode =
-                                      !exerciseRating.editMode;
-                                });
-                              },
-                            ),
-                        ])),
+                            child: Text(
+                          AppLocalizations.of(context)!
+                              .exercises(exerciseRating.exercise.toString()),
+                        )),
                         StarRating(
                           rating: exerciseRating.rating,
                           allowHalfRating: false,
@@ -396,6 +382,23 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                               diaryEntryViewModel.updateRating(
                                   exerciseRating.exercise, newRating)),
                         ),
+                        if (diaryEntryViewModel
+                            .shouldShowNotesToRatings(exerciseRating))
+                          IconButton(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                exerciseRating.editMode =
+                                    !exerciseRating.editMode;
+                              });
+                            },
+                          ),
+                        if (!diaryEntryViewModel
+                            .shouldShowNotesToRatings(exerciseRating))
+                          const SizedBox(width: 48, height: 2),
                       ],
                     ),
                   ),
