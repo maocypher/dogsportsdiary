@@ -5,24 +5,28 @@ class Rating{
   final Exercises exercise;
   final double rating;
   final bool isPlanned;
+  final String? notes;
 
-  Rating({required this.exercise, required this.rating, required this.isPlanned});
+  Rating({required this.exercise, required this.rating, required this.isPlanned, this.notes});
 
   Map<String, dynamic> toJson() {
     return {
       Constants.exercise: exercise.toJson(),
       Constants.rating: rating,
-      Constants.isPlanned: isPlanned
+      Constants.isPlanned: isPlanned,
+      Constants.notes: notes
     };
   }
 
   static Rating fromJson(Map<String, dynamic> json) {
     var isPlanned = json[Constants.isPlanned];
+    var notes = json[Constants.notes];
 
     return Rating(
         exercise:  ExercisesJsonExtension.fromJson(json[Constants.exercise] as String),
         rating: json[Constants.rating] as double,
-        isPlanned:  isPlanned != null ? isPlanned as bool : false
+        isPlanned:  isPlanned != null ? isPlanned as bool : false,
+        notes: notes ?? ""
     );
   }
 }
