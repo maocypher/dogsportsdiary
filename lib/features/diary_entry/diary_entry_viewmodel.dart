@@ -178,6 +178,18 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
+  toggleEditModeForRating(Exercises exercise){
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+    if(index != -1) {
+      var rating = _selectedExercises[index];
+      rating.editMode = !rating.editMode;
+
+      _selectedExercises[index] = rating;
+
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
   updateIsPlanned(Exercises exercise) {
     var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
 

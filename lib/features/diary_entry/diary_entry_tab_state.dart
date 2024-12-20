@@ -62,15 +62,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                       children: [
                         showSelectableDogs(),
                         const SizedBox(height: Constants.uiSpacer),
-
                         showSelectableDogSports(),
                         const SizedBox(height: Constants.uiSpacer),
-
                         showDateField(),
-
                         listGeneralInformation(),
                         listRatings(),
-
                         const SizedBox(height: Constants.uiEndSpacer),
                       ],
                     ),
@@ -90,7 +86,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         });
   }
 
-  Widget showSelectableDogs(){
+  Widget showSelectableDogs() {
     return DropdownButtonFormField<Dog>(
       value: diaryEntryViewModel.selectedDog,
       onChanged: (dog) {
@@ -107,16 +103,14 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
     );
   }
 
-  Widget showSelectableDogSports(){
-    return DropdownButtonFormField<
-        Tuple<DogSports, DogSportsClasses>>(
+  Widget showSelectableDogSports() {
+    return DropdownButtonFormField<Tuple<DogSports, DogSportsClasses>>(
       value: diaryEntryViewModel.selectedSport,
       onChanged: (sport) {
         diaryEntryViewModel.loadSport(sport!);
       },
       items: diaryEntryViewModel.selectedDogSports.map((sport) {
-        return DropdownMenuItem<
-            Tuple<DogSports, DogSportsClasses>>(
+        return DropdownMenuItem<Tuple<DogSports, DogSportsClasses>>(
           value: sport,
           child: Text(AppLocalizations.of(context)!
               .dogSportsClasses(sport.value.toString())),
@@ -125,7 +119,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
     );
   }
 
-  Widget showDateField(){
+  Widget showDateField() {
     return TextFormField(
       controller: TextEditingController(
         text: diaryEntryViewModel.date,
@@ -141,8 +135,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
             initialDate: DateTime.now(),
             firstDate: DateTime(2020),
             lastDate: DateTime(2100),
-            initialEntryMode:
-            DatePickerEntryMode.calendarOnly);
+            initialEntryMode: DatePickerEntryMode.calendarOnly);
 
         if (date != null) {
           diaryEntryViewModel.updateDate(date);
@@ -151,7 +144,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
     );
   }
 
-  Widget listGeneralInformation(){
+  Widget listGeneralInformation() {
     return ExpansionTile(
       title: Text(
         AppLocalizations.of(context)!.general,
@@ -160,23 +153,18 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
       children: <Widget>[
         ListTile(
           title: TextFormField(
-            controller: _temperatureController =
-                TextEditingController(
-                  text: diaryEntryViewModel.diaryEntry?.temperature
-                      .toString() ??
-                      '${Constants.initTemperature}',
-                ),
+            controller: _temperatureController = TextEditingController(
+              text: diaryEntryViewModel.diaryEntry?.temperature.toString() ??
+                  '${Constants.initTemperature}',
+            ),
             decoration: InputDecoration(
-              labelText:
-              AppLocalizations.of(context)!.temperature,
+              labelText: AppLocalizations.of(context)!.temperature,
               suffixText: '°C',
             ),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp('[0-9.-]'))
+              FilteringTextInputFormatter.allow(RegExp('[0-9.-]'))
             ],
-            keyboardType:
-            const TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               signed: true,
               decimal: true,
             ),
@@ -193,25 +181,19 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         ),
         ListTile(
           title: TextFormField(
-            controller: _trainingDurationController =
-                TextEditingController(
-                  text: diaryEntryViewModel
-                      .diaryEntry?.trainingDurationInMin
+            controller: _trainingDurationController = TextEditingController(
+              text: diaryEntryViewModel.diaryEntry?.trainingDurationInMin
                       .toString() ??
-                      '${Constants.initMinutes}',
-                ),
+                  '${Constants.initMinutes}',
+            ),
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!
-                  .trainingDuration,
-              suffixText:
-              AppLocalizations.of(context)!.minutes,
+              labelText: AppLocalizations.of(context)!.trainingDuration,
+              suffixText: AppLocalizations.of(context)!.minutes,
             ),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp('[0-9]'))
+              FilteringTextInputFormatter.allow(RegExp('[0-9]'))
             ],
-            keyboardType:
-            const TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               signed: false,
               decimal: false,
             ),
@@ -228,25 +210,19 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         ),
         ListTile(
           title: TextFormField(
-            controller: _warmUpDurationController =
-                TextEditingController(
-                  text: diaryEntryViewModel
-                      .diaryEntry?.warmUpDurationInMin
+            controller: _warmUpDurationController = TextEditingController(
+              text: diaryEntryViewModel.diaryEntry?.warmUpDurationInMin
                       .toString() ??
-                      '${Constants.initMinutes}',
-                ),
+                  '${Constants.initMinutes}',
+            ),
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!
-                  .warumUpDuration,
-              suffixText:
-              AppLocalizations.of(context)!.minutes,
+              labelText: AppLocalizations.of(context)!.warumUpDuration,
+              suffixText: AppLocalizations.of(context)!.minutes,
             ),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp('[0-9]'))
+              FilteringTextInputFormatter.allow(RegExp('[0-9]'))
             ],
-            keyboardType:
-            const TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               signed: false,
               decimal: false,
             ),
@@ -263,25 +239,19 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         ),
         ListTile(
           title: TextFormField(
-            controller: _coolDownDurationController =
-                TextEditingController(
-                  text: diaryEntryViewModel
-                      .diaryEntry?.coolDownDurationInMin
+            controller: _coolDownDurationController = TextEditingController(
+              text: diaryEntryViewModel.diaryEntry?.coolDownDurationInMin
                       .toString() ??
-                      '${Constants.initMinutes}',
-                ),
+                  '${Constants.initMinutes}',
+            ),
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!
-                  .coolDownDuration,
-              suffixText:
-              AppLocalizations.of(context)!.minutes,
+              labelText: AppLocalizations.of(context)!.coolDownDuration,
+              suffixText: AppLocalizations.of(context)!.minutes,
             ),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp('[0-9]'))
+              FilteringTextInputFormatter.allow(RegExp('[0-9]'))
             ],
-            keyboardType:
-            const TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               signed: false,
               decimal: false,
             ),
@@ -304,8 +274,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
               text: diaryEntryViewModel.diaryEntry?.trainingGoal,
             ),
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!
-                  .trainingGoal,
+              labelText: AppLocalizations.of(context)!.trainingGoal,
             ),
             onChanged: (value) {
               diaryEntryViewModel.updateTrainingGoal(value);
@@ -320,8 +289,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
               text: diaryEntryViewModel.diaryEntry?.highlight,
             ),
             decoration: InputDecoration(
-              labelText:
-              AppLocalizations.of(context)!.highlight,
+              labelText: AppLocalizations.of(context)!.highlight,
             ),
             onChanged: (value) {
               diaryEntryViewModel.updateHighlight(value);
@@ -336,8 +304,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
               text: diaryEntryViewModel.diaryEntry?.distractions,
             ),
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!
-                  .distractions,
+              labelText: AppLocalizations.of(context)!.distractions,
             ),
             onChanged: (value) {
               diaryEntryViewModel.updateDistractions(value);
@@ -352,8 +319,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
               text: diaryEntryViewModel.diaryEntry?.notes,
             ),
             decoration: InputDecoration(
-              labelText:
-              AppLocalizations.of(context)!.notes,
+              labelText: AppLocalizations.of(context)!.notes,
             ),
             onChanged: (value) {
               diaryEntryViewModel.updateNotes(value);
@@ -364,7 +330,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
     );
   }
 
-  Widget listRatings(){
+  Widget listRatings() {
     return ExpansionTile(
       initiallyExpanded: true,
       title: Text(
@@ -372,89 +338,95 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       children: <Widget>[
-        ListTile(
-            title: Column(
-              children: diaryEntryViewModel.selectedExercises
-                  .map((exerciseRating) {
-                return Slidable(
-                  key: ValueKey(exerciseRating),
-                  // The start action pane is the one at the left or the top side.
-                  startActionPane: ActionPane(
-                    // A motion is a widget used to control how the pane animates.
-                    motion: const DrawerMotion(),
-                    // All actions are defined in the children parameter.
-                    children: [
-                      // A SlidableAction can have an icon and/or a label.
-                      SlidableAction(
-                        onPressed: (context) =>
-                            diaryEntryViewModel.updateIsPlanned(
-                                exerciseRating.exercise),
-                        backgroundColor: Colors.blueAccent,
-                        foregroundColor: Colors.white,
-                        icon: Icons.star,
-                        label: AppLocalizations.of(context)!
-                            .ratingPlan,
-                      ),
-                    ],
-                  ),
+        Column(
+          children: diaryEntryViewModel.selectedExercises.map((exerciseRating) {
+            return Slidable(
+                key: ValueKey(exerciseRating),
+                // The start action pane is the one at the left or the top side.
+                startActionPane: ActionPane(
+                  // A motion is a widget used to control how the pane animates.
+                  motion: const DrawerMotion(),
+                  // All actions are defined in the children parameter.
+                  children: [
+                    // A SlidableAction can have an icon and/or a label.
+                    SlidableAction(
+                      onPressed: (context) => diaryEntryViewModel
+                          .updateIsPlanned(exerciseRating.exercise),
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
+                      icon: Icons.star,
+                      label: AppLocalizations.of(context)!.ratingPlan,
+                    ),
+                  ],
+                ),
 
-                  // The child of the Slidable is what the user sees when the
-                  // component is not dragged.
-                  child: ListTile(
-                      leading: exerciseRating.isPlanned
-                          ? const Icon(Icons.star)
-                          : null,
-                      title: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                                AppLocalizations.of(context)!
-                                    .exercises(exerciseRating
-                                    .exercise
-                                    .toString())),
+                // The child of the Slidable is what the user sees when the
+                // component is not dragged.
+                child: Column(children: [
+                  ListTile(
+                    leading: exerciseRating.isPlanned
+                        ? const Icon(Icons.star)
+                        : null,
+                    title: Row(
+                      children: [
+                        Expanded(
+                            child: Row(children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .exercises(exerciseRating.exercise.toString()),
                           ),
-                          StarRating(
-                            rating: exerciseRating.rating,
-                            allowHalfRating: false,
-                            onRatingChanged: (newRating) =>
-                                setState(() =>
-                                    diaryEntryViewModel.updateRating(
-                                        exerciseRating.exercise,
-                                        newRating)),
-                          ),
-                        ],
-                      ),
-                      subtitle: showRatingNotes(exerciseRating)),
-                );
-              }).toList(),
-            ))
+                          if (diaryEntryViewModel
+                              .shouldShowNotesToRatings(exerciseRating))
+                            IconButton(
+                              icon: Icon(
+                                Icons.keyboard_arrow_down,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  exerciseRating.editMode =
+                                      !exerciseRating.editMode;
+                                });
+                              },
+                            ),
+                        ])),
+                        StarRating(
+                          rating: exerciseRating.rating,
+                          allowHalfRating: false,
+                          onRatingChanged: (newRating) => setState(() =>
+                              diaryEntryViewModel.updateRating(
+                                  exerciseRating.exercise, newRating)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (diaryEntryViewModel
+                          .shouldShowNotesToRatings(exerciseRating) &&
+                      exerciseRating.editMode)
+                    showRatingNotes(exerciseRating)
+                ]));
+          }).toList(),
+        )
       ],
     );
   }
 
-  Widget? showRatingNotes(Rating exerciseRating){
-    return diaryEntryViewModel.shouldShowNotesToRatings(exerciseRating)
-        ? Row(children: [
-      Expanded(
+  Widget showRatingNotes(Rating exerciseRating) {
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: TextFormField(
           maxLines: null,
-          textInputAction:
-          TextInputAction.newline,
-          controller:
-          TextEditingController(
+          textInputAction: TextInputAction.newline,
+          controller: TextEditingController(
             text: exerciseRating.notes ?? "",
           ),
           decoration: InputDecoration(
-            labelText:
-            AppLocalizations.of(
-                context)!
-                .notes,
+            labelText: AppLocalizations.of(context)!
+                .exercises(exerciseRating.exercise.toString()),
           ),
           onChanged: (value) {
-            diaryEntryViewModel.updateRatingNotes(exerciseRating.exercise, value);
+            diaryEntryViewModel.updateRatingNotes(
+                exerciseRating.exercise, value);
           },
-        ),
-      ),
-    ]) : null;
+        ));
   }
 }

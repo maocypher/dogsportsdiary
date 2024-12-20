@@ -6,6 +6,7 @@ class Rating{
   final double rating;
   final bool isPlanned;
   final String? notes;
+  bool editMode = false;
 
   Rating({required this.exercise, required this.rating, required this.isPlanned, this.notes});
 
