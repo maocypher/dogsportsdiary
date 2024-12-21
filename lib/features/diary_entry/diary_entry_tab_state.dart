@@ -362,8 +362,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
 
                 // The child of the Slidable is what the user sees when the
                 // component is not dragged.
-                child: Column(
-                    children: [
+                child: Column(children: [
                   ListTile(
                     leading: exerciseRating.isPlanned
                         ? const Icon(Icons.star)
@@ -371,9 +370,14 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                     title: Row(
                       children: [
                         Expanded(
-                            child: Text(
-                          AppLocalizations.of(context)!
-                              .exercises(exerciseRating.exercise.toString()),
+                            child: GestureDetector(
+                          onTap: () {
+                            onExpandRatingNotes(exerciseRating);
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .exercises(exerciseRating.exercise.toString()),
+                          ),
                         )),
                         StarRating(
                           rating: exerciseRating.rating,
@@ -390,10 +394,7 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                               size: 20,
                             ),
                             onPressed: () {
-                              setState(() {
-                                exerciseRating.editMode =
-                                    !exerciseRating.editMode;
-                              });
+                              onExpandRatingNotes(exerciseRating);
                             },
                           ),
                         if (!diaryEntryViewModel
@@ -431,5 +432,11 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
                 exerciseRating.exercise, value);
           },
         ));
+  }
+
+  void onExpandRatingNotes(Rating exerciseRating) {
+    setState(() {
+      exerciseRating.editMode = !exerciseRating.editMode;
+    });
   }
 }
