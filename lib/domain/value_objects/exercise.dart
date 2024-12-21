@@ -201,8 +201,6 @@ extension ExercisesJsonExtension on Exercises {
         return ExercisesConstants.seesaw;
       case Exercises.tunnel:
         return ExercisesConstants.tunnel;
-      default:
-        throw FormatException('Invalid exercise value: $this');
     }
   }
 

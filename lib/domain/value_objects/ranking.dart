@@ -10,8 +10,6 @@ extension RankingJsonExtension on Ranking {
         return 'simple';
       case Ranking.stars:
         return 'stars';
-      default:
-        throw FormatException('Invalid ranking value: $this');
     }
   }
 
