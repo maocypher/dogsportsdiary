@@ -166,6 +166,30 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
+  updateRatingNotes(Exercises exercise, String notes){
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+    if(index != -1) {
+      var rating = _selectedExercises[index];
+      rating = rating.copyWith(notes: notes);
+
+      _selectedExercises[index] = rating;
+
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
+  toggleEditModeForRating(Exercises exercise){
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+    if(index != -1) {
+      var rating = _selectedExercises[index];
+      rating.editMode = !rating.editMode;
+
+      _selectedExercises[index] = rating;
+
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
   updateIsPlanned(Exercises exercise) {
     var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
 
@@ -231,6 +255,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
         toast.showToast(msg: "Error saving entry");
       }
     }
+  }
+
+  shouldShowNotesToRatings(Rating rating){
+    return rating.rating > 0
+        && rating.exercise != Exercises.motivation
+        && rating.exercise != Exercises.excitement
+        && rating.exercise != Exercises.concentration;
   }
 
   static inject() {
