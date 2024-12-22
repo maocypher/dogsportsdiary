@@ -50,24 +50,10 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
                         ),
                         title: Text(viewModel.dogs[index].name),
                       ),
-                      children: viewModel.dogs[index].sports.entries.where((sport) => viewModel.diaryEntries
-                          .where((diaryEntry) => diaryEntry.dogId == viewModel.dogs[index].id && diaryEntry.sport!.key == sport.key)
-                          .isNotEmpty).map((entry) {
-                        return ExpansionTile(
-                          title: Text(AppLocalizations.of(_context)!.dogSports(entry.key.toString())),
-                          children: viewModel.diaryEntries.where((e) => e.dogId == viewModel.dogs[index].id && entry.key == e.sport!.key).map((diaryEntry) {
-                            return GestureDetector(
-                                onTap: () {
-                                  // Handle the tab event here
-                                  _context.push('${Constants.routeDiary}/${diaryEntry.id}');
-                                },
-                                child: ListTile(
-                                  title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
-                                )
-                            );
-                          }).toList(),
-                        );
-                      }).toList(),
+                      children: [
+                        showTrainingGoals(index)!,
+                        ...listGroupedDiaryEntires(index)
+                      ],
                     );
                   },
                 );
@@ -88,5 +74,58 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
             ),
           );
         });
+  }
+
+  Widget? showTrainingGoals(int dogIndex){
+    var dog = showDiaryEntryViewmodel.dogs[dogIndex];
+    var trainingGoals = showDiaryEntryViewmodel.loadTrainingGoals(dog.id!);
+
+    List<Widget> trainingGoalsWidgets = trainingGoals.expand((diaryEntry) {
+      var ratings = diaryEntry.exerciseRating!
+          .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.trim().isNotEmpty)
+          .toList();
+
+      return ratings.map((rating) => ListTile(
+        title: Text(rating.trainingGoals!),
+        subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
+            .dogSports(diaryEntry.sport!.key.toString())}: ${AppLocalizations.of(context)!
+            .exercises(rating.exercise.toString())}"),
+      )).toList();
+    }).toList();
+
+    if(trainingGoalsWidgets.isEmpty){
+      trainingGoalsWidgets.add(ListTile(
+        title: Text(AppLocalizations.of(context)!.noTrainingGoalsTitle),
+        subtitle: Text(AppLocalizations.of(context)!.noTrainingGoalsSubtitle),
+      ));
+    }
+
+    return ExpansionTile(
+      title: Text(AppLocalizations.of(context)!.trainingGoals),
+      children: trainingGoalsWidgets,
+    );
+  }
+
+  List<Widget> listGroupedDiaryEntires(int dogIndex){
+    var dog = showDiaryEntryViewmodel.dogs[dogIndex];
+
+    return dog.sports.entries.where((sport) => showDiaryEntryViewmodel.diaryEntries
+        .where((diaryEntry) => diaryEntry.dogId == dog.id && diaryEntry.sport!.key == sport.key)
+        .isNotEmpty).map((entry) {
+      return ExpansionTile(
+        title: Text(AppLocalizations.of(_context)!.dogSports(entry.key.toString())),
+        children: showDiaryEntryViewmodel.diaryEntries.where((e) => e.dogId == dog.id && entry.key == e.sport!.key).map((diaryEntry) {
+          return GestureDetector(
+              onTap: () {
+                // Handle the tab event here
+                _context.push('${Constants.routeDiary}/${diaryEntry.id}');
+              },
+              child: ListTile(
+                title: Text(DateFormat('yyyy-MM-dd').format(diaryEntry.date)),
+              )
+          );
+        }).toList(),
+      );
+    }).toList();
   }
 }

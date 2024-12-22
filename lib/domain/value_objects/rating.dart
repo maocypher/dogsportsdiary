@@ -5,22 +5,22 @@ class Rating{
   final Exercises exercise;
   final double rating;
   final bool isPlanned;
-  final String? notes;
+  final String? trainingGoals;
   bool editMode = false;
 
-  Rating({required this.exercise, required this.rating, required this.isPlanned, this.notes});
+  Rating({required this.exercise, required this.rating, required this.isPlanned, this.trainingGoals});
 
   Rating copyWith({
     Exercises? exercise,
     double? rating,
     bool? isPlanned,
-    String? notes
+    String? trainingGoals
   }) {
     return Rating(
         exercise: exercise ?? this.exercise,
         rating: rating ?? this.rating,
         isPlanned: isPlanned ?? this.isPlanned,
-        notes: notes ?? this.notes
+        trainingGoals: trainingGoals ?? this.trainingGoals
     );
   }
 
@@ -29,19 +29,19 @@ class Rating{
       Constants.exercise: exercise.toJson(),
       Constants.rating: rating,
       Constants.isPlanned: isPlanned,
-      Constants.notes: notes
+      Constants.trainingGoals: trainingGoals
     };
   }
 
   static Rating fromJson(Map<String, dynamic> json) {
     var isPlanned = json[Constants.isPlanned];
-    var notes = json[Constants.notes];
+    var trainingGoals = json[Constants.trainingGoals];
 
     return Rating(
         exercise:  ExercisesJsonExtension.fromJson(json[Constants.exercise] as String),
         rating: json[Constants.rating] as double,
         isPlanned:  isPlanned != null ? isPlanned as bool : false,
-        notes: notes ?? ""
+        trainingGoals: trainingGoals ?? ""
     );
   }
 }

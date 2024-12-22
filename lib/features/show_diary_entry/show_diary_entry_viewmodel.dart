@@ -8,7 +8,8 @@ import 'package:flutter/widgets.dart';
 
 class ShowDiaryEntryViewmodel extends ChangeNotifier {
   final DogRepository _dogRepository = DogRepository.dogRepository;
-  final DiaryEntryRepository _diaryEntryRepository = DiaryEntryRepository.diaryEntryRepository;
+  final DiaryEntryRepository _diaryEntryRepository =
+      DiaryEntryRepository.diaryEntryRepository;
   final Toast _toast = Toast.toast;
 
   List<Dog> _dogs = List.empty();
@@ -24,10 +25,9 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
 
   bool hasAnyDogs() {
     var result = _dogRepository.hasAnyDogs();
-    if(result.isSuccess()) {
+    if (result.isSuccess()) {
       return result.tryGetSuccess() ?? false;
-    }
-    else{
+    } else {
       _toast.showToast(msg: "Something went wrong. Please try again later.");
       return false;
     }
@@ -36,27 +36,40 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   void loadDogs() {
     var dogsResult = _dogRepository.getAllDogs();
 
-    if(dogsResult.isSuccess()) {
+    if (dogsResult.isSuccess()) {
       _dogs = dogsResult.tryGetSuccess() ?? List.empty();
       notifyListeners();
     }
   }
 
-  void loadDiaryEntries(){
+  void loadDiaryEntries() {
     var entriesResult = _diaryEntryRepository.getAllEntries();
 
-    if(entriesResult.isSuccess()) {
+    if (entriesResult.isSuccess()) {
       _diaryEntries = entriesResult.tryGetSuccess() ?? List.empty();
       notifyListeners();
-    }
-    else{
+    } else {
       _toast.showToast(msg: "Something went wrong. Please try again later.");
     }
   }
 
+  List<DiaryEntry> loadTrainingGoals(int dogId) {
+    var dogDiaryEntries = _diaryEntries.where((entry) => entry.dogId == dogId).toList();
+
+    var trainingGoalsEntries = dogDiaryEntries.where((entry) =>
+        entry.exerciseRating != null &&
+        entry.exerciseRating!
+            .any((rating) => rating.trainingGoals != null && rating.trainingGoals!.trim().isNotEmpty)).toList();
+
+    var lastFiveTrainings = trainingGoalsEntries.take(5).toList();
+
+    return lastFiveTrainings;
+  }
+
   static inject() {
     // injecting the viewmodel
-    ServiceProvider.locator.registerLazySingleton<ShowDiaryEntryViewmodel>(() => ShowDiaryEntryViewmodel());
+    ServiceProvider.locator.registerLazySingleton<ShowDiaryEntryViewmodel>(
+        () => ShowDiaryEntryViewmodel());
   }
 
   static ShowDiaryEntryViewmodel get showDiaryEntryViewModel {
