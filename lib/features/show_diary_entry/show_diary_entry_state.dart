@@ -92,6 +92,13 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
       )).toList();
     }).toList();
 
+    if(homeworkWidgets.isEmpty){
+      homeworkWidgets.add(ListTile(
+        title: Text("Keep up the training"),
+        subtitle: Text("You don't have any homework currently"),
+      ));
+    }
+
     return ExpansionTile(
       title: Text("Homework"),
       children: homeworkWidgets,
