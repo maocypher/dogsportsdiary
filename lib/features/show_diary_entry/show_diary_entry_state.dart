@@ -86,8 +86,9 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
           .toList();
 
       return ratings.map((rating) => ListTile(
-        title: Text("${diaryEntry.date} - ${rating.exercise}"),
-        subtitle: Text(rating.notes!),
+        title: Text(rating.notes!),
+        subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
+            .exercises(rating.exercise.toString())}"),
       )).toList();
     }).toList();
 
