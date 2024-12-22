@@ -51,7 +51,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
                         title: Text(viewModel.dogs[index].name),
                       ),
                       children: [
-                        showHomework(index)!,
+                        showTrainingGoals(index)!,
                         ...listGroupedDiaryEntires(index)
                       ],
                     );
@@ -76,11 +76,11 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
         });
   }
 
-  Widget? showHomework(int dogIndex){
+  Widget? showTrainingGoals(int dogIndex){
     var dog = showDiaryEntryViewmodel.dogs[dogIndex];
-    var homework = showDiaryEntryViewmodel.loadHomework(dog.id!);
+    var trainingGoals = showDiaryEntryViewmodel.loadTrainingGoals(dog.id!);
 
-    List<Widget> homeworkWidgets = homework.expand((diaryEntry) {
+    List<Widget> trainingGoalsWidgets = trainingGoals.expand((diaryEntry) {
       var ratings = diaryEntry.exerciseRating!
           .where((rating) => rating.notes != null && rating.notes!.trim().isNotEmpty)
           .toList();
@@ -88,20 +88,21 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
       return ratings.map((rating) => ListTile(
         title: Text(rating.notes!),
         subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
+            .dogSports(diaryEntry.sport!.key.toString())}: ${AppLocalizations.of(context)!
             .exercises(rating.exercise.toString())}"),
       )).toList();
     }).toList();
 
-    if(homeworkWidgets.isEmpty){
-      homeworkWidgets.add(ListTile(
+    if(trainingGoalsWidgets.isEmpty){
+      trainingGoalsWidgets.add(ListTile(
         title: Text("Keep up the training"),
-        subtitle: Text("You don't have any homework currently"),
+        subtitle: Text("You don't have any goals currently"),
       ));
     }
 
     return ExpansionTile(
-      title: Text("Homework"),
-      children: homeworkWidgets,
+      title: Text("Training goals"),
+      children: trainingGoalsWidgets,
     );
   }
 

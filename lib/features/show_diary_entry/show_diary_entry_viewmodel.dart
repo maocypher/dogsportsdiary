@@ -53,15 +53,15 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
     }
   }
 
-  List<DiaryEntry> loadHomework(int dogId) {
+  List<DiaryEntry> loadTrainingGoals(int dogId) {
     var dogDiaryEntries = _diaryEntries.where((entry) => entry.dogId == dogId).toList();
 
-    var homeworkEntries = dogDiaryEntries.where((entry) =>
+    var trainingGoalsEntries = dogDiaryEntries.where((entry) =>
         entry.exerciseRating != null &&
         entry.exerciseRating!
             .any((rating) => rating.notes != null && rating.notes!.trim().isNotEmpty)).toList();
 
-    var lastFiveTrainings = homeworkEntries.take(5).toList();
+    var lastFiveTrainings = trainingGoalsEntries.take(5).toList();
 
     return lastFiveTrainings;
   }
