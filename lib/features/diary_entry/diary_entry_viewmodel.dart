@@ -166,11 +166,11 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
-  updateRatingNotes(Exercises exercise, String notes){
+  updateRatingTrainingGoals(Exercises exercise, String trainingGoal){
     var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
     if(index != -1) {
       var rating = _selectedExercises[index];
-      rating = rating.copyWith(notes: notes);
+      rating = rating.copyWith(trainingGoals: trainingGoal);
 
       _selectedExercises[index] = rating;
 

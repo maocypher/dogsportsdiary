@@ -421,14 +421,14 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
           maxLines: null,
           textInputAction: TextInputAction.newline,
           controller: TextEditingController(
-            text: exerciseRating.notes ?? "",
+            text: exerciseRating.trainingGoals ?? "",
           ),
           decoration: InputDecoration(
             labelText: AppLocalizations.of(context)!
                 .exercises(exerciseRating.exercise.toString()),
           ),
           onChanged: (value) {
-            diaryEntryViewModel.updateRatingNotes(
+            diaryEntryViewModel.updateRatingTrainingGoals(
                 exerciseRating.exercise, value);
           },
         ));

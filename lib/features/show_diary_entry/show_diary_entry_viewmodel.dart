@@ -59,7 +59,7 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
     var trainingGoalsEntries = dogDiaryEntries.where((entry) =>
         entry.exerciseRating != null &&
         entry.exerciseRating!
-            .any((rating) => rating.notes != null && rating.notes!.trim().isNotEmpty)).toList();
+            .any((rating) => rating.trainingGoals != null && rating.trainingGoals!.trim().isNotEmpty)).toList();
 
     var lastFiveTrainings = trainingGoalsEntries.take(5).toList();
 
