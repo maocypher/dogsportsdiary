@@ -95,13 +95,13 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
 
     if(trainingGoalsWidgets.isEmpty){
       trainingGoalsWidgets.add(ListTile(
-        title: Text("Keep up the training"),
-        subtitle: Text("You don't have any goals currently"),
+        title: Text(AppLocalizations.of(context)!.noTrainingGoalsTitle),
+        subtitle: Text(AppLocalizations.of(context)!.noTrainingGoalsSubtitle),
       ));
     }
 
     return ExpansionTile(
-      title: Text("Training goals"),
+      title: Text(AppLocalizations.of(context)!.trainingGoals),
       children: trainingGoalsWidgets,
     );
   }
