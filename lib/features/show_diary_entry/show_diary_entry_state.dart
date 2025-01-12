@@ -4,6 +4,7 @@ import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/show_diary_entry/show_diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -85,12 +86,27 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
           .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.title.trim().isNotEmpty)
           .toList();
 
-      return ratings.map((rating) => ListTile(
-        title: Text(rating.trainingGoals!.title),
-        subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
-            .dogSports(diaryEntry.sport!.key.toString())}: ${AppLocalizations.of(context)!
-            .exercises(rating.exercise.toString())}"),
-      )).toList();
+      return ratings.map((rating) => Slidable(
+            key: ValueKey(rating),
+            endActionPane: ActionPane(
+                motion: const DrawerMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) => rating.trainingGoals!.markAsReached(),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    icon: Icons.check,
+                    label: "Done",
+                  )
+                ],
+            ),
+            child: ListTile(
+              title: Text(rating.trainingGoals!.title),
+              subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
+                  .dogSports(diaryEntry.sport!.key.toString())}: ${AppLocalizations.of(context)!
+                  .exercises(rating.exercise.toString())}"),
+            ),
+          )).toList();
     }).toList();
 
     if(trainingGoalsWidgets.isEmpty){
