@@ -4,6 +4,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/value_objects/rating.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/training_goal.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_tab.dart';
 import 'package:dog_sports_diary/features/diary_entry/diary_entry_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -421,15 +422,16 @@ class DiaryEntryTabState extends State<DiaryEntryTab> {
           maxLines: null,
           textInputAction: TextInputAction.newline,
           controller: TextEditingController(
-            text: exerciseRating.trainingGoals ?? "",
+            text: exerciseRating.trainingGoals?.title ?? "",
           ),
           decoration: InputDecoration(
             labelText: AppLocalizations.of(context)!
                 .exercises(exerciseRating.exercise.toString()),
           ),
           onChanged: (value) {
+            var updatedTrainingGoal = exerciseRating.trainingGoals != null ? exerciseRating.trainingGoals!.copyWith(title: value) : TrainingGoals(title: value);
             diaryEntryViewModel.updateRatingTrainingGoals(
-                exerciseRating.exercise, value);
+                exerciseRating.exercise, updatedTrainingGoal);
           },
         ));
   }

@@ -21,6 +21,9 @@ class Constants {
   static const String trainingGoals = "trainingGoals";
   static const String openSourceLicenses = "openSourceLicenses";
 
+  static const String trainingGoalTitle = "title";
+  static const String trainingGoalIsReached = "isReached";
+
   //Routes
   static const String routeHome = '/';
   static const String routeDiary = '/diary';

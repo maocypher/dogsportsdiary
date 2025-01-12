@@ -82,11 +82,11 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
 
     List<Widget> trainingGoalsWidgets = trainingGoals.expand((diaryEntry) {
       var ratings = diaryEntry.exerciseRating!
-          .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.trim().isNotEmpty)
+          .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.title.trim().isNotEmpty)
           .toList();
 
       return ratings.map((rating) => ListTile(
-        title: Text(rating.trainingGoals!),
+        title: Text(rating.trainingGoals!.title),
         subtitle: Text("${DateFormat('yyyy-MM-dd').format(diaryEntry.date)} - ${AppLocalizations.of(context)!
             .dogSports(diaryEntry.sport!.key.toString())}: ${AppLocalizations.of(context)!
             .exercises(rating.exercise.toString())}"),

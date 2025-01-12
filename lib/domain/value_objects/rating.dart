@@ -1,11 +1,12 @@
 import 'package:dog_sports_diary/core/utils/constants.dart';
 import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
+import 'package:dog_sports_diary/domain/value_objects/training_goal.dart';
 
 class Rating{
   final Exercises exercise;
   final double rating;
   final bool isPlanned;
-  final String? trainingGoals;
+  final TrainingGoals? trainingGoals;
   bool editMode = false;
 
   Rating({required this.exercise, required this.rating, required this.isPlanned, this.trainingGoals});
@@ -14,7 +15,7 @@ class Rating{
     Exercises? exercise,
     double? rating,
     bool? isPlanned,
-    String? trainingGoals
+    TrainingGoals? trainingGoals
   }) {
     return Rating(
         exercise: exercise ?? this.exercise,
@@ -29,7 +30,7 @@ class Rating{
       Constants.exercise: exercise.toJson(),
       Constants.rating: rating,
       Constants.isPlanned: isPlanned,
-      Constants.trainingGoals: trainingGoals
+      Constants.trainingGoals: trainingGoals?.toJson()
     };
   }
 
@@ -41,7 +42,7 @@ class Rating{
         exercise:  ExercisesJsonExtension.fromJson(json[Constants.exercise] as String),
         rating: json[Constants.rating] as double,
         isPlanned:  isPlanned != null ? isPlanned as bool : false,
-        trainingGoals: trainingGoals ?? ""
+        trainingGoals: trainingGoals != null ? TrainingGoals.fromJson(trainingGoals) : null
     );
   }
 }

@@ -13,6 +13,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/training_goal.dart';
 import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -166,7 +167,7 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
-  updateRatingTrainingGoals(Exercises exercise, String trainingGoal){
+  updateRatingTrainingGoals(Exercises exercise, TrainingGoals trainingGoal){
     var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
     if(index != -1) {
       var rating = _selectedExercises[index];
