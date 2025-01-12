@@ -83,16 +83,18 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
 
     List<Widget> trainingGoalsWidgets = trainingGoals.expand((diaryEntry) {
       var ratings = diaryEntry.exerciseRating!
-          .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.title.trim().isNotEmpty)
+          .where((rating) => rating.trainingGoals != null && rating.trainingGoals!.title.trim().isNotEmpty && !rating.trainingGoals!.isReached)
           .toList();
 
-      return ratings.map((rating) => Slidable(
+      return ratings.isEmpty
+          ? <Widget>[]
+          : ratings.map((rating) => Slidable(
             key: ValueKey(rating),
             endActionPane: ActionPane(
                 motion: const DrawerMotion(),
                 children: [
                   SlidableAction(
-                    onPressed: (context) => rating.trainingGoals!.markAsReached(),
+                    onPressed: (context) => showDiaryEntryViewmodel.markTrainingGoalAsReached(diaryEntry.id!, rating),
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                     icon: Icons.check,
@@ -107,7 +109,7 @@ class ShowDiaryEntryState extends State<ShowDiaryEntryTab> {
                   .exercises(rating.exercise.toString())}"),
             ),
           )).toList();
-    }).toList();
+    }).toList() ;
 
     if(trainingGoalsWidgets.isEmpty){
       trainingGoalsWidgets.add(ListTile(
