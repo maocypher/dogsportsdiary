@@ -29,6 +29,7 @@
   "coolDownDuration": "Abwärmdauer",
   "trainingGoal": "Trainingsziel",
   "trainingGoals": "Trainingsziele",
+  "reachedTrainingGoals": "Erreichte Trainingsziele",
   "noTrainingGoalsTitle": "Bleib am Training dran",
   "noTrainingGoalsSubtitle": "Du hast aktuell keine Ziele",
   "highlight": "Highlight",

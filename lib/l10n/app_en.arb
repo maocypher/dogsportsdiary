@@ -32,6 +32,7 @@
   "coolDownDuration": "Cool-down Duration",
   "trainingGoal": "Training goal",
   "trainingGoals": "Training goals",
+  "reachedTrainingGoals": "Reached training goals",
   "noTrainingGoalsTitle": "Keep up the training",
   "noTrainingGoalsSubtitle": "You don't have any goals currently",
   "highlight": "Highlight",
