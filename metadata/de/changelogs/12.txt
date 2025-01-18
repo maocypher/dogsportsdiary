@@ -1,1 +1,2 @@
-FLutter und Package Updates
+* FLutter und Package Updates
+* Übersicht der Trainingsziele

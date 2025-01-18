@@ -1,1 +1,2 @@
-FLutter and package updates
+* FLutter and package updates
+* Overview of training goals
