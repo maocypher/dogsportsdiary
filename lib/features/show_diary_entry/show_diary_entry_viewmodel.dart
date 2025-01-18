@@ -3,6 +3,7 @@ import 'package:dog_sports_diary/data/diary/diary_entry_repository.dart';
 import 'package:dog_sports_diary/data/dogs/dog_repository.dart';
 import 'package:dog_sports_diary/domain/entities/diary_entry.dart';
 import 'package:dog_sports_diary/domain/entities/dog.dart';
+import 'package:dog_sports_diary/domain/value_objects/rating.dart';
 import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,6 +18,8 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
 
   List<DiaryEntry> _diaryEntries = List.empty();
   List<DiaryEntry> get diaryEntries => _diaryEntries;
+
+  bool detailedView = false;
 
   void init() {
     loadDogs();
@@ -42,6 +45,12 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
     }
   }
 
+  void toggleDetailedView(){
+    detailedView = !detailedView;
+    loadDiaryEntries();
+    notifyListeners();
+  }
+
   void loadDiaryEntries() {
     var entriesResult = _diaryEntryRepository.getAllEntries();
 
@@ -56,14 +65,80 @@ class ShowDiaryEntryViewmodel extends ChangeNotifier {
   List<DiaryEntry> loadTrainingGoals(int dogId) {
     var dogDiaryEntries = _diaryEntries.where((entry) => entry.dogId == dogId).toList();
 
-    var trainingGoalsEntries = dogDiaryEntries.where((entry) =>
+    return dogDiaryEntries.where((entry) =>
         entry.exerciseRating != null &&
         entry.exerciseRating!
-            .any((rating) => rating.trainingGoals != null && rating.trainingGoals!.trim().isNotEmpty)).toList();
+            .any((rating) => rating.trainingGoals != null && rating.trainingGoals!.title.trim().isNotEmpty)).toList();
+  }
 
-    var lastFiveTrainings = trainingGoalsEntries.take(5).toList();
+  void markTrainingGoalAsReached(int diaryEntryId, Rating rating){
+    var diaryEntryResult = _diaryEntryRepository.getEntry(diaryEntryId);
 
-    return lastFiveTrainings;
+    if(diaryEntryResult.isSuccess()){
+      var diaryEntry = diaryEntryResult.tryGetSuccess();
+      if(diaryEntry == null){
+        _toast.showToast(msg: "Diary entry does not exist");
+      }
+      else{
+        var exercises = diaryEntry.exerciseRating;
+        if(exercises == null || exercises.isEmpty){
+          return;
+        }
+
+        var index = exercises.indexWhere((e) => e.exercise == rating.exercise);
+        if(index != -1) {
+          var reachedGoal = rating.trainingGoals!.markAsReached();
+
+          var currentRating = exercises[index];
+          currentRating = currentRating.copyWith(trainingGoals: reachedGoal);
+
+          exercises[index] = currentRating;
+
+          diaryEntry = diaryEntry.copyWith(exerciseRating: exercises);
+          _diaryEntryRepository.saveEntryAsync(diaryEntry);
+
+          loadDiaryEntries();
+        }
+      }
+    }
+    else{
+      _toast.showToast(msg: "Error marking training goal as reached");
+    }
+  }
+
+  void markTrainingGoalAsUnreached(int diaryEntryId, Rating rating){
+    var diaryEntryResult = _diaryEntryRepository.getEntry(diaryEntryId);
+
+    if(diaryEntryResult.isSuccess()){
+      var diaryEntry = diaryEntryResult.tryGetSuccess();
+      if(diaryEntry == null){
+        _toast.showToast(msg: "Diary entry does not exist");
+      }
+      else{
+        var exercises = diaryEntry.exerciseRating;
+        if(exercises == null || exercises.isEmpty){
+          return;
+        }
+
+        var index = exercises.indexWhere((e) => e.exercise == rating.exercise);
+        if(index != -1) {
+          var reachedGoal = rating.trainingGoals!.markAsUnreached();
+
+          var currentRating = exercises[index];
+          currentRating = currentRating.copyWith(trainingGoals: reachedGoal);
+
+          exercises[index] = currentRating;
+
+          diaryEntry = diaryEntry.copyWith(exerciseRating: exercises);
+          _diaryEntryRepository.saveEntryAsync(diaryEntry);
+
+          loadDiaryEntries();
+        }
+      }
+    }
+    else{
+      _toast.showToast(msg: "Error marking training goal as reached");
+    }
   }
 
   static inject() {
