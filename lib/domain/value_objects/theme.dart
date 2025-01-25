@@ -13,8 +13,6 @@ extension ThemeJsonExtension on Theme {
         return 'dark';
       case Theme.system:
         return 'system';
-      default:
-        throw FormatException('Invalid theme value: $this');
     }
   }
 

@@ -13,6 +13,7 @@ import 'package:dog_sports_diary/domain/entities/dog.dart';
 import 'package:dog_sports_diary/domain/value_objects/exercise.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports.dart';
 import 'package:dog_sports_diary/domain/value_objects/sports_classes.dart';
+import 'package:dog_sports_diary/domain/value_objects/training_goal.dart';
 import 'package:dog_sports_diary/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -166,6 +167,30 @@ class DiaryEntryViewModel extends ChangeNotifier {
     }
   }
 
+  updateRatingTrainingGoals(Exercises exercise, TrainingGoals trainingGoal){
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+    if(index != -1) {
+      var rating = _selectedExercises[index];
+      rating = rating.copyWith(trainingGoals: trainingGoal);
+
+      _selectedExercises[index] = rating;
+
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
+  toggleEditModeForRating(Exercises exercise){
+    var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
+    if(index != -1) {
+      var rating = _selectedExercises[index];
+      rating.editMode = !rating.editMode;
+
+      _selectedExercises[index] = rating;
+
+      _diaryEntry = _diaryEntry?.copyWith(exerciseRating: _selectedExercises);
+    }
+  }
+
   updateIsPlanned(Exercises exercise) {
     var index = _selectedExercises.indexWhere((e) => e.exercise == exercise);
 
@@ -231,6 +256,13 @@ class DiaryEntryViewModel extends ChangeNotifier {
         toast.showToast(msg: "Error saving entry");
       }
     }
+  }
+
+  shouldShowNotesToRatings(Rating rating){
+    return rating.rating > 0
+        && rating.exercise != Exercises.motivation
+        && rating.exercise != Exercises.excitement
+        && rating.exercise != Exercises.concentration;
   }
 
   static inject() {

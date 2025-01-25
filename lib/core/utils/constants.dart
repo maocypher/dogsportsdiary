@@ -18,7 +18,11 @@ class Constants {
   static const String exercise = "exercise";
   static const String rating = "rating";
   static const String isPlanned = "isPlanned";
+  static const String trainingGoals = "trainingGoals";
   static const String openSourceLicenses = "openSourceLicenses";
+
+  static const String trainingGoalTitle = "title";
+  static const String trainingGoalIsReached = "isReached";
 
   //Routes
   static const String routeHome = '/';
