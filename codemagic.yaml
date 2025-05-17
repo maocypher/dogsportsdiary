@@ -1,98 +1,98 @@
 workflows:
-  android-release-workflow:
-    name: DogSportsDiary Android Workflow
-    max_build_duration: 60
-    instance_type: mac_mini_m1
-
-#    triggering:
-#      events: # List the events that trigger builds
-#        - tag
-#      branch_patterns: # Include or exclude watched branches
-#        - pattern: 'master'
-#          include: true
-#          source: true
-
-    environment:
-      android_signing:
-        - dogsportsdiary_signature
-        #- keystore_reference
-      groups:
-        - google_credentials
-        - github_credentials
-      vars:
-        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
-        GOOGLE_PLAY_TRACK: alpha
-      flutter: stable
-
-    scripts:
-      - name: Set up local.properties
-        script: |
-          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
-      - name: Get Flutter packages
-        script: |
-          flutter packages pub get
-      - name: Flutter analyze
-        script: |
-          flutter analyze --no-fatal-infos --no-fatal-warnings
-      - name: Flutter unit tests
-        script: |
-          flutter test
-        ignore_failure: false
-      #- name: Build AAB with Flutter
-      #  script: |
-      #    flutter build appbundle --release \
-      #      --build-name=1.0.$PROJECT_BUILD_NUMBER \
-      #      --build-number=$PROJECT_BUILD_NUMBER
-#      - name: Build AAB with Flutter
+#  android-release-workflow:
+#    name: DogSportsDiary Android Workflow
+#    max_build_duration: 60
+#    instance_type: mac_mini_m1
+#
+##    triggering:
+##      events: # List the events that trigger builds
+##        - tag
+##      branch_patterns: # Include or exclude watched branches
+##        - pattern: 'master'
+##          include: true
+##          source: true
+#
+#    environment:
+#      android_signing:
+#        - dogsportsdiary_signature
+#        #- keystore_reference
+#      groups:
+#        - google_credentials
+#        - github_credentials
+#      vars:
+#        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
+#        GOOGLE_PLAY_TRACK: alpha
+#      flutter: stable
+#
+#    scripts:
+#      - name: Set up local.properties
 #        script: |
-#          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
-#          flutter build appbundle --release \
-#            --build-name=1.0.$BUILD_NUMBER \
+#          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+#      - name: Get Flutter packages
+#        script: |
+#          flutter packages pub get
+#      - name: Flutter analyze
+#        script: |
+#          flutter analyze --no-fatal-infos --no-fatal-warnings
+#      - name: Flutter unit tests
+#        script: |
+#          flutter test
+#        ignore_failure: false
+#      #- name: Build AAB with Flutter
+#      #  script: |
+#      #    flutter build appbundle --release \
+#      #      --build-name=1.0.$PROJECT_BUILD_NUMBER \
+#      #      --build-number=$PROJECT_BUILD_NUMBER
+##      - name: Build AAB with Flutter
+##        script: |
+##          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+##          flutter build appbundle --release \
+##            --build-name=1.0.$BUILD_NUMBER \
+##            --build-number=$BUILD_NUMBER
+#      - name: Zip source code
+#        script: |
+#          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+#          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+#          zip -r ${BUILD_NAME}.zip .
+#          tar -czvf ${BUILD_NAME}.tar.gz .
+#      - name: Build APK with Flutter
+#        script: |
+#          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+#          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+#          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+#          flutter build apk --release \
+#            --build-name=$BUILD_NAME \
 #            --build-number=$BUILD_NUMBER
-      - name: Zip source code
-        script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          zip -r ${BUILD_NAME}.zip .
-          tar -czvf ${BUILD_NAME}.tar.gz .
-      - name: Build APK with Flutter
-        script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-          flutter build apk --release \
-            --build-name=$BUILD_NAME \
-            --build-number=$BUILD_NUMBER
-      - name: Publish to GitHub
-        script: |
-          #!/usr/bin/env zsh
-      
-          # Publish only for tag builds
-          if [ -z ${CM_TAG} ]; then
-            echo "Not a tag build, will not publish GitHub release"
-            exit 0
-          fi
-          
-          gh release create "${CM_TAG}" \
-            --title "v${CM_TAG}" \
-            --notes-file changelog.md \
-            build/**/outputs/**/*.aab \
-            build/**/outputs/**/*.apk \
-            ${CM_TAG}.zip \
-            ${CM_TAG}.tar.gz
-
-    artifacts:
-      - build/**/outputs/**/*.apk
-      - build/**/outputs/**/*.aab
-      - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
-    publishing:
-      email:
-        recipients:
-          - maocypher@gmail.com
-        notify:
-          success: true
-          failure: true
+#      - name: Publish to GitHub
+#        script: |
+#          #!/usr/bin/env zsh
+#
+#          # Publish only for tag builds
+#          if [ -z ${CM_TAG} ]; then
+#            echo "Not a tag build, will not publish GitHub release"
+#            exit 0
+#          fi
+#
+#          gh release create "${CM_TAG}" \
+#            --title "v${CM_TAG}" \
+#            --notes-file changelog.md \
+#            build/**/outputs/**/*.aab \
+#            build/**/outputs/**/*.apk \
+#            ${CM_TAG}.zip \
+#            ${CM_TAG}.tar.gz
+#
+#    artifacts:
+#      - build/**/outputs/**/*.apk
+#      - build/**/outputs/**/*.aab
+#      - build/**/outputs/**/mapping.txt
+#      - flutter_drive.log
+#    publishing:
+#      email:
+#        recipients:
+#          - maocypher@gmail.com
+#        notify:
+#          success: true
+#          failure: true
       #google_play:
       #  credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       #  track: $GOOGLE_PLAY_TRACK
@@ -117,7 +117,7 @@ workflows:
       #  bundle_identifier: io.codemagic.fluttersample
       vars:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
-        APP_STORE_APPLE_ID: 1555555551
+        #APP_STORE_APPLE_ID: 1555555551
       flutter: stable
 
     scripts:
@@ -137,26 +137,29 @@ workflows:
       script: |
         flutter test
       ignore_failure: false
-    #- name: Flutter build ipa
-    #  script: |
-    #    flutter build ipa --release \
-    #      --build-name=1.0.0 \
-    #      --export-options-plist=/Users/builder/export_options.plist
-    
+
     - name: Flutter build simulator debug version
       script: |
+        VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+        BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+        BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
         flutter build ios --debug --no-codesign \
           --simulator \
-          --build-name=1.0.0
+          --build-name=$BUILD_NAME \
+          --build-number=$BUILD_NUMBER
     - name: Rename the simulator file
       script: |
         mv build/ios/iphonesimulator/Runner.app \
           build/ios/iphonesimulator/Runner-debug-simulator.app
-          
+
     - name: Flutter build real device debug version
       script: |
+        VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+        BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+        BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
         flutter build ios --debug --no-codesign \
-          --build-name=1.0.0
+          --build-name=$BUILD_NAME \
+          --build-number=$BUILD_NUMBER
     - name: Rename the device file
       script: |
         mv build/ios/iphoneos/Runner.app \
