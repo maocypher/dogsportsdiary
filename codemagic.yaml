@@ -1,4 +1,99 @@
 workflows:
+  ios-workflow:
+    name: DogSportsDiary iOS Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+    #    triggering:
+    #      events: # List the events that trigger builds
+    #        - tag
+    #      branch_patterns: # Include or exclude watched branches
+    #        - pattern: 'master'
+    #          include: true
+    #          source: true
+
+    environment:
+      ios_signing:
+        provisioning_profiles:
+        - io.github.maocypher.dogsportsdiary-mobileprovision
+        certificates:
+        - io.github.maocypher.dogsportsdiary-p12-ios
+      vars:
+        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
+        APP_ID: HSP6K6D926.io.github.maocypher.dogsportsdiary
+        #codemagic-integration-apple-developer-portal
+      flutter: stable
+
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Flutter analyze
+        script: |
+          flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Flutter unit tests
+        script: |
+          flutter test
+        ignore_failure: true
+
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+
+      - name: Flutter build simulator debug version
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+          flutter build ios --debug --no-codesign \
+            --simulator \
+            --build-name=$BUILD_NAME \
+            --build-number=$BUILD_NUMBER
+      - name: Rename the simulator file
+        script: |
+          mv build/ios/iphonesimulator/Runner.app \
+            build/ios/iphonesimulator/Runner-debug-simulator.app
+
+      - name: Flutter build real device debug version
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+          flutter build ios --debug --no-codesign \
+            --build-name=$BUILD_NAME \
+            --build-number=$BUILD_NUMBER
+      - name: Rename the device file
+        script: |
+          mv build/ios/iphoneos/Runner.app \
+            build/ios/iphoneos/Runner-debug.app
+
+      - name: Flutter build real device release version
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+          flutter build ios --release --no-codesign \
+            --build-name=$BUILD_NAME \
+            --build-number=$BUILD_NUMBER
+      - name: Rename the release file
+        script: |
+          mv build/ios/iphoneos/Runner.app \
+            build/ios/iphoneos/Runner-release.app
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/*/*.app
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - maocypher@gmail.com
+        notify:
+          success: true
+          failure: true
 #  android-release-workflow:
 #    name: DogSportsDiary Android Workflow
 #    max_build_duration: 60
@@ -97,93 +192,3 @@ workflows:
       #  credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       #  track: $GOOGLE_PLAY_TRACK
       #  submit_as_draft: true
-
-  ios-workflow:
-    name: DogSportsDiary iOS Workflow
-    max_build_duration: 60
-    instance_type: mac_mini_m1
-
-#    triggering:
-#      events: # List the events that trigger builds
-#        - tag
-#      branch_patterns: # Include or exclude watched branches
-#        - pattern: 'master'
-#          include: true
-#          source: true
-
-    environment:
-      #ios_signing:
-      #  distribution_type: app_store
-      #  bundle_identifier: io.codemagic.fluttersample
-      vars:
-        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
-        #APP_STORE_APPLE_ID: 1555555551
-      flutter: stable
-
-    scripts:
-    - name: Get Flutter packages
-      script: |
-        flutter packages pub get
-    - name: Install pods
-      script: |
-        find . -name "Podfile" -execdir pod install \;
-    - name: Flutter analyze
-      script: |
-        flutter analyze --no-fatal-infos --no-fatal-warnings
-    - name: Flutter unit tests
-      script: |
-        flutter test
-      ignore_failure: true
-
-    - name: Flutter build simulator debug version
-      script: |
-        VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-        BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-        BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-        flutter build ios --debug --no-codesign \
-          --simulator \
-          --build-name=$BUILD_NAME \
-          --build-number=$BUILD_NUMBER
-    - name: Rename the simulator file
-      script: |
-        mv build/ios/iphonesimulator/Runner.app \
-          build/ios/iphonesimulator/Runner-debug-simulator.app
-
-    - name: Flutter build real device debug version
-      script: |
-        VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-        BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-        BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-        flutter build ios --debug --no-codesign \
-          --build-name=$BUILD_NAME \
-          --build-number=$BUILD_NUMBER
-    - name: Rename the device file
-      script: |
-        mv build/ios/iphoneos/Runner.app \
-          build/ios/iphoneos/Runner-debug.app
-
-    - name: Flutter build real device release version
-      script: |
-        VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-        BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-        BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-        flutter build ios --release --no-codesign \
-          --build-name=$BUILD_NAME \
-          --build-number=$BUILD_NUMBER
-    - name: Rename the release file
-      script: |
-        mv build/ios/iphoneos/Runner.app \
-          build/ios/iphoneos/Runner-release.app
-
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - build/ios/*/*.app
-      - /tmp/xcodebuild_logs/*.log
-      - flutter_drive.log
-    publishing:
-      email:
-        recipients:
-          - maocypher@gmail.com
-        notify:
-          success: true
-          failure: true
