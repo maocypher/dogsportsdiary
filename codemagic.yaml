@@ -39,8 +39,17 @@ workflows:
           flutter test
         ignore_failure: true
 
+      - name: Check code signing
+        script: |
+          ls -la /Users/builder/Library/MobileDevice/Provisioning\ Profiles/
+          security find-identity -v -p codesigning
+          flutter doctor -v
+
       - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
+        script: |
+          xcode-project use-profiles \
+            --project="ios/Runner.xcodeproj" \
+            --bundle-identifier="io.github.maocypher.dogsportsdiary"
 
       - name: Flutter build simulator debug version
         script: |
