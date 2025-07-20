@@ -45,11 +45,9 @@ workflows:
           security find-identity -v -p codesigning
           flutter doctor -v
 
-      - name: Set up code signing settings on Xcode project
+      - name: Setup project in Xcode with signing
         script: |
-          xcode-project use-profiles \
-            --project="ios/Runner.xcodeproj" \
-            --bundle-identifier="io.github.maocypher.dogsportsdiary"
+          xcode-project use-profiles --project ios/Runner.xcodeproj
 
       - name: Flutter build simulator debug version
         script: |
