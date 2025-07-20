@@ -21,8 +21,10 @@ workflows:
       vars:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         APP_ID: HSP6K6D926.io.github.maocypher.dogsportsdiary
-        #codemagic-integration-apple-developer-portal
       flutter: 3.27.2
+
+    integrations:
+      app_store_connect: codemagic-integration-apple-developer-portal
 
     scripts:
       - name: Get Flutter packages
@@ -112,6 +114,12 @@ workflows:
         notify:
           success: true
           failure: true
+      app_store_connect:
+        auth: integration
+#        submit_to_testflight: true
+#        submit_to_app_store: false
+#        beta_groups:
+#          - "beta"
 #  android-release-workflow:
 #    name: DogSportsDiary Android Workflow
 #    max_build_duration: 60
