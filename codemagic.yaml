@@ -22,7 +22,7 @@ workflows:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         APP_ID: HSP6K6D926.io.github.maocypher.dogsportsdiary
         #codemagic-integration-apple-developer-portal
-      flutter: stable
+      flutter: 3.27.2
 
     scripts:
       - name: Get Flutter packages
