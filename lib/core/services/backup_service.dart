@@ -7,7 +7,7 @@ import 'package:dog_sports_diary/domain/value_objects/backup.dart';
 import 'package:file_picker/file_picker.dart';
 
 class BackupService {
-  //internal-directory: /storage/emulated/0/Android/data/com.anni.dog_sports_diary/files/downloads/
+  //internal-directory: /storage/emulated/0/Android/data/io.github.maocypher.dogsportsdiary/files/downloads/
   static const String fileName = 'dgSptDryBak.json';
 
   final DogRepository dogRepository = DogRepository.dogRepository;
