@@ -89,6 +89,17 @@ workflows:
           mv build/ios/iphoneos/Runner.app \
             build/ios/iphoneos/Runner-release.app
 
+      - name: Build IPA for App Store
+        script: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+          flutter build ipa \
+            --release \
+            --build-name=$BUILD_NAME \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+
     artifacts:
       - build/ios/ipa/*.ipa
       - build/ios/*/*.app
