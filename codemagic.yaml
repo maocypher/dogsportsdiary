@@ -65,20 +65,6 @@ workflows:
           mv build/ios/iphonesimulator/Runner.app \
             build/ios/iphonesimulator/Runner-debug-simulator.app
 
-      - name: Flutter build simulator profile version
-        script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-          flutter build ios --profile --no-codesign \
-            --simulator \
-            --build-name=$BUILD_NAME \
-            --build-number=$BUILD_NUMBER
-      - name: Rename the profile simulator file
-        script: |
-          mv build/ios/iphonesimulator/Runner.app \
-            build/ios/iphonesimulator/Runner-profile-simulator.app
-
       - name: Build IPA for App Store
         script: |
           if [[ "$CM_BRANCH" == "master" ]]; then
