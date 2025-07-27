@@ -60,47 +60,40 @@ workflows:
             --simulator \
             --build-name=$BUILD_NAME \
             --build-number=$BUILD_NUMBER
-      - name: Rename the simulator file
+      - name: Rename the debug simulator file
         script: |
           mv build/ios/iphonesimulator/Runner.app \
             build/ios/iphonesimulator/Runner-debug-simulator.app
 
-      - name: Flutter build real device debug version
-        script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-          flutter build ios --debug --no-codesign \
-            --build-name=$BUILD_NAME \
-            --build-number=$BUILD_NUMBER
-      - name: Rename the device file
-        script: |
-          mv build/ios/iphoneos/Runner.app \
-            build/ios/iphoneos/Runner-debug.app
-
-      - name: Flutter build real device release version
+      - name: Flutter build simulator release version
         script: |
           VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
           BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
           BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
           flutter build ios --release --no-codesign \
+            --simulator \
             --build-name=$BUILD_NAME \
             --build-number=$BUILD_NUMBER
-      - name: Rename the release file
+      - name: Rename the release simulator file
         script: |
-          mv build/ios/iphoneos/Runner.app \
-            build/ios/iphoneos/Runner-release.app
+          mv build/ios/iphonesimulator/Runner.app \
+            build/ios/iphonesimulator/Runner-release-simulator.app
 
       - name: Build IPA for App Store
         script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-          flutter build ipa \
-            --release \
-            --build-name=$BUILD_NAME \
-            --build-number=$BUILD_NUMBER \
-            --export-options-plist=/Users/builder/export_options.plist
+          if [[ "$CM_BRANCH" == "master" ]]; then
+            echo "Building IPA for App Store (master branch)"
+            VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+            BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+            BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+            flutter build ipa \
+              --release \
+              --build-name=$BUILD_NAME \
+              --build-number=$BUILD_NUMBER \
+              --export-options-plist=/Users/builder/export_options.plist
+          else
+            echo "Skipping IPA build for non-master branch: $CM_BRANCH"
+          fi
 
     artifacts:
       - build/ios/ipa/*.ipa
