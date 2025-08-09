@@ -157,6 +157,8 @@ workflows:
           echo "Gradle version:"
           gradle --version
           $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner --version
+          
+          flutter doctor -v
 #      - name: Set up local.properties
 #        script: |
 #          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
