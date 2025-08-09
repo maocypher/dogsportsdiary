@@ -122,31 +122,14 @@ workflows:
       vars:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         GOOGLE_PLAY_TRACK: alpha
-        BUILD_TOOLS_VERSION: "34.0.0"
+        BUILD_TOOLS_VERSION: "31.0.0"
       flutter: stable
 
     scripts:
       - name: Check tools
         script: |
           echo "Build tools version: $BUILD_TOOLS_VERSION"
-          echo "Android SDK root: $ANDROID_SDK_ROOT"
-          echo "Available build-tools versions:"
-          ls -la $ANDROID_SDK_ROOT/build-tools/
-          
-          # Find the actual apksigner location
-          echo "Looking for apksigner..."
-          find $ANDROID_SDK_ROOT -name "apksigner" -type f 2>/dev/null || echo "apksigner not found"
-          
-          # Try to use the latest available build-tools version
-          LATEST_BUILD_TOOLS=$(ls $ANDROID_SDK_ROOT/build-tools/ | sort -V | tail -1)
-          echo "Latest build-tools version: $LATEST_BUILD_TOOLS"
-          
-          if [ -f "$ANDROID_SDK_ROOT/build-tools/$LATEST_BUILD_TOOLS/apksigner" ]; then
-            echo "Using apksigner from $LATEST_BUILD_TOOLS"
-            $ANDROID_SDK_ROOT/build-tools/$LATEST_BUILD_TOOLS/apksigner --version
-          else
-            echo "apksigner not found in $LATEST_BUILD_TOOLS"
-          fi  
+          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner --version      
 
 #    scripts:
 #      - name: Set up local.properties
