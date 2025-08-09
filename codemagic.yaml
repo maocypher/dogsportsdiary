@@ -99,31 +99,38 @@ workflows:
 #        submit_to_app_store: false
 #        beta_groups:
 #          - "beta"
-#  android-release-workflow:
-#    name: DogSportsDiary Android Workflow
-#    max_build_duration: 60
-#    instance_type: mac_mini_m1
-#
-##    triggering:
-##      events: # List the events that trigger builds
-##        - tag
-##      branch_patterns: # Include or exclude watched branches
-##        - pattern: 'master'
-##          include: true
-##          source: true
-#
-#    environment:
-#      android_signing:
-#        - dogsportsdiary_signature
-#        #- keystore_reference
-#      groups:
-#        - google_credentials
-#        - github_credentials
-#      vars:
-#        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
-#        GOOGLE_PLAY_TRACK: alpha
-#      flutter: stable
-#
+  android-release-workflow:
+    name: DogSportsDiary Android Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+#    triggering:
+#      events: # List the events that trigger builds
+#        - tag
+#      branch_patterns: # Include or exclude watched branches
+#        - pattern: 'master'
+#          include: true
+#          source: true
+
+    environment:
+      android_signing:
+        - dogsportsdiary_signature
+        #- keystore_reference
+      groups:
+        - google_credentials
+        - github_credentials
+      vars:
+        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
+        GOOGLE_PLAY_TRACK: alpha
+        BUILD_TOOLS_VERSION: "34.0.0"
+      flutter: stable
+
+    scripts:
+      - name: Check tools
+        script: |
+          echo "Build tools version: $BUILD_TOOLS_VERSION"
+          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner --version      
+
 #    scripts:
 #      - name: Set up local.properties
 #        script: |
