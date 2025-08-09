@@ -131,22 +131,50 @@ workflows:
     scripts:
       - name: Setup Java and Gradle versions
         script: |
-          # Install specific OpenJDK version
+          # Install specific OpenJDK version if not available
           echo "Setting up OpenJDK $JAVA_VERSION"
-          export JAVA_HOME=/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64
+
+          # Check available Java installations
+          ls -la /usr/lib/jvm/
+
+          # Find the correct Java path
+          if [ -d "/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64" ]; then
+            JAVA_PATH="/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64"
+          elif [ -d "/usr/lib/jvm/java-$JAVA_VERSION-openjdk" ]; then
+            JAVA_PATH="/usr/lib/jvm/java-$JAVA_VERSION-openjdk"
+          else
+            echo "Installing OpenJDK $JAVA_VERSION"
+            sudo apt-get update
+            sudo apt-get install -y openjdk-$JAVA_VERSION-jdk
+            JAVA_PATH="/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64"
+          fi
+
+          # Set and persist JAVA_HOME
+          export JAVA_HOME=$JAVA_PATH
           export PATH=$JAVA_HOME/bin:$PATH
+
+          # Persist for all subsequent steps
+          echo "export JAVA_HOME=$JAVA_PATH" >> $CM_ENV
+          echo "export PATH=$JAVA_PATH/bin:\$PATH" >> $CM_ENV
+
+          echo "JAVA_HOME set to: $JAVA_HOME"
           java -version
-          
-          flutter config --jdk-dir=/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64
-    
+
+          flutter config --jdk-dir=$JAVA_HOME
+
           # Install specific Gradle version
           echo "Installing Gradle $GRADLE_VERSION"
           wget https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
           unzip -q gradle-$GRADLE_VERSION-bin.zip
           export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION
           export PATH=$GRADLE_HOME/bin:$PATH
+
+          # Persist Gradle path
+          echo "export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION" >> $CM_ENV
+          echo "export PATH=$PWD/gradle-$GRADLE_VERSION/bin:\$PATH" >> $CM_ENV
+
           gradle --version
-    
+
           # Update gradle wrapper to use specific version
           cd android
           ./gradlew wrapper --gradle-version=$GRADLE_VERSION
