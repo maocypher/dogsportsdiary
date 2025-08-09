@@ -123,54 +123,81 @@ workflows:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         GOOGLE_PLAY_TRACK: alpha
         BUILD_TOOLS_VERSION: "31.0.0"
+        NDK_VERSION: "27.2.12479018"
+        JAVA_VERSION: "17"
+        GRADLE_VERSION: "8.11.1"
       flutter: 3.27.2
 
     scripts:
+      - name: Setup Java and Gradle versions
+        script: |
+          # Install specific OpenJDK version
+          echo "Setting up OpenJDK $JAVA_VERSION"
+          export JAVA_HOME=/usr/lib/jvm/java-$JAVA_VERSION-openjdk-amd64
+          export PATH=$JAVA_HOME/bin:$PATH
+          java -version
+    
+          # Install specific Gradle version
+          echo "Installing Gradle $GRADLE_VERSION"
+          wget https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
+          unzip -q gradle-$GRADLE_VERSION-bin.zip
+          export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION
+          export PATH=$GRADLE_HOME/bin:$PATH
+          gradle --version
+    
+          # Update gradle wrapper to use specific version
+          cd android
+          ./gradlew wrapper --gradle-version=$GRADLE_VERSION
+          cd ..
       - name: Check tools
         script: |
           echo "Build tools version: $BUILD_TOOLS_VERSION"
+          echo "Java version:"
+          java -version
+          echo "Gradle version:"
+          gradle --version
           $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner --version
-      - name: Set up local.properties
-        script: |
-          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
-      - name: Get Flutter packages
-        script: |
-          flutter packages pub get
-      - name: Flutter analyze
-        script: |
-          flutter analyze --no-fatal-infos --no-fatal-warnings
-      - name: Build APK with Flutter
-        script: |
-          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
-          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
-          flutter build apk --release \
-            --build-name=$BUILD_NAME \
-            --build-number=$BUILD_NUMBER
-      - name: Sign apk for reproducible build
-        script: |
-          # Get the actual APK path
-          APK_PATH=$(find build/app/outputs/flutter-apk -name "app-release.apk" | head -1)
-
-          if [ -z "$APK_PATH" ]; then
-            echo "Error: APK not found"
-            exit 1
-          fi
-
-          echo "Signing APK: $APK_PATH"
-
-          # Sign the APK using Codemagic's keystore (not local path)
-          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner sign \
-            --ks $CM_KEYSTORE_PATH \
-            --ks-key-alias $CM_KEY_ALIAS \
-            --ks-pass pass:$CM_KEYSTORE_PASSWORD \
-            --key-pass pass:$CM_KEY_PASSWORD \
-            --out build/app/outputs/flutter-apk/app-release-signed.apk \
-            $APK_PATH
-
-          # Verify the signature
-          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner verify \
-            build/app/outputs/flutter-apk/app-release-signed.apk
+#      - name: Set up local.properties
+#        script: |
+#          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+#      - name: Get Flutter packages
+#        script: |
+#          flutter packages pub get
+#      - name: Flutter analyze
+#        script: |
+#          flutter analyze --no-fatal-infos --no-fatal-warnings
+#      - name: Build APK with Flutter
+#        script: |
+#          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+#          BUILD_NAME=$(echo $VERSION | cut -d+ -f1)
+#          BUILD_NUMBER=$(echo $VERSION | cut -d+ -f2)
+#          flutter build apk --release \
+#            --build-name=$BUILD_NAME \
+#            --build-number=$BUILD_NUMBER
+#      - name: Sign apk for reproducible build
+#        script: |
+#          # Get the actual APK path
+#          APK_PATH=$(find build/app/outputs/flutter-apk -name "app-release.apk" | head -1)
+#
+#          if [ -z "$APK_PATH" ]; then
+#            echo "Error: APK not found"
+#            exit 1
+#          fi
+#
+#          echo "Signing APK: $APK_PATH"
+#
+#          # Sign the APK using Codemagic's keystore (not local path)
+#          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner sign \
+#            --ks $CM_KEYSTORE_PATH \
+#            --ks-key-alias $CM_KEY_ALIAS \
+#            --ks-pass pass:$CM_KEYSTORE_PASSWORD \
+#            --key-pass pass:$CM_KEY_PASSWORD \
+#            --out build/app/outputs/flutter-apk/app-release-signed.apk \
+#            $APK_PATH
+#
+#          # Verify the signature
+#          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner verify \
+#            build/app/outputs/flutter-apk/app-release-signed.apk
 
     artifacts:
     - build/**/outputs/**/*.apk
