@@ -196,9 +196,9 @@ workflows:
           COMMIT_HASH=$(git rev-parse HEAD)
           
           # Export for use in other steps
-          echo "export APP_VERSION=$BUILD_NAME" >> $CM_ENV
-          echo "export APP_VERSION_CODE=$BUILD_NUMBER" >> $CM_ENV
-          echo "export COMMIT_HASH=$COMMIT_HASH" >> $CM_ENV
+          echo "BUILD_NAME=$BUILD_NAME" >> $CM_ENV
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $CM_ENV
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $CM_ENV
           
           echo "App Version: $BUILD_NAME"
           echo "Version Code: $BUILD_NUMBER"
@@ -229,8 +229,8 @@ workflows:
           Binaries: https://github.com/maocypher/dogsportsdiary/releases/download/%v-alpha/io.github.maocypher.dogsportsdiary_%c.apk
           
           Builds:
-            - versionName: $APP_VERSION
-            versionCode: $APP_VERSION_CODE
+            - versionName: $BUILD_NAME
+            versionCode: $BUILD_NUMBER
             commit: $COMMIT_HASH
             submodules: true
             output: build/app/outputs/flutter-apk/app-release.apk
@@ -267,10 +267,10 @@ workflows:
           AutoUpdateMode: Version
           UpdateCheckMode: Tags
           UpdateCheckData: pubspec.yaml|version:\s.*\+(\d+)|.|version:\s(.*)\+
-          CurrentVersion: $APP_VERSION
+          CurrentVersion: $BUILD_NAME
           EOF
           
-          echo "F-Droid metadata updated for version $APP_VERSION ($APP_VERSION_CODE)"
+          echo "F-Droid metadata updated for version $BUILD_NAME ($BUILD_NUMBER)"
           cat metadata/$APP_FDROID_ID.yml
 
   android-release-workflow:
