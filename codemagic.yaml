@@ -99,91 +99,91 @@ workflows:
 #        submit_to_app_store: false
 #        beta_groups:
 #          - "beta"
-fdroid-reproducible-workflow:
-  name: Fdroid reproducible build
-  max_build_duration: 90
-  instance_type: mac_mini_m1
+  fdroid-reproducible-workflow:
+    name: Fdroid reproducible build
+    max_build_duration: 90
+    instance_type: mac_mini_m1
 
-#  triggering:
-#    events:
-#      - tag
-#    branch_patterns:
-#      - pattern: 'master'
-#        include: true
-#        source: true
+  #  triggering:
+  #    events:
+  #      - tag
+  #    branch_patterns:
+  #      - pattern: 'master'
+  #        include: true
+  #        source: true
 
-  environment:
-    groups:
-      - github_credentials
-    vars:
-      PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
-      BUILD_TOOLS_VERSION: "31.0.0"
-      NDK_VERSION: "27.2.12479018"
-      JAVA_VERSION: "17"
-      GRADLE_VERSION: "8.11.1"
-      FDROID_DATA_REPO: "https://gitlab.com/fdroid/fdroiddata.git"
-      APP_FDROID_ID: "io.github.maocypher.dogsportsdiary"
-    flutter: 3.27.2
+    environment:
+      groups:
+        - github_credentials
+      vars:
+        PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
+        BUILD_TOOLS_VERSION: "31.0.0"
+        NDK_VERSION: "27.2.12479018"
+        JAVA_VERSION: "17"
+        GRADLE_VERSION: "8.11.1"
+        FDROID_DATA_REPO: "https://gitlab.com/fdroid/fdroiddata.git"
+        APP_FDROID_ID: "io.github.maocypher.dogsportsdiary"
+      flutter: 3.27.2
 
-  scripts:
-    - name: Setup Java and Gradle versions
-      script: |
-        # Install specific OpenJDK version if not available
-        echo "Setting up OpenJDK $JAVA_VERSION on macOS"
-        
-        # Check available Java installations on macOS
-        /usr/libexec/java_home -V
-        
-        # Install Java using Homebrew if not available
-        if ! /usr/libexec/java_home -v $JAVA_VERSION >/dev/null 2>&1; then
-          echo "Installing OpenJDK $JAVA_VERSION"
-          brew install openjdk@$JAVA_VERSION
-        fi
-        
-        # Set JAVA_HOME using macOS java_home utility
-        export JAVA_HOME=$(/usr/libexec/java_home -v $JAVA_VERSION)
-        export PATH=$JAVA_HOME/bin:$PATH
-        
-        # Persist for all subsequent steps
-        echo "export JAVA_HOME=$JAVA_HOME" >> $CM_ENV
-        echo "export PATH=$JAVA_HOME/bin:\$PATH" >> $CM_ENV
-        
-        echo "JAVA_HOME set to: $JAVA_HOME"
-        java -version
-        
-        flutter config --jdk-dir=$JAVA_HOME
-        
-        # Install specific Gradle version
-        echo "Installing Gradle $GRADLE_VERSION"
-        wget https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
-        unzip -q gradle-$GRADLE_VERSION-bin.zip
-        export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION
-        export PATH=$GRADLE_HOME/bin:$PATH
-        
-        # Persist Gradle path
-        echo "export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION" >> $CM_ENV
-        echo "export PATH=$PWD/gradle-$GRADLE_VERSION/bin:\$PATH" >> $CM_ENV
-        
-        gradle --version
-        
-        # Update gradle wrapper to use specific version
-        cd android
-        ./gradlew wrapper --gradle-version=$GRADLE_VERSION
-        cd ..
+    scripts:
+      - name: Setup Java and Gradle versions
+        script: |
+          # Install specific OpenJDK version if not available
+          echo "Setting up OpenJDK $JAVA_VERSION on macOS"
+          
+          # Check available Java installations on macOS
+          /usr/libexec/java_home -V
+          
+          # Install Java using Homebrew if not available
+          if ! /usr/libexec/java_home -v $JAVA_VERSION >/dev/null 2>&1; then
+            echo "Installing OpenJDK $JAVA_VERSION"
+            brew install openjdk@$JAVA_VERSION
+          fi
+          
+          # Set JAVA_HOME using macOS java_home utility
+          export JAVA_HOME=$(/usr/libexec/java_home -v $JAVA_VERSION)
+          export PATH=$JAVA_HOME/bin:$PATH
+          
+          # Persist for all subsequent steps
+          echo "export JAVA_HOME=$JAVA_HOME" >> $CM_ENV
+          echo "export PATH=$JAVA_HOME/bin:\$PATH" >> $CM_ENV
+          
+          echo "JAVA_HOME set to: $JAVA_HOME"
+          java -version
+          
+          flutter config --jdk-dir=$JAVA_HOME
+          
+          # Install specific Gradle version
+          echo "Installing Gradle $GRADLE_VERSION"
+          wget https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip
+          unzip -q gradle-$GRADLE_VERSION-bin.zip
+          export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION
+          export PATH=$GRADLE_HOME/bin:$PATH
+          
+          # Persist Gradle path
+          echo "export GRADLE_HOME=$PWD/gradle-$GRADLE_VERSION" >> $CM_ENV
+          echo "export PATH=$PWD/gradle-$GRADLE_VERSION/bin:\$PATH" >> $CM_ENV
+          
+          gradle --version
+          
+          # Update gradle wrapper to use specific version
+          cd android
+          ./gradlew wrapper --gradle-version=$GRADLE_VERSION
+          cd ..
 
-    - name: Install F-Droid tools
-      script: |
-        # Install fdroidserver
-        pip3 install fdroidserver
-        
-        # Verify installation
-        fdroid --version
+      - name: Install F-Droid tools
+        script: |
+          # Install fdroidserver
+          pip3 install fdroidserver
+          
+          # Verify installation
+          fdroid --version
 
-    - name: Clone F-Droid data repository
-      script: |
-        # Clone fdroiddata repository
-        git clone $FDROID_DATA_REPO fdroiddata
-        cd fdroiddata
+      - name: Clone F-Droid data repository
+        script: |
+          # Clone fdroiddata repository
+          git clone $FDROID_DATA_REPO fdroiddata
+          cd fdroiddata
 
   android-release-workflow:
     name: DogSportsDiary Android Workflow
