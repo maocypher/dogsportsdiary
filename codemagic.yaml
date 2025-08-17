@@ -1,6 +1,6 @@
 workflows:
   ios-workflow:
-    name: DogSportsDiary iOS Workflow
+    name: iOS
     max_build_duration: 60
     instance_type: mac_mini_m1
 
@@ -100,7 +100,7 @@ workflows:
 #        beta_groups:
 #          - "beta"
   fdroid-reproducible-workflow:
-    name: Fdroid reproducible build
+    name: Fdroid
     max_build_duration: 90
     instance_type: mac_mini_m1
 
@@ -272,9 +272,33 @@ workflows:
           
           echo "F-Droid metadata updated for version $BUILD_NAME ($BUILD_NUMBER)"
           cat metadata/$APP_FDROID_ID.yml
+          
 
+      - name: Build with fdroid server
+        script: |
+          # Navigate to
+          cd fdroiddata
+
+          # Make sure there is no apk in github yet
+          # e.g. fdroid build io.github.maocypher.dogsportsdiary:12
+          fdroid build io.github.maocypher.dogsportsdiary:$BUILD_NUMBER
+          
+          mv unsigned/io.github.maocypher.dogsportsdiary_$BUILD_NUMBER.apk unsigned/io.github.maocypher.dogsportsdiary_$BUILD_NUMBER_unsigned.apk 
+
+      - name: sign apk
+        script: |
+          cd fdroiddata/unsigned
+          $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner sign \
+            --ks $CM_KEYSTORE_PATH \
+            --ks-key-alias $CM_KEY_ALIAS \
+            --ks-pass pass:$CM_KEYSTORE_PASSWORD \
+            --key-pass pass:$CM_KEY_PASSWORD \
+            --out io.github.maocypher.dogsportsdiary_${BUILD_NUMBER}.apk \
+            io.github.maocypher.dogsportsdiary_$BUILD_NUMBER_unsigned.apk
+    artifacts:
+      - fdroiddata/**/*.apk
   android-release-workflow:
-    name: DogSportsDiary Android Workflow
+    name: Android
     max_build_duration: 60
     instance_type: mac_mini_m1
 

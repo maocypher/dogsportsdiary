@@ -8,7 +8,11 @@ Dog sports diary to keep track of your current training
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/io.github.maocypher.dogsportsdiary/)
+height="80" style="vertical-align: middle;">](https://f-droid.org/packages/io.github.maocypher.dogsportsdiary/)[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+alt="Get it on Google Play Store"
+height="80" style="vertical-align: middle;">](https://f-droid.org/packages/io.github.maocypher.dogsportsdiary/)[<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+alt="Get it on iOS App Store"
+height="55" style="vertical-align: middle; max-height: 80px; width: auto;">](https://f-droid.org/packages/io.github.maocypher.dogsportsdiary/)
 
 ## License
 
