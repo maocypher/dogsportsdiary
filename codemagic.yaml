@@ -126,7 +126,7 @@ workflows:
       flutter: 3.27.2
 
     scripts:
-      - name: Setup Java and Gradle versions
+      - name: Setup Java, Gradle and NDK versions
         script: |
           # Install specific OpenJDK version if not available
           echo "Setting up OpenJDK $JAVA_VERSION on macOS"
@@ -165,6 +165,20 @@ workflows:
           echo "export PATH=$PWD/gradle-$GRADLE_VERSION/bin:\$PATH" >> $CM_ENV
           
           gradle --version
+          
+          # Install specific NDK version
+          echo "Installing Android NDK $NDK_VERSION"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "ndk;$NDK_VERSION"
+          
+          # Verify NDK installation
+          if [ -d "$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" ]; then
+            echo "NDK $NDK_VERSION installed successfully"
+            export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION
+            echo "export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/$NDK_VERSION" >> $CM_ENV
+          else
+            echo "Failed to install NDK $NDK_VERSION"
+            exit 1
+          fi
           
           # Update gradle wrapper to use specific version
           cd android
