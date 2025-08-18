@@ -113,6 +113,8 @@ workflows:
   #        source: true
 
     environment:
+      android_signing:
+        - dogsportsdiary_signature
       groups:
         - github_credentials
       vars:
