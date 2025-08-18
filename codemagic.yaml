@@ -252,7 +252,7 @@ workflows:
                 - cd ..
                 - mv io.github.maocypher.dogsportsdiary /tmp/build
                 - pushd /tmp/build
-                - export PUB_CACHE=$(pwd)/.pub-cache
+                - export PUB_CACHE=$HOME/.pub-cache
                 - rm .flutter/dev/integration_tests/module_host_with_custom_build/.gradle/6.3/fileChanges/last-build.bin
                 - .flutter/bin/flutter config --no-analytics
                 - .flutter/bin/flutter pub get
@@ -267,7 +267,7 @@ workflows:
                 - cd ..
                 - mv io.github.maocypher.dogsportsdiary /tmp/build
                 - pushd /tmp/build
-                - export PUB_CACHE=$(pwd)/.pub-cache
+                - export PUB_CACHE=$HOME/.pub-cache
                 - .flutter/bin/flutter build apk --release
                 - popd
                 - mv /tmp/build io.github.maocypher.dogsportsdiary
