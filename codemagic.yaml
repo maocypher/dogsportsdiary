@@ -262,7 +262,6 @@ workflows:
                 - .flutter/bin/cache
               scandelete:
                 - .flutter
-                - .pub-cache
               build:
                 - cd ..
                 - mv io.github.maocypher.dogsportsdiary /tmp/build
