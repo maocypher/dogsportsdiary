@@ -298,14 +298,14 @@ workflows:
       - name: sign apk
         script: |
           cd fdroiddata/unsigned
-          mv io.github.maocypher.dogsportsdiary_.apk io.github.maocypher.dogsportsdiary_$BUILD_NUMBER_unsigned.apk
+          mv io.github.maocypher.dogsportsdiary_${BUILD_NUMBER}.apk io.github.maocypher.dogsportsdiary_${BUILD_NUMBER}_unsigned.apk
           $ANDROID_SDK_ROOT/build-tools/$BUILD_TOOLS_VERSION/apksigner sign \
             --ks $CM_KEYSTORE_PATH \
             --ks-key-alias $CM_KEY_ALIAS \
             --ks-pass pass:$CM_KEYSTORE_PASSWORD \
             --key-pass pass:$CM_KEY_PASSWORD \
             --out io.github.maocypher.dogsportsdiary_${BUILD_NUMBER}.apk \
-            io.github.maocypher.dogsportsdiary_$BUILD_NUMBER_unsigned.apk
+            io.github.maocypher.dogsportsdiary_${BUILD_NUMBER}_unsigned.apk
     artifacts:
       - fdroiddata/**/*.apk
   android-release-workflow:
