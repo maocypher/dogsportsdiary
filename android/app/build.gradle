@@ -31,8 +31,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "io.github.maocypher.dogsportsdiary"
-    compileSdk = 35
-    ndkVersion = "27.2.12479018"//flutter.ndkVersion
+    compileSdk = 36
+    ndkVersion = "29.0.14206865"//flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

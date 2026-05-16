@@ -13,7 +13,7 @@ import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:dog_sports_diary/l10n/app_localizations.dart';
 
 class DiaryEntryTabState extends State<DiaryEntryTab> {
   final DiaryEntryViewModel diaryEntryViewModel =

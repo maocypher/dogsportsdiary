@@ -21,7 +21,7 @@ workflows:
       vars:
         PACKAGE_NAME: "io.github.maocypher.dogsportsdiary"
         APP_ID: HSP6K6D926.io.github.maocypher.dogsportsdiary
-      flutter: 3.27.2
+      flutter: 3.41.9
 
     integrations:
       app_store_connect: codemagic-integration-apple-developer-portal

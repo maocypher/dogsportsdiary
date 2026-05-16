@@ -9,7 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:dog_sports_diary/l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsState extends State<SettingsTab> {
@@ -108,7 +108,7 @@ class SettingsState extends State<SettingsTab> {
 
   Future<void> onRestoreBackupTapAsync() async{
     FilePickerResult? result =
-        await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
+        await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ['json']);
 
     if(!mounted) {
       return;
