@@ -2,7 +2,7 @@
 // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:dog_sports_diary/l10n/app_localizations.dart';
 
 //https://medium.com/@antonio.tioypedro1234/flutter-go-router-the-essential-guide-349ef39ec5b3
 class ScaffoldWithNestedNavigation extends StatelessWidget {

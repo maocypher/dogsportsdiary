@@ -5,7 +5,7 @@ import 'package:dog_sports_diary/features/show_dogs/show_dogs_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:dog_sports_diary/l10n/app_localizations.dart';
 
 class ShowDogsState extends State<ShowDogsTab> {
   final ShowDogsViewModel showDogViewModel = ShowDogsViewModel.showDogsViewModel;

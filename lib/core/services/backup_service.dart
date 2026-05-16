@@ -32,7 +32,7 @@ class BackupService {
       var backup = Backup(dogs: dogs, diaryEntries: diaryEntries, date: date);
       var backupJsonString = backup.toJsonString();
 
-      var directory = await FilePicker.platform.getDirectoryPath();
+      var directory = await FilePicker.getDirectoryPath();
 
       if (directory == null) {
         return BackupResult.cancelled;

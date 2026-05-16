@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:dog_sports_diary/l10n/app_localizations.dart';
 
 class HistoryState extends State<HistoryTab> {
   final HistoryViewModel historyViewModel = HistoryViewModel
@@ -196,7 +196,7 @@ class HistoryState extends State<HistoryTab> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       child: Text(formatter.format(historyViewModel.firstDate.add(Duration(days: value.toInt()))), style: style),
     );
   }
